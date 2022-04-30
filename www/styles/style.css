@@ -1,0 +1,234 @@
+body{
+	font-family: Arial, Helvetica, sans-serif;
+	background:#fff;
+	margin:0;
+}
+
+#headerTitle{
+	text-align: center;
+}
+
+nav {
+	background:rgb(109, 109, 109);
+	padding: 20px;
+}
+
+.menu {
+	margin: 0;
+}
+
+.menu li{
+	display:inline-block;
+}
+
+.menu li a{
+  	display: block;
+	font-size: 0.8em;
+	text-transform: uppercase;
+	padding: 0px 20px;
+	color: #FFF;
+	font-weight: 600;
+	text-decoration: none;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+	margin: auto;
+}
+
+th, td {
+    text-align: center !important;
+	padding: 8px;
+	border: 1px solid black;
+}
+
+.labelUser {
+	display: block;
+	padding: 5px;
+} 
+
+
+p{
+	margin-bottom:15px;
+}
+   
+
+#login{
+	top: 0px;
+	padding: 18px 6% 60px 6%;
+	margin: 0 0 35px 0;
+	background: #f7f7f7;
+	border: 1px solid rgba(147, 184, 189,0.8);
+	 
+	-webkit-box-shadow: 5px;
+	border-radius: 5px;
+	 
+	-webkit-animation-duration: 0.5s;
+	-webkit-animation-timing-function: ease;
+	-webkit-animation-fill-mode: both;
+   
+	animation-duration: 0.5s;
+	animation-timing-function: ease;
+	animation-fill-mode: both;
+}
+
+label {
+	text-align: right;
+}
+input {
+	display: inline-block;
+	padding-left: 10px;
+	text-align: left;
+}
+
+.labelLogin {
+	color: #405c60;
+    position: relative;
+	text-align: right;
+}
+
+.form-check {
+	padding-left: 0% !important;
+}
+
+#userTable, #actionTable{
+	width:80%;
+	margin:0 auto;
+	border:0;
+	box-shadow: 0 5px 30px darkgrey;
+	border-collapse: collapse;
+	border-spacing: 0;
+	overflow-x:auto;
+}
+  
+#userTable thead th, #actionTable thead th{
+	font-weight: bold;
+	background-color: black;
+	color:white;
+	text-align: center;
+	padding:5px 10px;
+}
+  
+#userTable tr td, #actionTable tr td{
+	padding:5px 10px;
+	text-align: center;
+	
+	cursor: pointer; /**importante para não mostrar cursor de texto**/
+}
+  
+#userTable tr td:last-child, #actionTable tr td:last-child{
+	text-align: right;
+}
+
+/**Cores**/
+#userTable tr:nth-child(odd), #actionTable tr:nth-child(odd){
+	background-color: #eee;
+}
+
+/**Cor quando passar por cima**/
+#userTable tr:hover td, #actionTable tr:hover td{
+	background-color: #d4d4d3;
+}
+
+/**Cor quando selecionado**/
+#userTable tr.selecionado td, #actionTable tr.selecionado td{
+	background-color: #d4d4d3;
+}
+
+#actionInput{
+	text-align: right;
+}
+
+.container img {
+    max-width:300px;
+    max-height:227px;
+    width: auto;
+    height: auto;
+}
+
+.modal-dialog {
+    max-width: 30% !important;
+}
+
+#canvasAction {
+	margin-top: 30px;
+	width: 250px;
+	height: 177px;
+}
+
+#divButtons{
+	position: absolute;
+    top: 160px;
+    left: 12.7%;
+    margin-left: -50px;
+    height: 100px;
+}
+
+#divButtons input[type=button] {
+	margin-right: 10px;
+}
+
+.carousel-inner {
+	width: 50% !important;
+}
+
+.carousel-control-next{
+	right: 20% !important;
+}
+
+.carousel-control-prev {
+	left: 20% !important;
+}
+
+@media 
+only screen and (max-width: 955px),
+(min-device-width: 600px) and (max-device-width: 1024px)  {
+
+	/* Force table to not be like tables anymore */
+	table, thead, tbody, th, td, tr { 
+		display: block; 
+	}
+	
+	/* Hide table headers (but not display: none;, for accessibility) */
+	thead tr { 
+		position: absolute;
+		top: -9999px;
+		left: -9999px;
+	}
+	
+	tr { border: 1px solid #ccc; }
+	
+	td { 
+		/* Behave  like a "row" */
+		border: none;
+		border-bottom: 1px solid #eee; 
+		position: relative;
+		padding-left: 50%; 
+	}
+	
+	td:before { 
+		/* Now like a table header */
+		position: absolute;
+		/* Top/left values mimic padding */
+		top: 6px;
+		left: 6px;
+		width: 45%; 
+		padding-right: 10px; 
+		white-space: nowrap;
+	}
+	
+	/*
+	Label the data
+	*/
+	td:nth-of-type(1):before { content: "First Name"; }
+	td:nth-of-type(2):before { content: "Last Name"; }
+	td:nth-of-type(3):before { content: "Job Title"; }
+	td:nth-of-type(4):before { content: "Favorite Color"; }
+	td:nth-of-type(5):before { content: "Wars of Trek?"; }
+	td:nth-of-type(6):before { content: "Secret Alias"; }
+	td:nth-of-type(7):before { content: "Date of Birth"; }
+	td:nth-of-type(8):before { content: "Dream Vacation City"; }
+	td:nth-of-type(9):before { content: "GPA"; }
+	td:nth-of-type(10):before { content: "Arbitrary Data"; }
+}

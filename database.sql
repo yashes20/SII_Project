@@ -21,36 +21,35 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 -- Create database
-DROP DATABASE IF EXISTS 'lab';
-CREATE DATABASE 'lab';
+DROP DATABASE IF EXISTS 'sii_project';
+CREATE DATABASE 'sii_project';
 
--- Create table for clientes
-USE `lab`;
-DROP TABLE IF EXISTS clients;
-CREATE TABLE clients (
-  clientId int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
-  clientName varchar(255) NOT NULL,
-  clientUsername varchar(20) NOT NULL UNIQUE,
-  clientPassword varchar(50) NOT NULL,
-  clientAddress varchar(255) NOT NULL,
-  clientZipCode varchar(50) NOT NULL,
-  clientDocument varchar(50) NOT NULL,
-  clientEmail varchar(100) NOT NULL UNIQUE,
-  clientGender varchar(1) NOT NULL,
-  clientFone varchar(50) NOT NULL,
-  clientBirthDate datetime NOT NULL,
-  clientState varchar(1) NOT NULL,
-  clientType varchar(20) NOT NULL
+-- Create table for users
+USE `sii_project`;
+DROP TABLE IF EXISTS users;
+CREATE TABLE users (
+  userId int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  userFullName varchar(255) NOT NULL,
+  userName varchar(20) NOT NULL UNIQUE,
+  userPassword varchar(50) NOT NULL,
+  userAddress varchar(255) NOT NULL,
+  userZipCode varchar(50) NOT NULL,
+  userEmail varchar(100) NOT NULL UNIQUE,
+  userGender varchar(1) NOT NULL,
+  userPhone varchar(50) NOT NULL,
+  userBirthDate datetime NOT NULL,
+  userState varchar(1) NOT NULL,
+  userType varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf16;
 
 SET GLOBAL log_bin_trust_function_creators = 1;
 
 -- Create function for the login validation
-USE `lab`;
+USE `sii_project`;
 DROP function IF EXISTS `fun_login_validation`;
 
 DELIMITER $$
-USE `lab`$$
+USE `sii_project`$$
 CREATE FUNCTION `fun_login_validation`(p_clientUsername VARCHAR(20)  
                 , p_clientPassword VARCHAR(50) ) RETURNS INT(1)  
  BEGIN  
@@ -63,10 +62,10 @@ CREATE FUNCTION `fun_login_validation`(p_clientUsername VARCHAR(20)
  END$$
  
 
--- Insert default client
-INSERT INTO `clients` 
-( `clientName`, `clientUsername`, `clientPassword`, `clientAddress`, `clientZipCode`, `clientDocument`, `clientEmail`, `clientGender`, `clientFone`, `clientBirthDate`,`clientState`,`clientType`) VALUES
-('Yasmin', 'yhage', md5('1234'), 'rua','8888','4534343','yashes20@yahoo.com.br','F','89898','1981-06-22 15:40:00','A','Admin');
+-- Insert default users
+INSERT INTO `users` 
+( `userName`, `userFullName`, `userPassword`, `userAddress`, `userZipCode`,  `userEmail`, `userGender`, `userPhone`, `userBirthDate`,`userState`,`userType`) VALUES
+('Yasmin', 'yhage', md5('1234'), 'rua','8888','yashes20@yahoo.com.br','F','89898','1981-06-22 15:40:00','A','Admin');
 
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
@@ -74,7 +73,7 @@ INSERT INTO `clients`
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 
 -- Create table for action actionCategories
-USE `lab`;
+USE `sii_project`;
 DROP TABLE IF EXISTS `actionCategories`;
 CREATE TABLE `actionCategories` (
   `actionCategoryId` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -82,28 +81,27 @@ CREATE TABLE `actionCategories` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf16;
 
 -- Create table for actions
-USE `lab`;
+USE `sii_project`;
 DROP TABLE IF EXISTS `actions`;
 CREATE TABLE `actions` (
   `actionId` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
   `actionName` varchar(100) NOT NULL,
   `actionDescription` varchar(250) NOT NULL,
   `actionCategoryId` int(11) NOT NULL,
-  `actionsClientId` int(11) NOT NULL,
   `actionIsEnabled` tinyint NULL DEFAULT 1,
-  FOREIGN KEY actionCategoriesId(actionCategoryId) REFERENCES actionCategories(actionCategoryId),
-  FOREIGN KEY actionsClientId(actionsClientId) REFERENCES actionsClients(actionsClientId)
+  FOREIGN KEY actionCategoriesId(actionCategoryId) REFERENCES actionCategories(actionCategoryId)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf16; 
 
--- Create table for actionsClients
-USE `lab`;
-DROP TABLE IF EXISTS `actionsClients`;
-CREATE TABLE `actionsClients` (
-  `actionsClientId` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+-- Create table for userGroup
+USE `sii_project`;
+DROP TABLE IF EXISTS `actionUserGroup`;
+CREATE TABLE `actionUserGroup` (
+  `userGroupId` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
   `actionId` int(11) NOT NULL,
-  `clientId` int(11) NOT NULL,
-  `actionsClientsIsEnabled` tinyint NULL DEFAULT 1,
-  FOREIGN KEY clientId(actionsClientId) REFERENCES clients(clientId)
+  `UserId` int(11) NOT NULL,
+  `userGroupIsEnabled` tinyint NULL DEFAULT 1,
+  FOREIGN KEY userId(userGroupId) REFERENCES users(userId),
+  FOREIGN KEY userId(actionId) REFERENCES actions(actionId)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf16;
 
 -- Insert actionCategories 

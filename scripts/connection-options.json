@@ -1,0 +1,7 @@
+{
+    "host": "localhost",
+    "user": "admin",
+    "database": "sii_project",
+    "password": "pai2022",
+    "insecureAuth" : true
+}
