@@ -180,58 +180,14 @@ class InformationUsers {
     /**
      * Function that has as main goal to request to the NODE.JS server the user resource through the GET verb, using asynchronous requests and JSON
      */
-     async getUsers() {
+     getUsers() {
         const self = this;
         let users = this.users;
         users.length = 0;
         var tableElement = document.getElementById("userTable");
         tableElement = document.createElement("table");
         tableElement.setAttribute("id", "userTable");
-
-         /*    var xhr = new XMLHttpRequest();
-            xhr.responseType="json";
-            xhr.open("GET", "/users", await function () {
-            xhr.onreadystatechange = function () {
-                if (this.readyState === 4 && this.status === 200) {
-                    let info = xhr.response.user;
-                    info.forEach(p => {
-                        users.push(p);
-                    });
-                    localStorageGravar("users",JSON.stringify(users));
-                    self.showUsers("selectAll");
-                }
-            };
-            xhr.send(tableElement);
-            }); */
-            (async () => {
-                let response = await new Promise(resolve => {
-                   var xhr = new XMLHttpRequest();
-                   xhr.open("GET", "/users", true);
-                   xhr.onload = function(e) {
-                     resolve(xhr.response);
-                   };
-                   xhr.onerror = function () {
-                     resolve(undefined);
-                     console.error("** An error occurred during the XMLHttpRequest");
-                   };
-                   xhr.send();
-                }) 
-                doTheThing(response)
-             })()
-     
-            function doTheThing(res) {
-                // I hope the response is ready.
-                if (this.readyState === 4 && this.status === 200) {
-                    let info = res.user;
-                    info.forEach(p => {
-                        users.push(p);
-                    });
-                    localStorageGravar("users",JSON.stringify(users));
-                    self.showUsers("selectAll");
-                }
-                xhr.send(tableElement);
-            }
-        /* var xhr = new XMLHttpRequest();
+        var xhr = new XMLHttpRequest();
         xhr.responseType="json";
         xhr.open("GET", "/users", true);
         xhr.onreadystatechange = function () {
@@ -244,7 +200,8 @@ class InformationUsers {
                 self.showUsers("selectAll");
             }
         };
-        xhr.send(tableElement);  */
+        xhr.send(tableElement);
+           
     }
 
     /**
