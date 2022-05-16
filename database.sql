@@ -75,35 +75,27 @@ INSERT INTO `users`
 -- Create table for action actionCategories
 USE `sii_project`;
 DROP TABLE IF EXISTS `actionCategories`;
-CREATE TABLE `actionCategories` (
-  `actionCategoryId` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  `actionCategoryName` varchar(100) NOT NULL
+DROP TABLE IF EXISTS `categories`;
+CREATE TABLE `categories` (
+  `categoryId` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `categoryName` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf16;
 
 -- Create table for actions
 USE `sii_project`;
-DROP TABLE IF EXISTS `actions`;
-CREATE TABLE `actions` (
-  `actionId` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  `actionName` varchar(100) NOT NULL,
-  `actionDescription` varchar(250) NOT NULL,
-  `actionCategoryId` int(11) NOT NULL,
-  `actionIsEnabled` tinyint NULL DEFAULT 1,
-  FOREIGN KEY actionCategoriesId(actionCategoryId) REFERENCES actionCategories(actionCategoryId)
+DROP TABLE IF EXISTS `tasks`;
+CREATE TABLE `tasks` (
+  `taskId` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `taskName` varchar(100) NOT NULL,
+  `taskDescription` varchar(250) NOT NULL,
+  `taskCategoryId` int(11) NOT NULL,
+  `taskIsEnabled` tinyint NULL DEFAULT 1,
+  `userCreation` int(11) NOT NULL,
+  `userAssignment` int(11) NOT NULL,
+  FOREIGN KEY actionCategoriesId(taskCategoryId) REFERENCES categories(categoryId)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf16; 
 
--- Create table for userGroup
-USE `sii_project`;
-DROP TABLE IF EXISTS `actionUserGroup`;
-CREATE TABLE `actionUserGroup` (
-  `userGroupId` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  `actionId` int(11) NOT NULL,
-  `UserId` int(11) NOT NULL,
-  `userGroupIsEnabled` tinyint NULL DEFAULT 1,
-  FOREIGN KEY userId(userGroupId) REFERENCES users(userId),
-  FOREIGN KEY userId(actionId) REFERENCES actions(actionId)
-) ENGINE=InnoDB DEFAULT CHARSET=utf16;
 
--- Insert actionCategories 
-INSERT INTO `lab`.`actionCategories` (`actionCategoryName`) VALUES ('Entregas');
-INSERT INTO `lab`.`actionCategories` (`actionCategoryName`) VALUES ('Pet');
+-- Insert categories 
+INSERT INTO `sii_project`.`categories` (`categoryName`) VALUES ('Entregas');
+INSERT INTO `sii_project`.`categories` (`categoryName`) VALUES ('Pet');
