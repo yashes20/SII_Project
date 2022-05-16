@@ -74,7 +74,6 @@ INSERT INTO `users`
 
 -- Create table for action actionCategories
 USE `sii_project`;
-DROP TABLE IF EXISTS `actionCategories`;
 DROP TABLE IF EXISTS `categories`;
 CREATE TABLE `categories` (
   `categoryId` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
