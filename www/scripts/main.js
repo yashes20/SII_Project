@@ -21,12 +21,13 @@
  */
 window.onload = function (event) {
     var infoUsers = new InformationUsers("divInformation");
+    var infoTasks = new InformationTasks("divInformation");
     //var infoProducts = new InformationProducts("divInformation");
     //infoClients.getClients();
     //infoProducts.getCategories();
     //infoProducts.getProducts();
     window.infoUsers = infoUsers;
-    //window.infoProducts = infoProducts;
+    window.infoTasks = infoTasks;
 
     // isLoggedIn();
 
@@ -119,13 +120,12 @@ function selectedUser(selecteds){
         selected = selected.getElementsByTagName("td");
 
         document.getElementById("id").value = selected[0].textContent;
-        document.getElementById('name').value = selected[1].textContent;
+        document.getElementById('userFullName').value = selected[1].textContent;
         document.getElementById('username').value = selected[2].textContent;
         document.getElementById("username").setAttribute("readonly", "readonly");
         document.getElementById('birthdate').value = selected[3].textContent;
         document.getElementById('address').value = selected[4].textContent;
         document.getElementById('zipcode').value = selected[5].textContent;
-        document.getElementById('documentId').value = selected[6].textContent;
         document.getElementById('email').value = selected[7].textContent;
         document.getElementById('gender').value= selected[8].textContent;    
         document.getElementById('phone').value = selected[9].textContent;
@@ -133,26 +133,24 @@ function selectedUser(selecteds){
 }
 
 /**
- * Function to get all the information of the selected product
+ * Function to get all the information of the selected task
  * 
  * @param {*} selecteds 
  */
-// function selectedAction(selecteds){
-//     cleanCanvasAction(); // clear image product canvas
-//     for(var i = 0; i < selecteds.length; i++){
-//         var selected = selecteds[i];
-//         selected = selected.getElementsByTagName("td");
+ function selectedTask(selecteds){
+   
+     for(var i = 0; i < selecteds.length; i++){
+        var selected = selecteds[i];
+         selected = selected.getElementsByTagName("td");
 
-//         document.getElementById('idProduct').value = selected[0].textContent;
-//         document.getElementById("idProduct").setAttribute("readonly", "readonly");
-//         document.getElementById('nameProduct').value = selected[1].textContent;
-//         document.getElementById('descriptionProduct').value = selected[2].textContent;
-//         var category = document.getElementById("categoryProduct");
-//         document.getElementById('categoryProduct').options[category.selectedIndex].textContent = selected[3].textContent;
-//         document.getElementById('imagePathProduct').value= selected[4].textContent;
-//         document.getElementById('priceProduct').value = selected[5].textContent;
-//     }
-// }
+         document.getElementById('id').value = selected[0].textContent;
+         document.getElementById("id").setAttribute("readonly", "readonly");
+         document.getElementById('taskName').value = selected[1].textContent;
+         document.getElementById('description').value = selected[2].textContent;
+         var category = document.getElementById("category");
+         document.getElementById('category').options[category.selectedIndex].textContent = selected[3].textContent;
+     }
+ }
 
 /**
  * Function that returns the id of the selected line
@@ -188,8 +186,8 @@ function selected(tableObj, tableName, type){
         button.setAttribute('data-bs-toggle', 'modal');
         button.setAttribute('data-bs-target', '#myModal');
     }
-    else if(tableName === "products"){
-        //selectedProduct(selecteds);
+    else if(tableName === "tasks"){
+        selectedTask(selecteds);
 
         button.setAttribute('data-bs-toggle', 'modal');
         button.setAttribute('data-bs-target', '#myModal2');
@@ -283,24 +281,15 @@ function localStorageLimpar(arg) {
 }
 
 /**
- * Function to clean product's canvas
+ * Function to clean task's canvas
  */
-function cleanCanvasProduct(){
-    let canvas = document.getElementById('canvasAction');
+function cleanCanvasTask(){
+    let canvas = document.getElementById('canvasTask');
     const ctx = canvas.getContext('2d');
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 }
 
-// Load image
 
-/* const worker = new Worker('scripts/worker.js'); 
-
-worker.addEventListener('message', d=>{
-    const canvas = document.getElementById('canvasAction');
-    const ctx = canvas.getContext('2d');
-    const imgData = d.data; 
-    ctx.putImageData(imgData,0,0);
-}); */
 
 /**
  * Function to apply filter to the canvas
@@ -353,11 +342,11 @@ async function processImage(file, img){
  * Function to add the div to the homepage in order to add the carousel
  * 
  * @param {*} category 
- * @param {*} product 
+ * @param {*} task 
  * @param {*} image 
  * @param {*} count 
  */
-function addDiv(category, product, image, count){
+function addDiv(task, product, image, count){
     /*let div = document.createElement("div");
     div.style.display = "inline-block";
     div.textContent = category + " " + product;*/
@@ -373,22 +362,22 @@ function addDiv(category, product, image, count){
     img.src = image;
     img.classList.add("d-block");
     img.style.width = "100%";
-    img.setAttribute("alt", category + " - " + product);
+    img.setAttribute("alt", category + " - " + task);
     
     //document.getElementById("divProductList").appendChild(div);
-    document.getElementById("divProductList").appendChild(div);
+    document.getElementById("divTaskList").appendChild(div);
     document.getElementById("divCarousel" + count).appendChild(img);
 }
 
 /**
- * Function to add the catalog div to the product's page (client only)
+ * Function to add the tasks div to the tasks's page (user only)
  * 
  * @param {*} category 
- * @param {*} product 
+ * @param {*} task 
  * @param {*} image 
  * @param {*} count 
  */
-function addCatalogDiv(category, product, image, count){
+function addCatalogDiv(category, task, image, count){
     /*let div = document.createElement("div");
     div.style.display = "inline-block";
     div.textContent = category + " " + product;*/
@@ -399,7 +388,7 @@ function addCatalogDiv(category, product, image, count){
 
     let divInside = document.createElement("div");
     divInside.classList.add("product", "tumbnail", "thumbnail-3");
-    divInside.id = "divCatalogProduct" + count;
+    divInside.id = "divtask" + count;
 
     let img = document.createElement("img");
     img.src = image;
@@ -407,17 +396,17 @@ function addCatalogDiv(category, product, image, count){
 
     let divCaption = document.createElement("div");
     divCaption.classList.add("caption");
-    divCaption.id = "divCaptionProduct" + count;
+    divCaption.id = "divCaptionTask" + count;
 
     let textCaption = document.createElement("h6");
     textCaption.textContent = category + " - " + product;
 
     //document.getElementById("divProductList").appendChild(div);
-    document.getElementById("catalogProductsShow").appendChild(div);
+    document.getElementById("TasksShow").appendChild(div);
     document.getElementById("divCatalog" + count).appendChild(divInside);
-    document.getElementById("divCatalogProduct" + count).appendChild(img);
-    document.getElementById("divCatalogProduct" + count).appendChild(divCaption);
-    document.getElementById("divCaptionProduct" + count).appendChild(textCaption);
+    document.getElementById("divTask" + count).appendChild(img);
+    document.getElementById("divTask" + count).appendChild(divCaption);
+    document.getElementById("divCaptionTask" + count).appendChild(textCaption);
 }
 
 /**
@@ -431,7 +420,7 @@ function isLoggedIn(){
         //document.getElementById("sectionLogin").style.display = "block";
     } else{
         document.getElementById("menuHome").style.display = "block";
-        document.getElementById("menuProduct").style.display = "block";
+        document.getElementById("menuTask").style.display = "block";
         document.getElementById("menuUser").style.display = "block";
         document.getElementById("menuLogin").style.display = "block";
         //document.getElementById("sectionLogin").style.display = "none";

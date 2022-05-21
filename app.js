@@ -48,6 +48,9 @@ app.use(express.static("www"));
 // Calls a function to get all users
 app.get("/users", requestHandlers.selectUsers);
 
+// Calls a function to get all users
+app.get("/tasks", requestHandlers.selectNewTasks);
+
 app.listen(8082, function () {
   console.log("Server running at http://localhost:8082");
 });

@@ -102,7 +102,7 @@ input {
 	overflow-x:auto;
 }
   
-#userTable thead th, #actionTable thead th{
+#userTable thead th, #taskTable thead th{
 	font-weight: bold;
 	background-color: black;
 	color:white;
@@ -110,33 +110,33 @@ input {
 	padding:5px 10px;
 }
   
-#userTable tr td, #actionTable tr td{
+#userTable tr td, #taskTable tr td{
 	padding:5px 10px;
 	text-align: center;
 	
 	cursor: pointer; /**importante para não mostrar cursor de texto**/
 }
   
-#userTable tr td:last-child, #actionTable tr td:last-child{
+#userTable tr td:last-child, #taskTable tr td:last-child{
 	text-align: right;
 }
 
 /**Cores**/
-#userTable tr:nth-child(odd), #actionTable tr:nth-child(odd){
+#userTable tr:nth-child(odd), #taskTable tr:nth-child(odd){
 	background-color: #eee;
 }
 
 /**Cor quando passar por cima**/
-#userTable tr:hover td, #actionTable tr:hover td{
+#userTable tr:hover td, #taskTable tr:hover td{
 	background-color: #d4d4d3;
 }
 
 /**Cor quando selecionado**/
-#userTable tr.selecionado td, #actionTable tr.selecionado td{
+#userTable tr.selecionado td, #taskTable tr.selecionado td{
 	background-color: #d4d4d3;
 }
 
-#actionInput{
+#taskInput{
 	text-align: right;
 }
 

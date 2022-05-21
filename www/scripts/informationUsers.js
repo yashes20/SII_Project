@@ -7,7 +7,7 @@
  * You should have received a copy of the XYZ license with
  * this file. If not, please write to: , or visit :
  * 
- * Authors: Pedro Freitas, Nicole Vieira (201700124) and Yasmin Hage (202100778)
+ * Authors: Pedro Freitas, Nicole Vieira (201700124) Nicole Fernandes and Yasmin Hage (202100778)
  * 
  * Emails: 201700124@estudantes.ips.pt and 202100778@estudantes.ips.pt 
  */
@@ -149,17 +149,13 @@ class InformationUsers {
          */
         function loadUser(type){
             document.getElementById('formUser').reset();
-            document.getElementById('gender').options.length = 0;
-            self.genders.forEach ( (e) => {
-                 document.getElementById('gender').options.add(new Option(e));
-            });
 
             if(type === "delete"){
                 if (selected(document.getElementById("userTable"), "users", "delete"))
                 document.getElementById('formUser').style.display = 'none';
             }
             else if(type === "update"){
-                if (selected(document.getElementById("clientTable"), "users", "update"))
+                if (selected(document.getElementById("taskTable"), "users", "update"))
                 document.getElementById('formUser').style.display = 'block';
             }
         }
@@ -169,9 +165,9 @@ class InformationUsers {
         document.getElementById("divInformation").appendChild(divButtons);
 
         createButton("divButtons", updateUserEventHandler, 'Update User');
-        //let type = localStorageObter("type");
+        
         if (type === "Admin") {
-            createButton("divButtons", newUserEventHandler, 'New CUser');
+            createButton("divButtons", newUserEventHandler, 'New User');
             createButton("divButtons", deleteUserEventHandler, 'Delete User');
             //createButton("divInformation", selectAllClientEventHandler, 'Select All');
         }
@@ -205,126 +201,123 @@ class InformationUsers {
     }
 
     /**
-     * Function that has as main goal to request to the NODE.JS server the resource client by id through the GET verb, using asynchronous requests and JSON
+     * Function that has as main goal to request to the NODE.JS server the resource user by id through the GET verb, using asynchronous requests and JSON
      */
-    /* getClientById(id) {
+     getUserById(id) {
         const self = this;
-        var tableElement = document.getElementById("clientTable");
+        var tableElement = document.getElementById("userTable");
         tableElement = document.createElement("table");
-        tableElement.setAttribute("id", "clientTable");
+        tableElement.setAttribute("id", "userTable");
 
-        let clients = this.clients;
-        clients.length = 0;
+        let users = this.users;
+        users.length = 0;
         var xhr = new XMLHttpRequest();
         xhr.responseType="json";
-        xhr.open('GET', '/clientById/' + id, true);
+        xhr.open('GET', '/userById/' + id, true);
         xhr.onreadystatechange = function () {
             if (this.readyState === 4 && this.status === 200) {
                 let info = xhr.response.client;
                 info.forEach(p => {
                     clients.push(p);
                 });
-                localStorageGravar("clients",JSON.stringify(clients));
-                self.showClients("selectById");
+                localStorageGravar("users",JSON.stringify(clients));
+                self.showUsers("selectById");
             }
         };
         xhr.send(tableElement);
-    } */
+    } 
 
     /**
      * Function that inserts or updates the resource user with a request to the NODE.JS server through the POST or PUT verb, using asynchronous requests and JSON
      * @param {String} acao - controls which CRUD operation we want to do
      */
-    /* processingUser (acao) {
+     processingUser (acao) {
 
         const id = parseInt(document.getElementById('id').value);
-        const name = document.getElementById('name').value;
+        const userFullName = document.getElementById('userFullName').value;
         const username = document.getElementById('username').value;
         const password = document.getElementById('password').value;
-        const birthDate = document.getElementById('birthdate').value;
         const address = document.getElementById('address').value;
         const zipCode = document.getElementById('zipcode').value;
         const email = document.getElementById('email').value;
-        const genderList = document.getElementById('gender');
         const idgender = genderList.options[genderList.selectedIndex].value;
+        const genderList = document.getElementById('gender');
         const phone = document.getElementById('phone').value;
+        const birthDate = document.getElementById('birthdate').value;
 
         let args = [];
-        args.push(name);
+        args.push(userFullName);
         args.push(username);
         args.push(birthDate);
         args.push(address);
         args.push(zipCode);
-        args.push(documentId);
         args.push(email);
         args.push(idgender);
         args.push(phone);
 
-        const formclient = new FormClient(id, name,username, password, birthDate, address, zipCode, documentId, email, idgender, phone);
+        const formUser = new FormUser(id, userFullName,username, password, address, zipCode, email, idgender, phone, birthDate);
         if (acao === 'create') {
             args.push(password);
             if (validadeForm(args)){
-                this.putClient(formclient, false);
+                this.putUser(formUser, false);
             } 
         } else if (acao === 'update') {
             if (validadeForm(args)){
-                this.putClient(formclient, true);
+                this.putUser(formUser, true);
             }
             
         } else if (acao === 'delete') {
-            this.deleteClient(formclient);
+            this.deleteUser(formUser);
         }
-    } */
+    } 
 
     /**
-     * Function to update or insert a new client
+     * Function to update or insert a new user
      * 
-     * @param {*} formClient - client's form with all the information
+     * @param {*} formUser - user's form with all the information
      * @param {*} isUpdate - if the action is update or insert
      */
-    /* putClient(formClient, isUpdate){
+    putUser(formClient, isUpdate){
         const self = this;
         let formData = new FormData();
-        formData.append('formClient', JSON.stringify(formClient));
+        formData.append('formUser', JSON.stringify(formUser));
 
         const xhr = new XMLHttpRequest();
         xhr.responseType="json";
-        xhr.open('PUT', '/clients/' + formClient.id);
+        xhr.open('PUT', '/users/' + formUser.id);
         
         xhr.onreadystatechange = function () {
             if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
-                //hself.clients[self.clients.findIndex(i => i.id === client.id)] = client;
                 if(!isUpdate){
-                    let id = xhr.response.formClient.insertId;
+                    let id = xhr.response.formUsers.insertId;
                     self.getClientById(id);
-                    self.showClients("insert");
+                    self.showUsers("insert");
                 }
                 else{
-                    self.getClientById(formClient.id);
-                    self.showClients("update");
+                    self.getUserById(formClient.id);
+                    self.showUsers("update");
                 }
             }
         }
-        //xhr.setRequestHeader('Content-Type', 'application/json');
         xhr.send(formData);
-    } */
+    } 
     
     /**
-     * Function to delete an existing client
+     * Function to delete an existing user without tasks assigments 
      * 
-     * @param {*} formClient - client's form with all the information
+     * @param {*} formClient - users's form with all the information
      */
-    /* deleteClient(formClient){
+     deleteClient(formUser){
         const self = this;
         const xhr = new XMLHttpRequest();
-        xhr.open('DELETE', '/clients/' + formClient.id);
+        xhr.open('DELETE', '/users/' + formUser.id);
         xhr.onreadystatechange = function () {
             if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
-                self.clients.splice(self.clients.findIndex(i => i.clientId === formClient.id), 1);
+                self.users.splice(self.users.findIndex(i => i.userId === formUser.id), 1);
                 self.showClients("delete");
             }
         };
         xhr.setRequestHeader('Content-Type', 'application/json');
-        xhr.send(JSON.stringify(formClient));
-    } */
+        xhr.send(JSON.stringify(formUser));
+    } 
 }
