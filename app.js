@@ -46,6 +46,9 @@ app.use(express.static("www"));
 // Users's section
 
 // Calls a function to get all users
+app.get("/categories", requestHandlers.selectCategories);
+
+// Calls a function to get all users
 app.get("/users", requestHandlers.selectUsers);
 
 //create a new task
