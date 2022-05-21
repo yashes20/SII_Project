@@ -39,7 +39,6 @@ class InformationUsers {
      */
     showUsers(acao) {
         let self = this;
-        let type = localStorageObter("type");
 
         //document.getElementById("catalogProducts").style.display = "none";
         
@@ -54,7 +53,7 @@ class InformationUsers {
         //     return;
         // }
         // else {
-            document.getElementById("divInformation").style.display="block";
+        document.getElementById("divInformation").style.display="block";
         //}
         // document.getElementById("demo").style.display = "none";
         
@@ -105,10 +104,10 @@ class InformationUsers {
             document.getElementById('formUser').style.display = "block";
             document.getElementById('deleteUser').style.display = "none";
             document.getElementById('formUser').action = 'javascript:infoUsers.processingUser("create");';
-            document.getElementById("clientModalTitle").innerHTML = "New User";
+            document.getElementById("userModalTitle").innerHTML = "New User";
             const button = document.getElementById('insertNew');
             button.setAttribute('data-bs-toggle', 'modal');
-            button.setAttribute('data-bs-target', '#myModal');
+            button.setAttribute('data-bs-target', '#myModalUser');
             setupForm();
         }
 
@@ -122,7 +121,7 @@ class InformationUsers {
             document.getElementById("userModalTitle").innerHTML = "Update User";
             const button = document.getElementById('updateData');
             button.setAttribute('data-bs-toggle', 'modal');
-            button.setAttribute('data-bs-target', '#myModal');
+            button.setAttribute('data-bs-target', '#myModalUser');
             //cleanCanvasUser();
             loadUser("update");
         }
@@ -150,12 +149,18 @@ class InformationUsers {
         function loadUser(type){
             document.getElementById('formUser').reset();
 
+            document.getElementById('gender').options.length = 0;
+            self.genders.forEach ( (e) => {
+                 document.getElementById('gender').options.add(new Option(e));
+            });
+
+
             if(type === "delete"){
                 if (selected(document.getElementById("userTable"), "users", "delete"))
                 document.getElementById('formUser').style.display = 'none';
             }
             else if(type === "update"){
-                if (selected(document.getElementById("taskTable"), "users", "update"))
+                if (selected(document.getElementById("userTable"), "users", "update"))
                 document.getElementById('formUser').style.display = 'block';
             }
         }
@@ -165,12 +170,10 @@ class InformationUsers {
         document.getElementById("divInformation").appendChild(divButtons);
 
         createButton("divButtons", updateUserEventHandler, 'Update User');
+        createButton("divButtons", newUserEventHandler, 'New User');
+        createButton("divButtons", deleteUserEventHandler, 'Delete User');
+            
         
-        if (type === "Admin") {
-            createButton("divButtons", newUserEventHandler, 'New User');
-            createButton("divButtons", deleteUserEventHandler, 'Delete User');
-            //createButton("divInformation", selectAllClientEventHandler, 'Select All');
-        }
     }
 
     /**
@@ -216,11 +219,11 @@ class InformationUsers {
         xhr.open('GET', '/userById/' + id, true);
         xhr.onreadystatechange = function () {
             if (this.readyState === 4 && this.status === 200) {
-                let info = xhr.response.client;
+                let info = xhr.response.user;
                 info.forEach(p => {
-                    clients.push(p);
+                    users.push(p);
                 });
-                localStorageGravar("users",JSON.stringify(clients));
+                localStorageGravar("users",JSON.stringify(users));
                 self.showUsers("selectById");
             }
         };
@@ -234,28 +237,28 @@ class InformationUsers {
      processingUser (acao) {
 
         const id = parseInt(document.getElementById('id').value);
-        const userFullName = document.getElementById('userFullName').value;
+        const userFullName = document.getElementById('name').value;
         const username = document.getElementById('username').value;
         const password = document.getElementById('password').value;
         const address = document.getElementById('address').value;
         const zipCode = document.getElementById('zipcode').value;
         const email = document.getElementById('email').value;
-        const idgender = genderList.options[genderList.selectedIndex].value;
         const genderList = document.getElementById('gender');
+        const idgender = genderList.options[genderList.selectedIndex].value;
         const phone = document.getElementById('phone').value;
         const birthDate = document.getElementById('birthdate').value;
 
         let args = [];
         args.push(userFullName);
         args.push(username);
-        args.push(birthDate);
         args.push(address);
         args.push(zipCode);
         args.push(email);
         args.push(idgender);
         args.push(phone);
+        args.push(birthDate);
 
-        const formUser = new FormUser(id, userFullName,username, password, address, zipCode, email, idgender, phone, birthDate);
+        const formUser = new FormUser(id, userFullName, username, password, birthDate, address, zipCode, email, idgender, phone );
         if (acao === 'create') {
             args.push(password);
             if (validadeForm(args)){
@@ -277,14 +280,14 @@ class InformationUsers {
      * @param {*} formUser - user's form with all the information
      * @param {*} isUpdate - if the action is update or insert
      */
-    putUser(formClient, isUpdate){
+    putUser(formUser, isUpdate){
         const self = this;
         let formData = new FormData();
         formData.append('formUser', JSON.stringify(formUser));
 
         const xhr = new XMLHttpRequest();
         xhr.responseType="json";
-        xhr.open('PUT', '/users/' + formUser.id);
+        xhr.open('PUT', '/user/' + formUser.id);
         
         xhr.onreadystatechange = function () {
             if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
@@ -294,7 +297,7 @@ class InformationUsers {
                     self.showUsers("insert");
                 }
                 else{
-                    self.getUserById(formClient.id);
+                    self.getUserById(formUser.id);
                     self.showUsers("update");
                 }
             }

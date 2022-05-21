@@ -16,14 +16,14 @@
 //const { sendFile } = require("express/lib/response");
 
 /** 
-* @class Saves all the information about the user
+* @class Saves all the information about the tasks
 * @constructs InformationTasks
 * @param {string} id - id of the HTML element that contains the information.
 * 
 * @property {string} id - id of the HTML element that contains the information.
 * @property {task[]} tasks - Array of objects of type tasks, to store all the tasks of our system
-  @property {[category]}  categories
-  @property {[user]}  users
+  @property {[categories]}  categories
+  @property {[users]}  users
 */
 class InformationTasks {
     constructor(id) {
@@ -32,9 +32,17 @@ class InformationTasks {
         this.categories = [];
         this.users = [];
     }
-    
+    showHome() {
+        /** Update the title */
+        document.getElementById("headerTitle").textContent="Home";
+
+        /** Clear the content */
+        document.getElementById("divInformation").style.display="none";    
+        //document.getElementById("formUser").style.display = "none";
+        document.getElementById("formTask").style.display = "none";
+    }
     /**
-     * Show the users table
+     * Show the task table
      * 
      * @param {*} acao - if is delete, insert or update
      * @returns 
@@ -91,8 +99,8 @@ class InformationTasks {
             document.getElementById('formTask').style.display = "none";
             document.getElementById('deleteTask').style.display = "block";
             document.getElementById('deleteTask').action = 'javascript:infoTasks.processingTask("delete");';
-            document.getElementById("userModalTitle").innerHTML = "Delete Task";
-            loadUser("delete");
+            document.getElementById("taskModalTitle").innerHTML = "Delete Task";
+            loadTask("delete");
         }
 
         /**
@@ -102,10 +110,10 @@ class InformationTasks {
             document.getElementById('formTask').style.display = "block";
             document.getElementById('deleteTask').style.display = "none";
             document.getElementById('formTask').action = 'javascript:infoTasks.processingTask("create");';
-            document.getElementById("clientModalTitle").innerHTML = "New Task";
+            document.getElementById("taskModalTitle").innerHTML = "New Task";
             const button = document.getElementById('insertNew');
             button.setAttribute('data-bs-toggle', 'modal');
-            button.setAttribute('data-bs-target', '#myModal');
+            button.setAttribute('data-bs-target', '#myModalTask');
             setupForm();
         }
 
@@ -116,12 +124,12 @@ class InformationTasks {
             document.getElementById('formTask').style.display = "block";
             document.getElementById('deleteTask').style.display = "none";
             document.getElementById('formTask').action = 'javascript:infoTasks.processingTask("update");';
-            document.getElementById("userModalTitle").innerHTML = "Update Task";
+            document.getElementById("taskModalTitle").innerHTML = "Update Task";
             const button = document.getElementById('updateData');
             button.setAttribute('data-bs-toggle', 'modal');
-            button.setAttribute('data-bs-target', '#myModal');
+            button.setAttribute('data-bs-target', '#myModalTask');
             //cleanCanvasUser();
-            loadUser("update");
+            loadTask("update");
         }
 
         /**
@@ -130,7 +138,16 @@ class InformationTasks {
         function setupForm(){
             document.getElementById('formTask').style.display = 'block';
             document.getElementById('formTask').reset();
-            //document.getElementById('formClient').innerHTML = '';
+            document.getElementById('categoryTask').options.length = 0;
+            document.getElementById('userTask').options.length = 0;
+
+            self.categories.forEach ( (e) => {
+                document.getElementById('categoryTask').options.add(new Option(e.categoryName));
+            });
+
+            self.users.forEach ( (e) => {
+                document.getElementById('userTask').options.add(new Option(e.userFullName));
+            });
         }
 
         /**
@@ -138,16 +155,25 @@ class InformationTasks {
          * 
          * @param {*} type 
          */
-        function loadUser(type){
+        function loadTask(type){
             document.getElementById('formTask').reset();
-            
+            document.getElementById('categoryTask').options.length = 0;
+            document.getElementById('userTask').options.length = 0;
+
+            self.categories.forEach ( (e) => {
+                document.getElementById('categoryTask').options.add(new Option(e.name));
+            });
+
+            self.users.forEach ( (e) => {
+                document.getElementById('userTask').options.add(new Option(e.fullName));
+            });
 
             if(type === "delete"){
                 if (selected(document.getElementById("taskTable"), "tasks", "delete"))
                 document.getElementById('formTask').style.display = 'none';
             }
             else if(type === "update"){
-                if (selected(document.getElementById("userTable"), "tasks", "update"))
+                if (selected(document.getElementById("taskTable"), "tasks", "update"))
                 document.getElementById('formTask').style.display = 'block';
             }
         }
@@ -156,13 +182,53 @@ class InformationTasks {
         divButtons.id = 'divButtons';
         document.getElementById("divInformation").appendChild(divButtons);
 
-        createButton("divButtons", updateTaskEventHandler, 'Update Task');
+        createButton("divButtons", updateTaskEventHandler, 'Update');
         //let type = localStorageObter("type");
         //if (type === "Admin") {
-            createButton("divButtons", newTaskEventHandler, 'New Task');
-            createButton("divButtons", deleteTaskEventHandler, 'Delete Task');
+        createButton("divButtons", newTaskEventHandler, 'New');
+        createButton("divButtons", deleteTaskEventHandler, 'Delete');
             //createButton("divInformation", selectAllClientEventHandler, 'Select All');
         //}
+    }
+
+    /**
+     * Function that has as main goal to request to the NODE.JS server the resource categories by id through the GET verb, using asynchronous requests and JSON
+     */
+     getCategories() {
+        let categories = this.categories;
+        categories.length = 0;
+        var xhr = new XMLHttpRequest();
+        xhr.responseType="json";
+        xhr.open("GET", "/categories", true);
+        xhr.onreadystatechange = function () {
+            if (this.readyState === 4 && this.status === 200) {
+                let info = xhr.response.category;
+                info.forEach(c => {
+                    categories.push(c);
+                });
+            }
+        };
+        xhr.send();
+    }
+
+    /**
+     * Function that has as main goal to request to the NODE.JS server the resource users by id through the GET verb, using asynchronous requests and JSON
+     */
+     getUsers() {
+        let users = this.users;
+        users.length = 0;
+        var xhr = new XMLHttpRequest();
+        xhr.responseType="json";
+        xhr.open("GET", "/users", true);
+        xhr.onreadystatechange = function () {
+            if (this.readyState === 4 && this.status === 200) {
+                let info = xhr.response.user;
+                info.forEach(c => {
+                    users.push(c);
+                });
+            }
+        };
+        xhr.send();
     }
 
     /**
@@ -243,7 +309,7 @@ class InformationTasks {
         if (acao === 'create') {
             args.push(password);
             if (validadeForm(args)){
-                this.putTask(formTask, false);
+                this.postTask(formTask);
             } 
         } else if (acao === 'update') {
             if (validadeForm(args)){
@@ -256,37 +322,28 @@ class InformationTasks {
     }
 
     /**
-     * Function to update or insert a task
+     * Function to insert a task
      * 
      * @param {*} formTask - tasks's form with all the information
-     * @param {*} isUpdate - if the action is update or insert
      */
-    /* putClient(formClient, isUpdate){
+     postTask(formTask){
         const self = this;
         let formData = new FormData();
-        formData.append('formClient', JSON.stringify(formClient));
+        formData.append('formClient', JSON.stringify(formTask));
 
         const xhr = new XMLHttpRequest();
         xhr.responseType="json";
-        xhr.open('PUT', '/clients/' + formClient.id);
+        xhr.open('POST', '/task');
         
         xhr.onreadystatechange = function () {
             if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
-                //hself.clients[self.clients.findIndex(i => i.id === client.id)] = client;
-                if(!isUpdate){
-                    let id = xhr.response.formClient.insertId;
-                    self.getClientById(id);
-                    self.showClients("insert");
-                }
-                else{
-                    self.getClientById(formClient.id);
-                    self.showClients("update");
-                }
+                let info = xhr.response.task;
+                self.showTasks("selectAll");
             }
         }
         //xhr.setRequestHeader('Content-Type', 'application/json');
         xhr.send(formData);
-    } */
+    } 
     
     /**
      * Function to delete an existing client

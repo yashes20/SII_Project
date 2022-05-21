@@ -48,8 +48,63 @@ app.use(express.static("www"));
 // Calls a function to get all users
 app.get("/users", requestHandlers.selectUsers);
 
+//create a new task
+// Calls a function create a new task
+app.put("/user/:id", upload.any(), (req, res) => {
+  let r = req.body.formUser;
+  let userData = JSON.parse(req.body.formUser);
+  let pass = userData.password.trim().length;
+  let user = userData.password.trim().length != 0 ?
+          {  fullName: userData.fullName ,
+              username:userData.username,
+              password:userData.password,
+              address:userData.address,
+              zipCode:userData.zipCode,
+              email:userData.email,
+              gender:userData.gender,
+              phone:userData.phone,
+              birthDate:userData.birthDate,
+              id: userData.id
+          } :{
+              fullName: userData.fullName,
+              username:userData.username,
+              address:userData.address,
+              zipCode:userData.zipCode,
+              email:userData.email,
+              gender:userData.gender,
+              phone:userData.phone,
+              birthDate:userData.birthDate,
+              id: userData.id
+          };
+  requestHandlers.createUpdateUser(user, user.id !== null ? true : false, (err, rows, results) => {
+      if (err) {
+          console.log(err);
+
+          res.status(500).json({"message": "error"});
+      } else {
+          res.status(200).json({"message": "success", "user": rows, "results":results });
+      }
+
+  })
+});
+
 // Calls a function to get all users
 app.get("/tasks", requestHandlers.selectNewTasks);
+
+//create a new task
+// Calls a function create a new task
+app.post("/task", upload.any(), (req, res) => {
+  requestHandlers.createTask(req, (err, rows, results) => {
+      if (err) {
+          console.log(err);
+
+          res.status(500).json({"message": "error"});
+      } else {
+          res.status(200).json({"message": "success", "task": rows, "results":results });
+      }
+
+  })
+});
 
 app.listen(8082, function () {
   console.log("Server running at http://localhost:8082");

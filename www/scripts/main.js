@@ -24,8 +24,8 @@ window.onload = function (event) {
     var infoTasks = new InformationTasks("divInformation");
     //var infoProducts = new InformationProducts("divInformation");
     //infoClients.getClients();
-    //infoProducts.getCategories();
-    //infoProducts.getProducts();
+    infoTasks.getCategories();
+    infoTasks.getUsers();
     window.infoUsers = infoUsers;
     window.infoTasks = infoTasks;
 
@@ -120,15 +120,15 @@ function selectedUser(selecteds){
         selected = selected.getElementsByTagName("td");
 
         document.getElementById("id").value = selected[0].textContent;
-        document.getElementById('userFullName').value = selected[1].textContent;
+        document.getElementById('name').value = selected[1].textContent;
         document.getElementById('username').value = selected[2].textContent;
         document.getElementById("username").setAttribute("readonly", "readonly");
         document.getElementById('birthdate').value = selected[3].textContent;
         document.getElementById('address').value = selected[4].textContent;
         document.getElementById('zipcode').value = selected[5].textContent;
-        document.getElementById('email').value = selected[7].textContent;
-        document.getElementById('gender').value= selected[8].textContent;    
-        document.getElementById('phone').value = selected[9].textContent;
+        document.getElementById('email').value = selected[6].textContent;
+        document.getElementById('gender').value= selected[7].textContent;    
+        document.getElementById('phone').value = selected[8].textContent;
     }
 }
 
@@ -146,9 +146,12 @@ function selectedUser(selecteds){
          document.getElementById('id').value = selected[0].textContent;
          document.getElementById("id").setAttribute("readonly", "readonly");
          document.getElementById('taskName').value = selected[1].textContent;
-         document.getElementById('description').value = selected[2].textContent;
-         var category = document.getElementById("category");
-         document.getElementById('category').options[category.selectedIndex].textContent = selected[3].textContent;
+         document.getElementById('descriptionTask').value = selected[2].textContent;
+         var category = document.getElementById("categoryTask");
+         document.getElementById('categoryTask').options[category.selectedIndex].textContent = selected[6].textContent;
+         var user = document.getElementById("userTask");
+         document.getElementById('userTask').options[user.selectedIndex].textContent = selected[7].textContent;
+         document.getElementById('addressTask').value = selected[8].textContent;
      }
  }
 
@@ -184,13 +187,13 @@ function selected(tableObj, tableName, type){
         selectedUser(selecteds);
         
         button.setAttribute('data-bs-toggle', 'modal');
-        button.setAttribute('data-bs-target', '#myModal');
+        button.setAttribute('data-bs-target', '#myModalUser');
     }
     else if(tableName === "tasks"){
         selectedTask(selecteds);
 
         button.setAttribute('data-bs-toggle', 'modal');
-        button.setAttribute('data-bs-target', '#myModal2');
+        button.setAttribute('data-bs-target', '#myModalTask');
     }
     
     return true;

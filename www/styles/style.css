@@ -31,6 +31,14 @@ nav {
 	text-decoration: none;
 }
 
+/* #formUser, #formTask {
+	display: none;
+	width: 550px;
+	margin: 5px;
+	align-content: center;
+	background:rgb(109, 109, 109);
+} */
+
 table {
     border-collapse: collapse;
     width: 100%;
@@ -92,7 +100,7 @@ input {
 	padding-left: 0% !important;
 }
 
-#userTable, #actionTable{
+#userTable, #taskTable{
 	width:80%;
 	margin:0 auto;
 	border:0;
@@ -151,7 +159,7 @@ input {
     max-width: 30% !important;
 }
 
-#canvasAction {
+#canvasTask {
 	margin-top: 30px;
 	width: 250px;
 	height: 177px;

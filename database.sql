@@ -25,25 +25,30 @@ DROP DATABASE IF EXISTS `sii_project`;
 CREATE DATABASE `sii_project`;
 
 -- Create table for users
-USE `sii_project`;
-DROP TABLE IF EXISTS `tasks`;
-CREATE TABLE `tasks` (
-  `taskId` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  `taskName` varchar(100) NOT NULL,
-  `taskDescription` varchar(250) NOT NULL,
-  `taskDateCreation` datetime NOT NULL,
-  `taskStatus` varchar(20) NOT NULL,
-  `taskDateStatus` datetime NOT NULL,
-  `taskCategoryId` int(11) NOT NULL,
-  `taskIsEnabled` tinyint NULL DEFAULT 1,
-  `userCreation` int(11) NOT NULL,
-  `userAssignment` int(11) ,
-  `taskAddress` varchar(255) NOT NULL,
-  `taskLatitude` FLOAT( 10, 6 ), 
-  `taskLongitude` FLOAT( 10, 6 ),
-  FOREIGN KEY taskCategoriesId(taskCategoryId) REFERENCES categories(categoryId),
-  FOREIGN KEY taskUserId(userCreation) REFERENCES users(userId)
-) ENGINE=InnoDB DEFAULT CHARSET=utf16; 
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
+
+DROP DATABASE IF EXISTS `sii_project`;
+CREATE DATABASE `sii_project`;
+use `sii_project`;
+
+DROP TABLE IF EXISTS users;
+CREATE TABLE users (
+  userId int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  userFullName varchar(255) NOT NULL,
+  userName varchar(20) NOT NULL UNIQUE,
+  userPassword varchar(50) NOT NULL,
+  userAddress varchar(255) NOT NULL,
+  userZipCode varchar(50) NOT NULL,
+  userEmail varchar(100) NOT NULL UNIQUE,
+  userGender varchar(1) NOT NULL,
+  userPhone varchar(50) NOT NULL,
+  userBirthDate datetime NOT NULL,
+  userState varchar(1) NOT NULL,
+  userType varchar(20) NOT NULL,
+  userLatitude FLOAT( 10, 6 ), 
+  userLongitude FLOAT( 10, 6 ) 
+) ENGINE=InnoDB DEFAULT CHARSET=utf16;
 
 SET GLOBAL log_bin_trust_function_creators = 1;
 
