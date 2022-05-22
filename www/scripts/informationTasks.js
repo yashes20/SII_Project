@@ -88,38 +88,8 @@ class InformationTasks {
             selLinha(this, false); //Select only one
             //selLinha(this, true); //Select multiple
             });
-            //var td = table.getElementsByTagName("td");
-            //var status = td.getElementsByTagName("td");
-            var selected = rows[i].cells;
-            var status = selected[4].textContent;
-            if (status == "New"){
-                console.log(status);
-                var t =rows[i].getElementsByTagName("td");
-                /* //selLinha(this, true); //Select multiple
-                var tr = document.createElement("tr");
-                rows[i].appendChild(tr);
-                var td = document.createElement("td");
-                rows[i].appendChild(td);
-                var newBt = document.createElement("BUTTON"); */
-                
-                //var bt = createButton(t, AssignmentTaskEventHandler, 'Update');
-                //rows[i].appendChild(bt);
-                /* rows[i].addEventListener("click", function(){
-                    //Add to the current
-                    createButton("divButtons", AssignmentTaskEventHandler, 'Update'); //Select only one
-                    //selLinha(this, true); //Select multiple
-                }); */
-
-            }
-            
-            
         }
-        /* // Show content
-        for(var i = 0; i < rows.length; i++){
-            var selected = rows[i].cells;
-            var status = selected[4].textContent;
-            console.log(status);
-        } */
+            
         /**
          * Function to handle the delete event
          */
@@ -188,6 +158,7 @@ class InformationTasks {
             document.getElementById('formTask').reset();
             document.getElementById('categoryTask').options.length = 0;
             document.getElementById('userTask').options.length = 0;
+            document.getElementById('userAssignment').options.length = 0;
 
             self.categories.forEach ( (e) => {
                 console.log(e.categoryId);
@@ -197,10 +168,11 @@ class InformationTasks {
             self.users.forEach ( (e) => {
                 document.getElementById('userTask').options.add(new Option(e.userFullName,e.userId));
             });
-            /* document.getElementById('userAssignment').options.add(new Option("",0));
+            
+            document.getElementById('userAssignment').options.add(new Option(""));
             self.users.forEach ( (e) => {
                 document.getElementById('userAssignment').options.add(new Option(e.userFullName,e.userId));
-            }); */
+            }); 
         }
 
         /**
@@ -212,6 +184,7 @@ class InformationTasks {
             document.getElementById('formTask').reset();
             document.getElementById('categoryTask').options.length = 0;
             document.getElementById('userTask').options.length = 0;
+            document.getElementById('userAssignment').options.length = 0;
 
             self.categories.forEach ( (e) => {
                 console.log(e.categoryId);
@@ -222,9 +195,10 @@ class InformationTasks {
                 document.getElementById('userTask').options.add(new Option(e.userFullName,e.userId));
             });
 
+            document.getElementById('userAssignment').options.add(new Option(""));
             self.users.forEach ( (e) => {
                 document.getElementById('userAssignment').options.add(new Option(e.userFullName,e.userId));
-            });
+            }); 
 
             if(type === "delete"){
                 if (selected(document.getElementById("taskTable"), "tasks", "delete"))
