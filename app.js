@@ -51,8 +51,7 @@ app.get("/categories", requestHandlers.selectCategories);
 // Calls a function to get all users
 app.get("/users", requestHandlers.selectUsers);
 
-//create a new task
-// Calls a function create a new task
+// Calls a function update or insert user
 app.put("/user/:id", upload.any(), (req, res) => {
   let r = req.body.formUser;
   let userData = JSON.parse(req.body.formUser);
@@ -89,6 +88,22 @@ app.put("/user/:id", upload.any(), (req, res) => {
       }
 
   })
+});
+
+// Calls delete user
+app.delete("/user/:id", upload.any(), (req, res) => {
+    let userData = JSON.parse(req.body.formUser);
+
+    requestHandlers.deleteUser(userData.id, (err, rows, results) => {
+        if (err) {
+            console.log(err);
+  
+            res.status(500).json({"message": "error"});
+        } else {
+            res.status(200).json({"message": "success", "user": rows, "results":results });
+        }
+  
+    })
 });
 
 // Calls a function to get all users

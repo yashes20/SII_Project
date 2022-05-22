@@ -7,11 +7,12 @@ const options = require("./connection-options.json");
 // Creation of the querys for the CRUD functionalities
 const queryCategories = "SELECT categoryId, categoryName from categories";
 const queryUsers = "SELECT userId, userFullName, userName,  DATE_FORMAT(userBirthDate,'%Y-%m-%d') AS userBirthDate, userAddress, userZipCode, userEmail, userGender, userPhone  FROM users WHERE userState ='A'";
-const queryNewTasks = "SELECT taskId, taskName, taskDescription,taskDateCreation, status.statusName AS taskStatus, taskDateStatus, taskCategoryId,userCreation, userAssignment, taskAddress, taskLatitude,taskLongitude from tasks INNER JOIN status ON tasks.taskStatusId = status.statusId where  tasks.taskStatusId = 1";
+const queryNewTasks = "SELECT taskId, taskName, taskDescription,taskDateCreation, status.statusName AS taskStatus, taskDateStatus, taskCategoryId, taskIsEnabled, userCreation, userAssignment, taskAddress, taskLatitude,taskLongitude from tasks INNER JOIN status ON tasks.taskStatusId = status.statusId where  tasks.taskStatusId = 1";
 const queryTasksByUserId = "SELECT taskId, taskName, taskDescription,taskDateCreation, taskStatus, taskDateStatus, taskCategoryId,userCreation, taskAddress, taskLatitude,taskLongitude from tasks where userCreation = ? and taskStatus = ?";
 
 const sqlUpdateUserPass = "UPDATE USERS SET userFullName = ?, userName = ?, userPassword = md5(?), userAddress = ?, userZipCode= ? , userEmail = ? , userGender = ?,  userPhone = ?, userBirthDate = ? WHERE userId = ?";
 const sqlUpdateUser = "UPDATE USERS SET userFullName = ?, userName = ?, userAddress = ?, userZipCode= ? , userEmail = ? , userGender = ?,  userPhone = ?, userBirthDate = ? WHERE userId = ?";
+const sqldeleteUser = "UPDATE USERS SET userState = 'I' WHERE userId = ?";
 /**
  * Function to return the json message obtained from the connection to the database
  * @param {*} req 
@@ -140,6 +141,43 @@ function selectUsers(req, res){
 }
 
 /**
+ * This function is used to update an existing user or create a new one based on the param "isUpdate"
+ * 
+ * @param {*} formUser - form with data about the user
+ * @param {*} result - result from the execution of the query
+ */
+ async function deleteUser(formUser, result) {
+    // Declaration of variables
+    const connection = await connect();
+    let id = formUser.id;
+
+    // update status
+    connection.connect(function (err) {
+        if (err) {
+            if (result != null) {
+                result(err, null, null);
+            }
+            else {
+                throw err;
+            }
+        }
+        else {
+            connection.query(sqldeleteUser, id, function (err, rows, results) {
+                if (err) {
+                    if (result != null) {
+                        result(err, null, null);
+                    }
+                    else {
+                        throw err;
+                    }
+                } else {
+                    result(err, rows, results);
+                }
+            });
+        }
+    });
+}
+/**
  * Function to get all new tasks
  * 
  * @param {*} req - Variable with the request body
@@ -208,4 +246,54 @@ function selectUsers(req, res){
     });
 }
 
-module.exports = {selectCategories,selectUsers,createUpdateUser,selectNewTasks, selectTasksByUserid,createTask}
+/**
+ * This function is used to create a new task
+ * @param {*} task - variable with all the data related to the task
+ * @param {*} result - result from the execution of the query
+ */
+ async function updateTask(putTask, result) {
+    // Declaration of variables
+    const connection = await connect();
+    let name = putTask.name;
+    let description = putTask.description;
+    let category = putTask.category;
+    let userCreation = putTask.userCreation;
+    let userAssignment = putTask.userAssignment;
+    let address = putTask.address;
+    let taskLatitude = putTask.taskLatitude;
+    let taskLongitude = putTask.taskLongitude;
+
+    
+    // UPDATE
+    let sql ="UPDATE tasks SET taskName =?, taskDescription = ?, taskStatusId = ?, taskDateStatus = NOW(), taskCategoryId = ?, userCreation =?,taskAddress =?, taskLatitude =?, taskLongitude =? WHERE taskId=? ";
+    connection.connect(function (err) {
+        if (err) {
+            if (result != null) {
+                result(err, null, null);
+            }
+            else {
+                throw err;
+            }
+        }
+        else {
+            // Insertion of the data in the following params
+            connection.query(sql, [name, description, category, userCreation, userAssignment, address, taskLatitude, taskLongitude], function (err, rows, results) {
+                if (err) {
+                    if (result != null) {
+                        result(err, null, null);
+                        console.log("erro aqui");
+                    }
+                    else {
+                        console.log("erro aqui2");
+                        throw err;
+                    }
+                } else {
+                    console.log("sucesso aqui3");
+                    result(err, rows, results);
+                }
+            });
+        }
+    });
+}
+
+module.exports = {selectCategories,selectUsers,createUpdateUser,deleteUser, selectNewTasks, selectTasksByUserid,createTask,updateTask}

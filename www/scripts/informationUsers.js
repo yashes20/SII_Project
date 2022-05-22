@@ -305,18 +305,18 @@ class InformationUsers {
     } 
     
     /**
-     * Function to delete an existing user without tasks assigments 
+     * Function to delete an existing user, only change status 
      * 
-     * @param {*} formClient - users's form with all the information
+     * @param {*} formUser - users's form with all the information
      */
-     deleteClient(formUser){
+     deleteUser(formUser){
         const self = this;
         const xhr = new XMLHttpRequest();
-        xhr.open('DELETE', '/users/' + formUser.id);
+        xhr.open('PUT', '/users/' + formUser.id);
         xhr.onreadystatechange = function () {
             if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
                 self.users.splice(self.users.findIndex(i => i.userId === formUser.id), 1);
-                self.showClients("delete");
+                self.showClients("select");
             }
         };
         xhr.setRequestHeader('Content-Type', 'application/json');

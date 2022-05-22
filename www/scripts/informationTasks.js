@@ -221,13 +221,9 @@ class InformationTasks {
         document.getElementById("divInformation").appendChild(divButtons);
 
         createButton("divButtons", updateTaskEventHandler, 'Update');
-        //let type = localStorageObter("type");
-        //if (type === "Admin") {
         createButton("divButtons", newTaskEventHandler, 'New');
         createButton("divButtons", deleteTaskEventHandler, 'Delete');
         createButton("divButtons", AssignmentTaskEventHandler, 'Assignment');
-            //createButton("divInformation", selectAllClientEventHandler, 'Select All');
-        //}
     }
 
     /**
