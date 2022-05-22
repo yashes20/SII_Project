@@ -16,9 +16,11 @@
 /** 
 * @class Structure with capacity to create task
 * @constructs putTask
+  @param {int} id - task's id
 * @param {string} name - task name
   @param {string} description - task's description
   @param {Category} category - task's category
+  @param {int} idStatus - task's idStatus
   @param {User} userCreation - task's user creation
   @param {User} userAssignment - task's user userAssignment
   @param {string} address - task's taskAddress
@@ -28,9 +30,11 @@
 
 */
 class putTask {
-    constructor( name, description, category, userCreation, userAssignment, address,latitude,longitude ) {
+    constructor( id, name, description, idStatus, category, userCreation, userAssignment, address,latitude,longitude ) {
+        this.id = id;
         this.name = name;
         this.description = description;
+        this.idStatus = idStatus;
         this.category = category;
         this.userCreation = userCreation;
         this.userAssignment = userAssignment;

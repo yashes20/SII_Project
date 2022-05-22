@@ -6,8 +6,9 @@ const options = require("./connection-options.json");
 
 // Creation of the querys for the CRUD functionalities
 const queryCategories = "SELECT categoryId, categoryName from categories";
+const queryStatus = "SELECT statusId, statusName from status"; // somente status dos users
 const queryUsers = "SELECT userId, userFullName, userName,  DATE_FORMAT(userBirthDate,'%Y-%m-%d') AS userBirthDate, userAddress, userZipCode, userEmail, userGender, userPhone  FROM users WHERE userState ='A'";
-const queryNewTasks = "SELECT taskId, taskName, taskDescription,taskDateCreation, status.statusName AS taskStatus, taskDateStatus, taskCategoryId, taskIsEnabled, userCreation, userAssignment, taskAddress, taskLatitude,taskLongitude from tasks INNER JOIN status ON tasks.taskStatusId = status.statusId where  tasks.taskStatusId = 1";
+const queryNewTasks = "SELECT taskId, taskName, taskDescription,taskDateCreation, taskStatusId, status.statusName AS taskStatus, taskDateStatus, taskCategoryId, taskIsEnabled, userCreation, userAssignment, taskAddress, taskLatitude,taskLongitude from tasks INNER JOIN status ON tasks.taskStatusId = status.statusId where  tasks.taskStatusId = 1";
 const queryTasksByUserId = "SELECT taskId, taskName, taskDescription,taskDateCreation, taskStatus, taskDateStatus, taskCategoryId,userCreation, taskAddress, taskLatitude,taskLongitude from tasks where userCreation = ? and taskStatus = ?";
 
 const sqlUpdateUserPass = "UPDATE USERS SET userFullName = ?, userName = ?, userPassword = md5(?), userAddress = ?, userZipCode= ? , userEmail = ? , userGender = ?,  userPhone = ?, userBirthDate = ? WHERE userId = ?";
@@ -46,6 +47,8 @@ function getJsonMessage(err, rows, res, typeColumn) {
         res.json({ "message": "success", "user": rows });
     } else if (typeColumn === "tasks" || typeColumn === "task") {
         res.json({ "message": "success", "task": rows });
+    } else if (typeColumn === "status" ) {
+            res.json({ "message": "success", "status": rows });
     }
 }
 
@@ -60,12 +63,22 @@ async function createConnectionToDb(req, res, query, typeColumn) {
     getData(getJsonMessage); 
 }
 /**
- * Function to get all categories
+ * Function to get all status
  * 
  * @param {*} req - Variable with the request body
  * @param {*} res - Variable with the response 
  */
- function selectCategories(req, res){
+ function selectqueryStatus(req, res){
+    createConnectionToDb(req, res, queryStatus, "status");
+ }
+
+ /**
+ * Function to get all user categories
+ * 
+ * @param {*} req - Variable with the request body
+ * @param {*} res - Variable with the response 
+ */
+  function selectCategories(req, res){
     createConnectionToDb(req, res, queryCategories, "categories");
  }
 
@@ -254,8 +267,10 @@ function selectUsers(req, res){
  async function updateTask(putTask, result) {
     // Declaration of variables
     const connection = await connect();
+    let id = putTask.id;
     let name = putTask.name;
     let description = putTask.description;
+    let status = putTask.idStatus;
     let category = putTask.category;
     let userCreation = putTask.userCreation;
     let userAssignment = putTask.userAssignment;
@@ -265,7 +280,7 @@ function selectUsers(req, res){
 
     
     // UPDATE
-    let sql ="UPDATE tasks SET taskName =?, taskDescription = ?, taskStatusId = ?, taskDateStatus = NOW(), taskCategoryId = ?, userCreation =?,taskAddress =?, taskLatitude =?, taskLongitude =? WHERE taskId=? ";
+    let sql ="UPDATE tasks SET taskName = ?, taskDescription = ?, taskStatusId = ?, taskDateStatus = NOW(), taskCategoryId = ?, userCreation = ?, userAssignment = ?, taskAddress = ?, taskLatitude = ?, taskLongitude = ? WHERE taskId = ? ";
     connection.connect(function (err) {
         if (err) {
             if (result != null) {
@@ -277,7 +292,7 @@ function selectUsers(req, res){
         }
         else {
             // Insertion of the data in the following params
-            connection.query(sql, [name, description, category, userCreation, userAssignment, address, taskLatitude, taskLongitude], function (err, rows, results) {
+            connection.query(sql, [name, description, status, category, userCreation, userAssignment, address, taskLatitude, taskLongitude, id], function (err, rows, results) {
                 if (err) {
                     if (result != null) {
                         result(err, null, null);
@@ -296,4 +311,4 @@ function selectUsers(req, res){
     });
 }
 
-module.exports = {selectCategories,selectUsers,createUpdateUser,deleteUser, selectNewTasks, selectTasksByUserid,createTask,updateTask}
+module.exports = {selectqueryStatus,selectCategories,selectUsers,createUpdateUser,deleteUser, selectNewTasks, selectTasksByUserid,createTask,updateTask}

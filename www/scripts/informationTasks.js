@@ -22,6 +22,7 @@
 * 
 * @property {string} id - id of the HTML element that contains the information.
 * @property {task[]} tasks - Array of objects of type tasks, to store all the tasks of our system
+  @property {[status]}  status
   @property {[categories]}  categories
   @property {[users]}  users
 */
@@ -29,6 +30,7 @@ class InformationTasks {
     constructor(id) {
         this.id = id;
         this.tasks = [];
+        this.status = [];
         this.categories = [];
         this.users = [];
     }
@@ -53,7 +55,7 @@ class InformationTasks {
            infoTasks.getTasks();
         }
         /** Update the title */
-        // document.getElementById("headerTitle").textContent="Users";
+        document.getElementById("headerTitle").textContent="Tasks";
         // if (sessionStorageObter("username_login")  === null) {
         //     document.getElementById("divInformation").style.display="none";
         //     return;
@@ -159,6 +161,13 @@ class InformationTasks {
             document.getElementById('categoryTask').options.length = 0;
             document.getElementById('userTask').options.length = 0;
             document.getElementById('userAssignment').options.length = 0;
+            document.getElementById('statusTask').options.length = 0;
+
+            self.status.forEach ( (e) => {
+                document.getElementById('statusTask').options.add(new Option(e.statusName,e.statusId));
+            });
+
+            document.getElementById("statusTask").setAttribute("readonly", "readonly");
 
             self.categories.forEach ( (e) => {
                 console.log(e.categoryId);
@@ -185,9 +194,13 @@ class InformationTasks {
             document.getElementById('categoryTask').options.length = 0;
             document.getElementById('userTask').options.length = 0;
             document.getElementById('userAssignment').options.length = 0;
+            document.getElementById('statusTask').options.length = 0;
+
+            self.status.forEach ( (e) => {
+                document.getElementById('statusTask').options.add(new Option(e.statusName,e.statusId));
+            });
 
             self.categories.forEach ( (e) => {
-                console.log(e.categoryId);
                 document.getElementById('categoryTask').options.add(new Option(e.categoryName,e.categoryId));
             });
 
@@ -226,6 +239,25 @@ class InformationTasks {
         createButton("divButtons", AssignmentTaskEventHandler, 'Assignment');
     }
 
+    /**
+     * Function that has as main goal to request to the NODE.JS server the resource categories by id through the GET verb, using asynchronous requests and JSON
+     */
+     getStatus() {
+        let status = this.status;
+        status.length = 0;
+        var xhr = new XMLHttpRequest();
+        xhr.responseType="json";
+        xhr.open("GET", "/status", true);
+        xhr.onreadystatechange = function () {
+            if (this.readyState === 4 && this.status === 200) {
+                let info = xhr.response.status;
+                info.forEach(c => {
+                    status.push(c);
+                });
+            }
+        };
+        xhr.send();
+    }
     /**
      * Function that has as main goal to request to the NODE.JS server the resource categories by id through the GET verb, using asynchronous requests and JSON
      */
@@ -326,7 +358,7 @@ class InformationTasks {
      */
     processingTask (acao) {
 
-        const id = parseInt(document.getElementById('id').value);
+        const id = parseInt(document.getElementById('idTask').value);
         const name = document.getElementById('taskName').value;
         const description = document.getElementById('descriptionTask').value;
 
@@ -336,18 +368,47 @@ class InformationTasks {
         const userCreationList = document.getElementById('userTask');
         const idUserCreation = userCreationList.options[userCreationList.selectedIndex].value;
 
+        const statusList = document.getElementById('statusTask');
+        const idStatusf = statusList.options[statusList.selectedIndex].value;
+
         const address = document.getElementById('addressTask').value;
         const latitude = parseFloat(document.getElementById('taskLatitude').value);
         const longitude = parseFloat(document.getElementById('taskLongitude').value);
+        var idStatus =idStatusf;
+        var formTask ="";
 
         let args = [];
-        args.push(name);
-        args.push(description);
-        args.push(idcategory);
-        args.push(idUserCreation);
-        args.push(address);
 
-        const formTask = new postTask(name,description, idcategory, idUserCreation, address, latitude, longitude);
+        if (acao == "create"){ 
+            args.push(name);
+            args.push(description);
+            args.push(idcategory);
+            args.push(idUserCreation);
+            args.push(address);
+
+            formTask= new postTask(name,description, idcategory, idUserCreation, address, latitude, longitude);
+
+        } else if (acao == "update") {
+
+            const userAssignmentList = document.getElementById('userAssignment');
+            const iduserAssignment = userAssignmentList.options[userAssignmentList.selectedIndex].value;
+
+            var taskOld = selected(document.getElementById("taskTable"), "tasks", "update");
+
+            if (iduserAssignment != "" && (taskOld.iduserAssignment == "" ||taskOld.iduserAssignment == undefined) ) {
+                idStatus = 2;
+            }
+
+            args.push(name);
+            args.push(description);
+            args.push(idcategory);
+            args.push(idUserCreation);
+            args.push(address);
+
+            formTask = new putTask(id, name,description, idStatus, idcategory, idUserCreation, iduserAssignment, address, latitude, longitude);
+
+        }
+
         if (acao === 'create') {
             if (validadeForm(args)){
                 this.postTask(formTask);
@@ -375,6 +436,30 @@ class InformationTasks {
         const xhr = new XMLHttpRequest();
         xhr.responseType="json";
         xhr.open('POST', '/task');
+        
+        xhr.onreadystatechange = function () {
+            if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+                let info = xhr.response.task;
+                self.showTasks("selectAll");
+            }
+        }
+        //xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.send(formData);
+    }
+
+    /**
+     * Function to update a task
+     * 
+     * @param {*} formTask - tasks's form with all the information
+     */
+     putTask(formTask){
+        const self = this;
+        let formData = new FormData();
+        formData.append('formTask', JSON.stringify(formTask));
+
+        const xhr = new XMLHttpRequest();
+        xhr.responseType="json";
+        xhr.open('PUT', '/task');
         
         xhr.onreadystatechange = function () {
             if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {

@@ -46,6 +46,8 @@ app.use(express.static("www"));
 // Users's section
 
 // Calls a function to get all users
+app.get("/status", requestHandlers.selectqueryStatus);
+// Calls a function to get all users
 app.get("/categories", requestHandlers.selectCategories);
 
 // Calls a function to get all users
@@ -134,6 +136,34 @@ app.post("/task", upload.any(), (req, res) => {
 
   })
 });
+
+// Calls a function update a task
+app.put("/task", upload.any(), (req, res) => {
+    let r = req.body.formTask;
+    let taskData = JSON.parse(req.body.formTask);
+    let task = 
+            { id : taskData.id,
+              name : taskData.name,
+              description : taskData.description,
+              category : taskData.category,
+              idStatus: taskData.idStatus,
+              userCreation : taskData.userCreation,
+              userAssignment: taskData.userAssignment,
+              address : taskData.address,
+              taskLatitude : taskData.latitude,
+              taskLongitude : taskData.longitude
+            } 
+    requestHandlers.updateTask(task, (err, rows, results) => {
+        if (err) {
+            console.log(err);
+  
+            res.status(500).json({"message": "error"});
+        } else {
+            res.status(200).json({"message": "success", "task": rows, "results":results });
+        }
+  
+    })
+  });
 
 app.listen(8082, function () {
   console.log("Server running at http://localhost:8082");

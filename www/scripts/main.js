@@ -26,6 +26,7 @@ window.onload = function (event) {
     //infoClients.getClients();
     infoTasks.getCategories();
     infoTasks.getUsers();
+    infoTasks.getStatus();
     window.infoUsers = infoUsers;
     window.infoTasks = infoTasks;
 
@@ -143,17 +144,46 @@ function selectedUser(selecteds){
         var selected = selecteds[i];
          selected = selected.getElementsByTagName("td");
 
-         document.getElementById('id').value = selected[0].textContent;
-         document.getElementById("id").setAttribute("readonly", "readonly");
+         document.getElementById('idTask').value = selected[0].textContent;
+         document.getElementById("idTask").setAttribute("readonly", "readonly");
          document.getElementById('taskName').value = selected[1].textContent;
          document.getElementById('descriptionTask').value = selected[2].textContent;
+
+         var category = document.getElementById("statusTask");
+         document.getElementById('statusTask').options[category.selectedIndex].textContent = selected[4].textContent;
+
          var category = document.getElementById("categoryTask");
-         document.getElementById('categoryTask').options[category.selectedIndex].textContent = selected[6].textContent;
+         document.getElementById('categoryTask').options[category.selectedIndex].textContent = selected[7].textContent;
+
          var user = document.getElementById("userTask");
-         document.getElementById('userTask').options[user.selectedIndex].textContent = selected[7].textContent;
-         document.getElementById('addressTask').value = selected[8].textContent;
+         document.getElementById('userTask').options[user.selectedIndex].textContent = selected[9].textContent;
+
+         var user = document.getElementById("userAssignment");
+         document.getElementById('userAssignment').options[user.selectedIndex].textContent = selected[10].textContent;
+
+         document.getElementById('addressTask').value = selected[11].textContent;
+         document.getElementById('taskLatitude').value = selected[12].textContent;
+         document.getElementById('taskLongitude').value = selected[13].textContent;
      }
  }
+
+ /**
+ * Function to get all the information of the selected task
+ * 
+ * @param {*} selecteds 
+ */
+  function selecteTaskOldValues(selecteds) {
+    var oldTask = new putTask();
+    for(var i = 0; i < selecteds.length; i++){
+       var selected = selecteds[i];
+        selected = selected.getElementsByTagName("td");
+        
+        oldTask.id = selected[0].textContent;
+        oldTask.status = selected[5].textContent;
+        oldTask.userAssignment = selected[9].textContent;
+    }
+    return oldTask;
+}
 
 /**
  * Function that returns the id of the selected line

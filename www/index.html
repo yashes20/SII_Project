@@ -27,7 +27,9 @@
     <script src="scripts/formUser.js"></script>
     <script src="scripts/task.js"></script>
     <script src="scripts/postTask.js"></script>
+    <script src="scripts/putTask.js"></script>
     <script src="scripts/category.js"></script>
+    <script src="scripts/status.js"></script>
     
     <script src="scripts/informationUsers.js"></script>
     <script src="scripts/informationTasks.js"></script>
@@ -162,6 +164,10 @@
                             <input type="text" class="form-control" id="descriptionTask" aria-describedby="descriptionTask" placeholder="Enter description">
                         </div>
                         <div class="form-group">
+                          <label for="statusTask" class="col-form-label">Status:</label>
+                          <select id="statusTask" class="form-select" aria-describedby="statusTask"></select>
+                        </div>
+                        <div class="form-group">
                           <label for="categoryTask" class="col-form-label">Category:</label>
                           <select id="categoryTask" class="form-select" aria-describedby="categoryTask"></select>
                         </div>
@@ -170,7 +176,7 @@
                           <select id="userTask" class="form-select" aria-describedby="userTask"></select>
                         </div>
                         <div class="form-group">
-                          <label for="userAssignment" class="col-form-label">Users Assignment:</label>
+                          <label for="userAssignment" class="col-form-label">User Assignment:</label>
                           <select id="userAssignment" class="form-select" aria-describedby="userAssignment"></select>
                         </div>
                         <div class="form-group">

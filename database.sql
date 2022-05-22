@@ -102,14 +102,15 @@ USE `sii_project`;
 DROP TABLE IF EXISTS `status`;
 CREATE TABLE `status` (
   `statusId` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  `statusName` varchar(100) NOT NULL
+  `statusName` varchar(20) NOT NULL,
+  `statusType` varchar(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf16;
 
 -- Insert status
-INSERT INTO `sii_project`.`status` (`statusName`) VALUES ('New');
-INSERT INTO `sii_project`.`status` (`statusName`) VALUES ('Assignment');
-INSERT INTO `sii_project`.`status` (`statusName`) VALUES ('In Progress');
-INSERT INTO `sii_project`.`status` (`statusName`) VALUES ('Concluded');
+INSERT INTO `sii_project`.`status` (`statusName`,`statusType`) VALUES ('New','S');
+INSERT INTO `sii_project`.`status` (`statusName`,`statusType`) VALUES ('Assignment','S');
+INSERT INTO `sii_project`.`status` (`statusName`,`statusType`) VALUES ('In Progress','U');
+INSERT INTO `sii_project`.`status` (`statusName`,`statusType`) VALUES ('Concluded','U');
 
 
 -- Create table for tasks
