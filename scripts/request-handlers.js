@@ -7,8 +7,8 @@ const options = require("./connection-options.json");
 // Creation of the querys for the CRUD functionalities
 const queryCategories = "SELECT categoryId, categoryName from categories";
 const queryUsers = "SELECT userId, userFullName, userName,  DATE_FORMAT(userBirthDate,'%Y-%m-%d') AS userBirthDate, userAddress, userZipCode, userEmail, userGender, userPhone  FROM users WHERE userState ='A'";
-const queryNewTasks = "SELECT taskId, taskName, taskDescription,taskDateCreation, taskStatus, taskDateStatus, taskCategoryId,userCreation,taskAddress, taskLatitude,taskLongitude from tasks where taskStatus = 'New'";
-const queryTasksByUserId = "SELECT taskId, taskName, taskDescription,taskDateCreation, taskStatus, taskDateStatus, taskCategoryId,userCreation,taskAddress, taskLatitude,taskLongitude from tasks where userCreation = ? and taskStatus = ?";
+const queryNewTasks = "SELECT taskId, taskName, taskDescription,taskDateCreation, status.statusName AS taskStatus, taskDateStatus, taskCategoryId,userCreation, userAssignment, taskAddress, taskLatitude,taskLongitude from tasks INNER JOIN status ON tasks.taskStatusId = status.statusId where  tasks.taskStatusId = 1";
+const queryTasksByUserId = "SELECT taskId, taskName, taskDescription,taskDateCreation, taskStatus, taskDateStatus, taskCategoryId,userCreation, taskAddress, taskLatitude,taskLongitude from tasks where userCreation = ? and taskStatus = ?";
 
 const sqlUpdateUserPass = "UPDATE USERS SET userFullName = ?, userName = ?, userPassword = md5(?), userAddress = ?, userZipCode= ? , userEmail = ? , userGender = ?,  userPhone = ?, userBirthDate = ? WHERE userId = ?";
 const sqlUpdateUser = "UPDATE USERS SET userFullName = ?, userName = ?, userAddress = ?, userZipCode= ? , userEmail = ? , userGender = ?,  userPhone = ?, userBirthDate = ? WHERE userId = ?";
@@ -164,20 +164,20 @@ function selectUsers(req, res){
  * @param {*} task - variable with all the data related to the task
  * @param {*} result - result from the execution of the query
  */
-  async function createTask(task, result) {
+  async function createTask(postTask, result) {
     // Declaration of variables
     const connection = await connect();
-    let name = task.name;
-    let description = task.description;
-    let category = task.category;
-    let userCreation = task.userCreation;
-    let address = task.address;
-    let taskLatitude = task.taskLatitude;
-    let taskLongitude = task.taskLongitude;
+    let name = postTask.name;
+    let description = postTask.description;
+    let category = postTask.category;
+    let userCreation = postTask.userCreation;
+    let address = postTask.address;
+    let taskLatitude = postTask.taskLatitude;
+    let taskLongitude = postTask.taskLongitude;
 
     
     // insert
-    let sql ="INSERT INTO tasks(taskName, taskDescription, taskDateCreation, taskStatus, taskDateStatus, taskCategoryId,taskIsEnabled,userCreation,taskAddress,taskLatitude,taskLongitude) VALUES (?,?,NOW(),'New',NOW(),?,1,?,?,?,?)";
+    let sql ="INSERT INTO tasks(taskName, taskDescription, taskDateCreation, taskStatusId, taskDateStatus, taskCategoryId,taskIsEnabled,userCreation,taskAddress,taskLatitude,taskLongitude) VALUES (?,?,NOW(),1,NOW(),?,1,?,?,?,?)";
     connection.connect(function (err) {
         if (err) {
             if (result != null) {

@@ -88,10 +88,38 @@ class InformationTasks {
             selLinha(this, false); //Select only one
             //selLinha(this, true); //Select multiple
             });
+            //var td = table.getElementsByTagName("td");
+            //var status = td.getElementsByTagName("td");
+            var selected = rows[i].cells;
+            var status = selected[4].textContent;
+            if (status == "New"){
+                console.log(status);
+                var t =rows[i].getElementsByTagName("td");
+                /* //selLinha(this, true); //Select multiple
+                var tr = document.createElement("tr");
+                rows[i].appendChild(tr);
+                var td = document.createElement("td");
+                rows[i].appendChild(td);
+                var newBt = document.createElement("BUTTON"); */
+                
+                //var bt = createButton(t, AssignmentTaskEventHandler, 'Update');
+                //rows[i].appendChild(bt);
+                /* rows[i].addEventListener("click", function(){
+                    //Add to the current
+                    createButton("divButtons", AssignmentTaskEventHandler, 'Update'); //Select only one
+                    //selLinha(this, true); //Select multiple
+                }); */
+
+            }
+            
+            
         }
-        
-        // Show content
-        
+        /* // Show content
+        for(var i = 0; i < rows.length; i++){
+            var selected = rows[i].cells;
+            var status = selected[4].textContent;
+            console.log(status);
+        } */
         /**
          * Function to handle the delete event
          */
@@ -109,6 +137,7 @@ class InformationTasks {
         function newTaskEventHandler() {
             document.getElementById('formTask').style.display = "block";
             document.getElementById('deleteTask').style.display = "none";
+            document.getElementById('associationTask').style.display = "none";
             document.getElementById('formTask').action = 'javascript:infoTasks.processingTask("create");';
             document.getElementById("taskModalTitle").innerHTML = "New Task";
             const button = document.getElementById('insertNew');
@@ -123,6 +152,7 @@ class InformationTasks {
         function updateTaskEventHandler() {
             document.getElementById('formTask').style.display = "block";
             document.getElementById('deleteTask').style.display = "none";
+            document.getElementById('associationTask').style.display = "none";
             document.getElementById('formTask').action = 'javascript:infoTasks.processingTask("update");';
             document.getElementById("taskModalTitle").innerHTML = "Update Task";
             const button = document.getElementById('updateData');
@@ -131,6 +161,24 @@ class InformationTasks {
             //cleanCanvasUser();
             loadTask("update");
         }
+
+        /**
+         * Function to handle the update event
+         */
+         function AssignmentTaskEventHandler() {
+            document.getElementById('associationTask').style.display = "block";
+            document.getElementById('formTask').style.display = "none";
+            document.getElementById('deleteTask').style.display = "none";
+            document.getElementById('associationTask').style.display = "none";
+            document.getElementById('formTask').action = 'javascript:infoTasks.processingTask("assignment");';
+            document.getElementById("taskModalTitle").innerHTML = "Assignment Task";
+            const button = document.getElementById('updateData');
+            button.setAttribute('data-bs-toggle', 'modal');
+            button.setAttribute('data-bs-target', '#myModalTask');
+            //cleanCanvasUser();
+            loadTask("assignment");
+        }
+
 
         /**
          * Function to set up the tasks's form
@@ -142,12 +190,17 @@ class InformationTasks {
             document.getElementById('userTask').options.length = 0;
 
             self.categories.forEach ( (e) => {
-                document.getElementById('categoryTask').options.add(new Option(e.categoryName));
+                console.log(e.categoryId);
+                document.getElementById('categoryTask').options.add(new Option(e.categoryName,e.categoryId));
             });
 
             self.users.forEach ( (e) => {
-                document.getElementById('userTask').options.add(new Option(e.userFullName));
+                document.getElementById('userTask').options.add(new Option(e.userFullName,e.userId));
             });
+            /* document.getElementById('userAssignment').options.add(new Option("",0));
+            self.users.forEach ( (e) => {
+                document.getElementById('userAssignment').options.add(new Option(e.userFullName,e.userId));
+            }); */
         }
 
         /**
@@ -161,11 +214,16 @@ class InformationTasks {
             document.getElementById('userTask').options.length = 0;
 
             self.categories.forEach ( (e) => {
-                document.getElementById('categoryTask').options.add(new Option(e.name));
+                console.log(e.categoryId);
+                document.getElementById('categoryTask').options.add(new Option(e.categoryName,e.categoryId));
             });
 
             self.users.forEach ( (e) => {
-                document.getElementById('userTask').options.add(new Option(e.fullName));
+                document.getElementById('userTask').options.add(new Option(e.userFullName,e.userId));
+            });
+
+            self.users.forEach ( (e) => {
+                document.getElementById('userAssignment').options.add(new Option(e.userFullName,e.userId));
             });
 
             if(type === "delete"){
@@ -174,7 +232,13 @@ class InformationTasks {
             }
             else if(type === "update"){
                 if (selected(document.getElementById("taskTable"), "tasks", "update"))
+                document.getElementById('associationTask').style.display = 'none';
                 document.getElementById('formTask').style.display = 'block';
+            }
+            else if(type === "assignment"){
+                if (selected(document.getElementById("taskTable"), "tasks", "assignment"))
+                document.getElementById('formTask').style.display = 'none';
+                document.getElementById('associationTask').style.display = 'block';
             }
         }
         
@@ -187,6 +251,7 @@ class InformationTasks {
         //if (type === "Admin") {
         createButton("divButtons", newTaskEventHandler, 'New');
         createButton("divButtons", deleteTaskEventHandler, 'Delete');
+        createButton("divButtons", AssignmentTaskEventHandler, 'Assignment');
             //createButton("divInformation", selectAllClientEventHandler, 'Select All');
         //}
     }
@@ -279,7 +344,7 @@ class InformationTasks {
                     tasks.push(p);
                 });
                 localStorageGravar("tasks",JSON.stringify(tasks));
-                self.showTasks("selectById");
+                self.showTasks("select");
             }
         };
         xhr.send(tableElement);
@@ -292,22 +357,28 @@ class InformationTasks {
     processingTask (acao) {
 
         const id = parseInt(document.getElementById('id').value);
-        const taskName = document.getElementById('taskName').value;
-        const description = document.getElementById('description').value;
-        const category = document.getElementById('category').value;
-        const userCreation = document.getElementById('userCreation').value;
-        const address = document.getElementById('address').value;
+        const name = document.getElementById('taskName').value;
+        const description = document.getElementById('descriptionTask').value;
+
+        const categoryList = document.getElementById('categoryTask');
+        const idcategory = categoryList.options[categoryList.selectedIndex].value;
+
+        const userCreationList = document.getElementById('userTask');
+        const idUserCreation = userCreationList.options[userCreationList.selectedIndex].value;
+
+        const address = document.getElementById('addressTask').value;
+        const latitude = parseFloat(document.getElementById('taskLatitude').value);
+        const longitude = parseFloat(document.getElementById('taskLongitude').value);
 
         let args = [];
-        args.push(taskName);
+        args.push(name);
         args.push(description);
-        args.push(category);
-        args.push(userCreation);
+        args.push(idcategory);
+        args.push(idUserCreation);
         args.push(address);
 
-        const formTask = new FormTask(id, taskName,description, category, address);
+        const formTask = new postTask(name,description, idcategory, idUserCreation, address, latitude, longitude);
         if (acao === 'create') {
-            args.push(password);
             if (validadeForm(args)){
                 this.postTask(formTask);
             } 
@@ -329,7 +400,7 @@ class InformationTasks {
      postTask(formTask){
         const self = this;
         let formData = new FormData();
-        formData.append('formClient', JSON.stringify(formTask));
+        formData.append('formTask', JSON.stringify(formTask));
 
         const xhr = new XMLHttpRequest();
         xhr.responseType="json";
@@ -346,9 +417,9 @@ class InformationTasks {
     } 
     
     /**
-     * Function to delete an existing client
+     * Function to delete an existing task
      * 
-     * @param {*} formTask - client's form with all the information
+     * @param {*} formTask - tasks's form with all the information
      */
     /* deleteClient(formClient){
         const self = this;

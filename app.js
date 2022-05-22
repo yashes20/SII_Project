@@ -97,7 +97,18 @@ app.get("/tasks", requestHandlers.selectNewTasks);
 //create a new task
 // Calls a function create a new task
 app.post("/task", upload.any(), (req, res) => {
-  requestHandlers.createTask(req, (err, rows, results) => {
+  let r = req.body.formTask;
+  let taskData = JSON.parse(req.body.formTask);
+  let task = 
+          { name : taskData.name,
+            description : taskData.description,
+            category : taskData.category,
+            userCreation : taskData.userCreation,
+            address : taskData.address,
+            taskLatitude : taskData.latitude,
+            taskLongitude : taskData.longitude
+          } 
+  requestHandlers.createTask(task, (err, rows, results) => {
       if (err) {
           console.log(err);
 

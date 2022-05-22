@@ -96,6 +96,22 @@ CREATE TABLE `categories` (
 INSERT INTO `sii_project`.`categories` (`categoryName`) VALUES ('Entregas');
 INSERT INTO `sii_project`.`categories` (`categoryName`) VALUES ('Pet');
 
+
+-- Create table for task status
+USE `sii_project`;
+DROP TABLE IF EXISTS `status`;
+CREATE TABLE `status` (
+  `statusId` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `statusName` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf16;
+
+-- Insert status
+INSERT INTO `sii_project`.`status` (`statusName`) VALUES ('New');
+INSERT INTO `sii_project`.`status` (`statusName`) VALUES ('Assignment');
+INSERT INTO `sii_project`.`status` (`statusName`) VALUES ('In Progress');
+INSERT INTO `sii_project`.`status` (`statusName`) VALUES ('Concluded');
+
+
 -- Create table for tasks
 DROP TABLE IF EXISTS `tasks`;
 CREATE TABLE `tasks` (
@@ -103,7 +119,7 @@ CREATE TABLE `tasks` (
   `taskName` varchar(100) NOT NULL,
   `taskDescription` varchar(250) NOT NULL,
   `taskDateCreation` datetime NOT NULL,
-  `taskStatus` varchar(20) NOT NULL,
+  `taskStatusId` int(11) NOT NULL,
   `taskDateStatus` datetime NOT NULL,
   `taskCategoryId` int(11) NOT NULL,
   `taskIsEnabled` tinyint NULL DEFAULT 1,
@@ -113,14 +129,15 @@ CREATE TABLE `tasks` (
   `taskLatitude` FLOAT( 10, 6 ), 
   `taskLongitude` FLOAT( 10, 6 ),
   FOREIGN KEY taskCategoriesId(taskCategoryId) REFERENCES categories(categoryId),
+  FOREIGN KEY taskStatusId(taskStatusId) REFERENCES status(statusId),
   FOREIGN KEY taskUserId(userCreation) REFERENCES users(userId)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf16; 
 
 -- Insert task
 INSERT INTO `tasks` (`taskName`, `taskDescription`,
- `taskDateCreation`, `taskStatus`, `taskDateStatus`, `taskCategoryId`,`taskIsEnabled`,`userCreation`,
+ `taskDateCreation`, `taskStatusId`, `taskDateStatus`, `taskCategoryId`,`taskIsEnabled`,`userCreation`,
  `taskAddress`, `taskLatitude`,`taskLongitude` ) VALUES
 ('Levar o cão ao veterinário.', 'Por favor, necessito levar o cão ao veterinário, pois não posso faze-lo.',
-'2022-05-21 15:40:00','New', '2022-05-21 15:40:00', 1, 1, 1, 
+'2022-05-21 15:40:00',1, '2022-05-21 15:40:00', 1, 1, 1, 
 'Av. João Wallig, 1800 - Passo da Areia, Porto Alegre - RS','-30.027668', '-51.163269');
 

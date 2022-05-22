@@ -176,7 +176,9 @@ function selected(tableObj, tableName, type){
     else if(type === "update"){
         button = document.getElementById('updateData');
     }
-
+    else if(type === "assignment"){
+        button = document.getElementById('assignmentData');
+    }
     //Check that it is selected
     if(selecteds.length < 1){
   	    alert("Selecione pelo menos uma linha");
@@ -217,6 +219,10 @@ function selected(tableObj, tableName, type){
     } else if (value.includes('Delete')){
         button.classList.add("btn", "btn-danger");
         button.id = 'deleteData';
+    }
+    else if (value.includes('Assignment')){
+        button.classList.add("btn", "btn-primary");
+        button.id = 'assignmentData';
     }
     button.type = 'button';
     button.value = value;

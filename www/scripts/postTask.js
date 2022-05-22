@@ -14,34 +14,24 @@
 "use strict";
 
 /** 
-* @class Structure with capacity to store the task
-* @constructs Task
-* @param {int} id - task's id
+* @class Structure with capacity to create task
+* @constructs postTask
 * @param {string} name - task name
   @param {string} description - task's description
-* @param {Date} dateCreation - task's date creation
-  @param {string} status - task's status
-  @param {Date} dateStatus - task's date status
   @param {Category} category - task's category
   @param {User} userCreation - task's user creation
-  @param {User} userAssignment - task's user Assignment
   @param {string} address - task's taskAddress
-  @param {float} latitude - task's taskLatitude
-  @param {float} longitude - task's taskLongitude
+  @param {number} latitude - task's taskLatitude
+  @param {number} longitude - task's taskLongitude
 
 
 */
-class Task {
-    constructor(id, name, description, dateCreation, status, dateStatus, category, userCreation, userAssignment, address,latitude,longitude ) {
-        this.id = id;
+class postTask {
+    constructor( name, description, category, userCreation, address,latitude,longitude ) {
         this.name = name;
         this.description = description;
-        this.dateCreation = dateCreation;
-        this.status = status;
-        this.dateStatus = dateStatus;
         this.category = category;
         this.userCreation = userCreation;
-        this.userAssignment = userAssignment;
         this.address = address;
         this.latitude = latitude;
         this.longitude = longitude;

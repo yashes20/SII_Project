@@ -223,8 +223,7 @@ class InformationUsers {
                 info.forEach(p => {
                     users.push(p);
                 });
-                localStorageGravar("users",JSON.stringify(users));
-                self.showUsers("selectById");
+                self.showUsers("select");
             }
         };
         xhr.send(tableElement);
@@ -293,12 +292,12 @@ class InformationUsers {
             if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
                 if(!isUpdate){
                     let id = xhr.response.formUsers.insertId;
-                    self.getClientById(id);
-                    self.showUsers("insert");
+                    //self.getClientById(id);
+                    self.showUsers("select");
                 }
                 else{
                     self.getUserById(formUser.id);
-                    self.showUsers("update");
+                    self.showUsers("select");
                 }
             }
         }
