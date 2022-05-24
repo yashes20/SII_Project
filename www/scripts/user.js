@@ -7,7 +7,7 @@
  * You should have received a copy of the XYZ license with
  * this file. If not, please write to: , or visit :
  * 
- * Authors: Pedro Freitas, Nicole Vieira (201700124) and Yasmin Hage (202100778)
+ * Authors: Pedro Freitas, Nicole Fernandes, Nicole Vieira (201700124) and Yasmin Hage (202100778)
  * 
  * Emails: 201700124@estudantes.ips.pt and 202100778@estudantes.ips.pt 
  */

@@ -185,15 +185,15 @@
                         </div>
                         <div class="form-group">
                           <label for="taskLatitude" class="col-form-label">Latitude:</label>
-                          <input type="number" class="form-control" id="taskLatitude" aria-describedby="taskLatitude" placeholder="Enter Latitude">
+                          <input type="number" step="any" class="form-control" id="taskLatitude" aria-describedby="taskLatitude" placeholder="Enter Latitude">
                         </div>
                         <div class="form-group">
                           <label for="taskLongitude" class="col-form-label">Longitude:</label>
-                          <input type="number" class="form-control" id="taskLongitude" aria-describedby="taskLongitude" placeholder="Enter Longitude">
+                          <input type="number" step="any" class="form-control" id="taskLongitude" aria-describedby="taskLongitude" placeholder="Enter Longitude">
                         </div>
                         <div style="height: 30px;"></div>
                         <button type="submit" class="btn btn-success" id="save" data-bs-dismiss="modal">Save</button>
-                        <button type="reset" class="btn btn-secondary" id="cleanTask">Clean</button>
+                        <button type="reset" step="any" class="btn btn-secondary" id="cleanTask">Clean</button>
                       </form>
                       <form id="associationTask" action="javascript:infoTasks.processingTask('assign');">
                         <div class="form-group">

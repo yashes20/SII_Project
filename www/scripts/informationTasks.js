@@ -391,12 +391,16 @@ class InformationTasks {
         } else if (acao == "update") {
 
             const userAssignmentList = document.getElementById('userAssignment');
-            const iduserAssignment = userAssignmentList.options[userAssignmentList.selectedIndex].value;
+            var iduserAssignment = userAssignmentList.options[userAssignmentList.selectedIndex].value;
 
             var taskOld = selected(document.getElementById("taskTable"), "tasks", "update");
 
             if (iduserAssignment != "" && (taskOld.iduserAssignment == "" ||taskOld.iduserAssignment == undefined) ) {
                 idStatus = 2;
+            }
+
+            if (iduserAssignment === ""){
+                iduserAssignment = null;
             }
 
             args.push(name);
