@@ -47,7 +47,7 @@ class InformationUsers {
            infoUsers.getUsers();
         }
         /** Update the title */
-        // document.getElementById("headerTitle").textContent="Users";
+        document.getElementById("headerTitle").textContent="Users";
         // if (sessionStorageObter("username_login")  === null) {
         //     document.getElementById("divInformation").style.display="none";
         //     return;
