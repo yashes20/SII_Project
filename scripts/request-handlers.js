@@ -8,8 +8,9 @@ const options = require("./connection-options.json");
 const queryCategories = "SELECT categoryId, categoryName from categories";
 const queryStatus = "SELECT statusId, statusName from status"; // somente status dos users
 const queryUsers = "SELECT userId, userFullName, userName,  DATE_FORMAT(userBirthDate,'%Y-%m-%d') AS userBirthDate, userAddress, userZipCode, userEmail, userGender, userPhone  FROM users WHERE userState ='A'";
-const queryNewTasks = "SELECT taskId, taskName, taskDescription,taskDateCreation, taskStatusId, status.statusName AS taskStatus, taskDateStatus, taskCategoryId, taskIsEnabled, userCreation, userAssignment, taskAddress, taskLatitude,taskLongitude from tasks INNER JOIN status ON tasks.taskStatusId = status.statusId where  tasks.taskStatusId = 1";
-const queryTasksByUserId = "SELECT taskId, taskName, taskDescription,taskDateCreation, taskStatus, taskDateStatus, taskCategoryId,userCreation, taskAddress, taskLatitude,taskLongitude from tasks where userCreation = ? and taskStatus = ?";
+const queryAllTasks = "SELECT taskId, taskName, taskDescription,taskDateCreation, taskStatusId, status.statusName AS taskStatus, taskDateStatus, taskCategoryId, taskIsEnabled, userCreation, userAssignment, taskAddress, taskLatitude,taskLongitude from tasks INNER JOIN status ON tasks.taskStatusId = status.statusId where tasks.taskIsEnabled = 1";
+const queryTaskStatus = "SELECT taskId, taskName, taskDescription,taskDateCreation, taskStatusId, status.statusName AS taskStatus, taskDateStatus, taskCategoryId, taskIsEnabled, userCreation, userAssignment, taskAddress, taskLatitude,taskLongitude from tasks INNER JOIN status ON tasks.taskStatusId = status.statusId where tasks.taskStatusId = ? and tasks.taskIsEnabled = 1";
+const queryTaskUserId = "SELECT taskId, taskName, taskDescription,taskDateCreation, taskStatusId, status.statusName AS taskStatus, taskDateStatus, taskCategoryId, taskIsEnabled, userCreation, userAssignment, taskAddress, taskLatitude,taskLongitude from tasks INNER JOIN status ON tasks.taskStatusId = status.statusId where userCreation = ? and tasks.taskIsEnabled = 1";
 
 const sqlUpdateUserPass = "UPDATE USERS SET userFullName = ?, userName = ?, userPassword = md5(?), userAddress = ?, userZipCode= ? , userEmail = ? , userGender = ?,  userPhone = ?, userBirthDate = ? WHERE userId = ?";
 const sqlUpdateUser = "UPDATE USERS SET userFullName = ?, userName = ?, userAddress = ?, userZipCode= ? , userEmail = ? , userGender = ?,  userPhone = ?, userBirthDate = ? WHERE userId = ?";
@@ -45,18 +46,30 @@ function getJsonMessage(err, rows, res, typeColumn) {
         res.json({ "message": "success", "category": rows });
     } else if (typeColumn === "users" || typeColumn === "user") {
         res.json({ "message": "success", "user": rows });
-    } else if (typeColumn === "tasks" || typeColumn === "task") {
+    } else if (typeColumn === "tasks" || typeColumn === "task")  {
         res.json({ "message": "success", "task": rows });
     } else if (typeColumn === "status" ) {
-            res.json({ "message": "success", "status": rows });
-    }
+        res.json({ "message": "success", "status": rows });
+    } 
 }
+
 
 async function createConnectionToDb(req, res, query, typeColumn) {
     const connection = await connect();
     
-     const getData = async (cb) => {
+    const getData = async (cb) => {
         connection.query(query, function (err, rows) {
+            res.end(cb(err, rows, res, typeColumn));
+        });
+    }
+    getData(getJsonMessage); 
+}
+
+async function createConnectionToDbP(req, res, query, typeColumn) {
+    const connection = await connect();
+    
+    const getData =  (cb) => {
+        connection.query(query, req.params.id , function (err, rows) {
             res.end(cb(err, rows, res, typeColumn));
         });
     }
@@ -196,19 +209,30 @@ function selectUsers(req, res){
  * @param {*} req - Variable with the request body
  * @param {*} res - Variable with the response 
  */
- function selectNewTasks(req, res){
-    createConnectionToDb(req, res, queryNewTasks, "task");
+ function selectAllTasks(req, res){
+    createConnectionToDb(req, res, queryAllTasks, "task");
  }
 
-/**
- * Function to get tasks by creation user id
+ /**
+ * Function to get all new tasks by status
  * 
  * @param {*} req - Variable with the request body
  * @param {*} res - Variable with the response 
  */
- function selectTasksByUserid(req, res){
-    createConnectionToDb(req, res, queryTasksByUserId, "task");
+  function selectTasksByStatus(req, res){
+    createConnectionToDbP(req, res, queryTaskStatus, "task");
  }
+
+  /**
+ * Function to get all new tasks by user creation
+ * 
+ * @param {*} req - Variable with the request body
+ * @param {*} res - Variable with the response 
+ */
+function selectTasksByUserId(req, res){
+    createConnectionToDbP(req, res, queryTaskUserId, "task");
+ }
+ 
 
  /**
  * This function is used to create a new task
@@ -311,4 +335,4 @@ function selectUsers(req, res){
     });
 }
 
-module.exports = {selectqueryStatus,selectCategories,selectUsers,createUpdateUser,deleteUser, selectNewTasks, selectTasksByUserid,createTask,updateTask}
+module.exports = {selectqueryStatus,selectCategories,selectUsers,createUpdateUser,deleteUser, selectAllTasks, selectTasksByStatus,selectTasksByUserId,createTask,updateTask}

@@ -7,7 +7,7 @@
  * You should have received a copy of the XYZ license with
  * this file. If not, please write to: , or visit :
  * 
- * Authors: Nicole Vieira (201700124) and Yasmin Hage (202100778)
+ * Authors: Nicole Fernandes, Nicole Vieira (201700124) and Yasmin Hage (202100778)
  * 
  * Emails: 201700124@estudantes.ips.pt and 202100778@estudantes.ips.pt 
  */
@@ -93,10 +93,8 @@ app.put("/user/:id", upload.any(), (req, res) => {
 });
 
 // Calls delete user
-app.delete("/user/:id", upload.any(), (req, res) => {
-    let userData = JSON.parse(req.body.formUser);
-
-    requestHandlers.deleteUser(userData.id, (err, rows, results) => {
+app.delete("/user/:id",  (req, res) => {
+    requestHandlers.deleteUser(req.params.id, (err, rows, results) => {
         if (err) {
             console.log(err);
   
@@ -105,11 +103,17 @@ app.delete("/user/:id", upload.any(), (req, res) => {
             res.status(200).json({"message": "success", "user": rows, "results":results });
         }
   
-    })
+    });
 });
 
-// Calls a function to get all users
-app.get("/tasks", requestHandlers.selectNewTasks);
+// Calls a function to get all tasks
+app.get("/tasks", requestHandlers.selectAllTasks);
+
+// Calls a function to get all tasks by status
+app.get("/tasksStatus/:id", requestHandlers.selectTasksByStatus);
+
+// Calls a function to get all tasks by user id creation
+app.get("/tasksUser/:id", requestHandlers.selectTasksByUserId);
 
 //create a new task
 // Calls a function create a new task

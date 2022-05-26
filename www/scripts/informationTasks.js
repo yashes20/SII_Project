@@ -53,6 +53,10 @@ class InformationTasks {
         let self = this;
         if (acao === "select") {
            infoTasks.getTasks();
+        } else if (acao === "status") {
+            infoTasks.getTaskByStatusId("1"); 
+        } else if (acao === "user") {
+            infoTasks.getTaskByUserId("1");
         }
         /** Update the title */
         document.getElementById("headerTitle").textContent="Tasks";
@@ -338,15 +342,40 @@ class InformationTasks {
         tasks.length = 0;
         var xhr = new XMLHttpRequest();
         xhr.responseType="json";
-        xhr.open('GET', '/taskByUserId/' + id, true);
+        xhr.open('GET', '/tasksUser/' + id, true);
         xhr.onreadystatechange = function () {
             if (this.readyState === 4 && this.status === 200) {
                 let info = xhr.response.task;
                 info.forEach(p => {
                     tasks.push(p);
                 });
-                localStorageGravar("tasks",JSON.stringify(tasks));
-                self.showTasks("select");
+                self.showTasks("selectAll");
+            }
+        };
+        xhr.send(tableElement);
+    }
+
+    /**
+     * Function that has as main goal to request to the NODE.JS server the resource task by id through the GET verb, using asynchronous requests and JSON
+     */
+     async getTaskByStatusId(id) {
+        const self = this;
+        var tableElement = document.getElementById("taskTable");
+        tableElement = document.createElement("table");
+        tableElement.setAttribute("id", "taskTable");
+
+        let tasks = this.tasks;
+        tasks.length = 0;
+        var xhr = new XMLHttpRequest();
+        xhr.responseType="json";
+        xhr.open('GET', '/tasksStatus/' + id, true);
+        xhr.onreadystatechange = function () {
+            if (this.readyState === 4  && this.status === 200) {
+                let info = xhr.response.task;
+                info.forEach(p => {
+                    tasks.push(p);
+                });
+                self.showTasks("selectAll");
             }
         };
         xhr.send(tableElement);
