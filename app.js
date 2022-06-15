@@ -53,8 +53,10 @@ app.get("/categories", requestHandlers.selectCategories);
 // Calls a function to get all users
 app.get("/users", requestHandlers.selectUsers);
 
+app.get("/users/:id", requestHandlers.selectUser);
+
 // Calls a function update or insert user
-app.put("/user/:id", upload.any(), (req, res) => {
+app.put("/users/:id", upload.any(), (req, res) => {
   let r = req.body.formUser;
   let userData = JSON.parse(req.body.formUser);
   let pass = userData.password.trim().length;
@@ -93,7 +95,7 @@ app.put("/user/:id", upload.any(), (req, res) => {
 });
 
 // Calls delete user
-app.delete("/user/:id",  (req, res) => {
+app.delete("/users/:id",  (req, res) => {
     requestHandlers.deleteUser(req.params.id, (err, rows, results) => {
         if (err) {
             console.log(err);
