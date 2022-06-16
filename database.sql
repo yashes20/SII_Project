@@ -28,8 +28,6 @@ CREATE DATABASE `sii_project`;
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
-DROP DATABASE IF EXISTS `sii_project`;
-CREATE DATABASE `sii_project`;
 use `sii_project`;
 
 DROP TABLE IF EXISTS users;
@@ -58,12 +56,12 @@ DROP function IF EXISTS `fun_login_validation`;
 
 -- Insert default users
 INSERT INTO `users` 
-( `userName`, `userFullName`, `userPassword`, `userAddress`, `userZipCode`,  `userEmail`, `userGender`, `userPhone`, `userBirthDate`,`userState`,`userType`) VALUES
-('Yasmin', 'yhage', md5('1234'), 'rua','8888','yashes20@yahoo.com.br','F','89898','1981-06-22 15:40:00','A','Admin');
+( `userFullName`, `userPassword`, `userAddress`, `userZipCode`,  `userEmail`, `userGender`, `userPhone`, `userBirthDate`,`userState`,`userType`) VALUES
+('Yasmin', '1234', 'rua','8888','yashes20@yahoo.com.br','F','89898','1981-06-22 15:40:00','A','Admin');
 
 INSERT INTO `users` 
-( `userName`, `userFullName`, `userPassword`, `userAddress`, `userZipCode`,  `userEmail`, `userGender`, `userPhone`, `userBirthDate`,`userState`,`userType`) VALUES
-('Nicole', 'nvieira', md5('1234'), 'rua','8888','nvieira@yahoo.com.br','F','89898','1999-06-22 15:40:00','A','Admin');
+( `userFullName`, `userPassword`, `userAddress`, `userZipCode`,  `userEmail`, `userGender`, `userPhone`, `userBirthDate`,`userState`,`userType`) VALUES
+('Nicole',  '1234', 'rua','8888','nvieira@yahoo.com.br','F','89898','1999-06-22 15:40:00','A','Admin');
 
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
