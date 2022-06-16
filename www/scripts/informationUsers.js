@@ -7,7 +7,7 @@
  * You should have received a copy of the XYZ license with
  * this file. If not, please write to: , or visit :
  * 
- * Authors: Pedro Freitas, Nicole Vieira (201700124) Nicole Fernandes and Yasmin Hage (202100778)
+ * Authors: Nicole Vieira (201700124) Nicole Fernandes and Yasmin Hage (202100778)
  * 
  * Emails: 201700124@estudantes.ips.pt and 202100778@estudantes.ips.pt 
  */
@@ -286,7 +286,7 @@ class InformationUsers {
 
         const xhr = new XMLHttpRequest();
         xhr.responseType="json";
-        xhr.open('PUT', '/user/' + formUser.id);
+        xhr.open('PUT', '/users/' + formUser.id);
         
         xhr.onreadystatechange = function () {
             if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {

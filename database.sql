@@ -37,7 +37,7 @@ CREATE TABLE users (
   userId int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
   userFullName varchar(255) NOT NULL,
   userName varchar(20) NOT NULL UNIQUE,
-  userPassword varchar(50) NOT NULL,
+  userPassword varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL,
   userAddress varchar(255) NOT NULL,
   userZipCode varchar(50) NOT NULL,
   userEmail varchar(100) NOT NULL UNIQUE,

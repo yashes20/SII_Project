@@ -342,7 +342,7 @@ class InformationTasks {
         tasks.length = 0;
         var xhr = new XMLHttpRequest();
         xhr.responseType="json";
-        xhr.open('GET', '/tasksUser/' + id, true);
+        xhr.open('GET', '/tasks/users/' + id, true);
         xhr.onreadystatechange = function () {
             if (this.readyState === 4 && this.status === 200) {
                 let info = xhr.response.task;
@@ -368,7 +368,7 @@ class InformationTasks {
         tasks.length = 0;
         var xhr = new XMLHttpRequest();
         xhr.responseType="json";
-        xhr.open('GET', '/tasksStatus/' + id, true);
+        xhr.open('GET', '/tasks/status/' + id, true);
         xhr.onreadystatechange = function () {
             if (this.readyState === 4  && this.status === 200) {
                 let info = xhr.response.task;
@@ -468,7 +468,7 @@ class InformationTasks {
 
         const xhr = new XMLHttpRequest();
         xhr.responseType="json";
-        xhr.open('POST', '/task');
+        xhr.open('POST', '/tasks');
         
         xhr.onreadystatechange = function () {
             if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
@@ -492,7 +492,7 @@ class InformationTasks {
 
         const xhr = new XMLHttpRequest();
         xhr.responseType="json";
-        xhr.open('PUT', '/task');
+        xhr.open('PUT', '/tasks');
         
         xhr.onreadystatechange = function () {
             if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {

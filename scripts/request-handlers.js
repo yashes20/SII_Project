@@ -136,7 +136,7 @@ function selectUsers(req, res){
     }
 
     // If is update use the sqlUpdate query created above otherwise execute the insert query
-    let sql = (isUpdate) ? sqlUpdate : "INSERT INTO users(userFullName, userName, userPassword, userAddress, userZipCode,  userEmail, userGender, userPhone, userBirthDate,userState,userType) VALUES (?,?,md5(?),?,?,?,?,?,?,'A','User')";
+    let sql = (isUpdate) ? sqlUpdate : "INSERT INTO users(userFullName, userName, userPassword, userAddress, userZipCode,  userEmail, userGender, userPhone, userBirthDate,userState,userType) VALUES (?,?,?,?,?,?,?,?,?,'A','User')";
     connection.connect(function (err) {
         if (err) {
             if (result != null) {
