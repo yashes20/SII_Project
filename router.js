@@ -22,10 +22,6 @@ router.post('/register', signupValidation, (req, res, next) => {
                 });
             } else {
                 // username is available
-
-                //let userData = JSON.parse(req.body);
-
-
                 bcrypt.hash(req.body.password, 10, (err, hash) => {
                     if (err) {
                         return res.status(500).send({
