@@ -195,7 +195,6 @@ class InformationUsers {
                 info.forEach(p => {
                     users.push(p);
                 });
-                localStorageGravar("users",JSON.stringify(users));
                 self.showUsers("selectAll");
             }
         };
@@ -291,7 +290,8 @@ class InformationUsers {
         xhr.onreadystatechange = function () {
             if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
                 if(!isUpdate){
-                    let id = xhr.response.formUsers.insertId;
+                    let resp = xhr.response;
+                    let id = xhr.response.user.insertId;
                     //self.getClientById(id);
                     self.showUsers("select");
                 }

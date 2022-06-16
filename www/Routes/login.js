@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const db = require('./dbConnection');
-const requestHandlers = require("./scripts/request-handlers.js");
-const { signupValidation, loginValidation } = require('./validation');
+const db = require('../../scripts/dbConnection');
+const requestHandlers = require("../../scripts/request-handlers.js");
+const { signupValidation, loginValidation } = require('../Utils/validation');
 const { validationResult } = require('express-validator');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');

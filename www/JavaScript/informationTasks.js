@@ -321,7 +321,6 @@ class InformationTasks {
                 info.forEach(p => {
                     tasks.push(p);
                 });
-                localStorageGravar("tasks",JSON.stringify(tasks));
                 self.showTasks("selectAll");
             }
         };
