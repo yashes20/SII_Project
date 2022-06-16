@@ -73,6 +73,8 @@ app.get("/categories", requestHandlers.selectCategories);
 // Calls a function to get all users
 app.get("/users", requestHandlers.selectUsers);
 
+app.get("/users/:id", requestHandlers.selectUser);
+
 // Calls a function update or insert user
 app.put("/users/:id", upload.any(), (req, res) => {
   let r = req.body.formUser;

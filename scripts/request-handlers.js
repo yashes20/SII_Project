@@ -8,6 +8,7 @@ const options = require("./connection-options.json");
 const queryCategories = "SELECT categoryId, categoryName from categories";
 const queryStatus = "SELECT statusId, statusName from status"; // somente status dos users
 const queryUsers = "SELECT userId, userFullName, userName,  DATE_FORMAT(userBirthDate,'%Y-%m-%d') AS userBirthDate, userAddress, userZipCode, userEmail, userGender, userPhone  FROM users WHERE userState ='A'";
+const queryUser = "SELECT userId, userFullName, userName,  DATE_FORMAT(userBirthDate,'%Y-%m-%d') AS userBirthDate, userAddress, userZipCode, userEmail, userGender, userPhone  FROM users WHERE userId = ?";
 const queryAllTasks = "SELECT taskId, taskName, taskDescription,taskDateCreation, taskStatusId, status.statusName AS taskStatus, taskDateStatus, taskCategoryId, taskIsEnabled, userCreation, userAssignment, taskAddress, taskLatitude,taskLongitude from tasks INNER JOIN status ON tasks.taskStatusId = status.statusId where tasks.taskIsEnabled = 1";
 const queryTaskStatus = "SELECT taskId, taskName, taskDescription,taskDateCreation, taskStatusId, status.statusName AS taskStatus, taskDateStatus, taskCategoryId, taskIsEnabled, userCreation, userAssignment, taskAddress, taskLatitude,taskLongitude from tasks INNER JOIN status ON tasks.taskStatusId = status.statusId where tasks.taskStatusId = ? and tasks.taskIsEnabled = 1";
 const queryTaskUserId = "SELECT taskId, taskName, taskDescription,taskDateCreation, taskStatusId, status.statusName AS taskStatus, taskDateStatus, taskCategoryId, taskIsEnabled, userCreation, userAssignment, taskAddress, taskLatitude,taskLongitude from tasks INNER JOIN status ON tasks.taskStatusId = status.statusId where userCreation = ? and tasks.taskIsEnabled = 1";
@@ -104,6 +105,10 @@ async function createConnectionToDbP(req, res, query, typeColumn) {
 function selectUsers(req, res){
    createConnectionToDb(req, res, queryUsers, "user");
 }
+
+function selectUser(req, res){
+    createConnectionToDbP(req, res, queryUser, "user");
+ }
 
 /**
  * This function is used to update an existing user or create a new one based on the param "isUpdate"
@@ -335,4 +340,4 @@ function selectTasksByUserId(req, res){
     });
 }
 
-module.exports = {selectqueryStatus,selectCategories,selectUsers,createUpdateUser,deleteUser, selectAllTasks, selectTasksByStatus,selectTasksByUserId,createTask,updateTask}
+module.exports = {selectqueryStatus,selectCategories,selectUsers,selectUser,createUpdateUser,deleteUser, selectAllTasks, selectTasksByStatus,selectTasksByUserId,createTask,updateTask}
