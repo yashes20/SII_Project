@@ -36,14 +36,13 @@ DROP TABLE IF EXISTS users;
 CREATE TABLE users (
   userId int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
   userFullName varchar(255) NOT NULL,
-  userName varchar(20) NOT NULL UNIQUE,
   userPassword varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL,
-  userAddress varchar(255) NOT NULL,
-  userZipCode varchar(50) NOT NULL,
+  userAddress varchar(255) ,
+  userZipCode varchar(50) ,
   userEmail varchar(100) NOT NULL UNIQUE,
   userGender varchar(1) NOT NULL,
-  userPhone varchar(50) NOT NULL,
-  userBirthDate datetime NOT NULL,
+  userPhone varchar(50) ,
+  userBirthDate datetime ,
   userState varchar(1) NOT NULL,
   userType varchar(20) NOT NULL,
   userLatitude FLOAT( 10, 6 ), 
@@ -56,19 +55,6 @@ SET GLOBAL log_bin_trust_function_creators = 1;
 USE `sii_project`;
 DROP function IF EXISTS `fun_login_validation`;
 
-DELIMITER $$
-USE `sii_project`$$
-CREATE FUNCTION `fun_login_validation`(p_clientUsername VARCHAR(20)  
-                , p_clientPassword VARCHAR(50) ) RETURNS INT(1)  
- BEGIN  
- DECLARE l_ret            INT(1) DEFAULT 0;  
-     SET l_ret = IFNULL((SELECT DISTINCT 1  
-                       FROM clients  
-                      WHERE clientUsername = p_clientUsername  
-                       AND clientPassword = MD5(p_clientPassword)),0);                           
- RETURN l_ret;  
- END$$
- 
 
 -- Insert default users
 INSERT INTO `users` 

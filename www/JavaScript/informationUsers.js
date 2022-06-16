@@ -28,7 +28,7 @@ class InformationUsers {
     constructor(id) {
         this.id = id;
         this.users = [];
-        this.genders = ['F','M'];
+        this.genders = ['F','M','N'];
     }
     
     /**
@@ -134,7 +134,6 @@ class InformationUsers {
             document.getElementById('formUser').reset();
             //document.getElementById('formClient').innerHTML = '';
             document.getElementById('gender').options.length = 0;
-            document.getElementById("username").readOnly = false;
 
             self.genders.forEach ( (e) => {
                 document.getElementById('gender').options.add(new Option(e));
@@ -236,7 +235,6 @@ class InformationUsers {
 
         const id = parseInt(document.getElementById('id').value);
         const userFullName = document.getElementById('name').value;
-        const username = document.getElementById('username').value;
         const password = document.getElementById('password').value;
         const address = document.getElementById('address').value;
         const zipCode = document.getElementById('zipcode').value;
@@ -248,15 +246,10 @@ class InformationUsers {
 
         let args = [];
         args.push(userFullName);
-        args.push(username);
-        args.push(address);
-        args.push(zipCode);
         args.push(email);
         args.push(idgender);
-        args.push(phone);
-        args.push(birthDate);
 
-        const formUser = new FormUser(id, userFullName, username, password, birthDate, address, zipCode, email, idgender, phone );
+        const formUser = new FormUser(id, userFullName, password, birthDate, address, zipCode, email, idgender, phone );
         if (acao === 'create') {
             args.push(password);
             if (validadeForm(args)){

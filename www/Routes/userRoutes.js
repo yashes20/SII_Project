@@ -40,7 +40,6 @@ router.put("/users/:id", upload.any(), (req, res) => {
                 let user =
                 {
                     fullName: userData.fullName,
-                    username: userData.username,
                     password: hash,
                     address: userData.address,
                     zipCode: userData.zipCode,
@@ -64,7 +63,6 @@ router.put("/users/:id", upload.any(), (req, res) => {
     } else {
         let user = {
             fullName: userData.fullName,
-            username: userData.username,
             address: userData.address,
             zipCode: userData.zipCode,
             email: userData.email,

@@ -7,14 +7,14 @@ const options = require("./connection-options.json");
 // Creation of the querys for the CRUD functionalities
 const queryCategories = "SELECT categoryId, categoryName from categories";
 const queryStatus = "SELECT statusId, statusName from status"; // somente status dos users
-const queryUsers = "SELECT userId, userFullName, userName,  DATE_FORMAT(userBirthDate,'%Y-%m-%d') AS userBirthDate, userAddress, userZipCode, userEmail, userGender, userPhone  FROM users WHERE userState ='A'";
-const queryUser = "SELECT userId, userFullName, userName,  DATE_FORMAT(userBirthDate,'%Y-%m-%d') AS userBirthDate, userAddress, userZipCode, userEmail, userGender, userPhone  FROM users WHERE userId = ?";
+const queryUsers = "SELECT userId, userFullName,  DATE_FORMAT(userBirthDate,'%Y-%m-%d') AS userBirthDate, userAddress, userZipCode, userEmail, userGender, userPhone  FROM users WHERE userState ='A'";
+const queryUser = "SELECT userId, userFullName,  DATE_FORMAT(userBirthDate,'%Y-%m-%d') AS userBirthDate, userAddress, userZipCode, userEmail, userGender, userPhone  FROM users WHERE userId = ?";
 const queryAllTasks = "SELECT taskId, taskName, taskDescription,taskDateCreation, taskStatusId, status.statusName AS taskStatus, taskDateStatus, taskCategoryId, taskIsEnabled, userCreation, userAssignment, taskAddress, taskLatitude,taskLongitude from tasks INNER JOIN status ON tasks.taskStatusId = status.statusId where tasks.taskIsEnabled = 1";
 const queryTaskStatus = "SELECT taskId, taskName, taskDescription,taskDateCreation, taskStatusId, status.statusName AS taskStatus, taskDateStatus, taskCategoryId, taskIsEnabled, userCreation, userAssignment, taskAddress, taskLatitude,taskLongitude from tasks INNER JOIN status ON tasks.taskStatusId = status.statusId where tasks.taskStatusId = ? and tasks.taskIsEnabled = 1";
 const queryTaskUserId = "SELECT taskId, taskName, taskDescription,taskDateCreation, taskStatusId, status.statusName AS taskStatus, taskDateStatus, taskCategoryId, taskIsEnabled, userCreation, userAssignment, taskAddress, taskLatitude,taskLongitude from tasks INNER JOIN status ON tasks.taskStatusId = status.statusId where userCreation = ? and tasks.taskIsEnabled = 1";
 
-const sqlUpdateUserPass = "UPDATE USERS SET userFullName = ?, userName = ?, userPassword = md5(?), userAddress = ?, userZipCode= ? , userEmail = ? , userGender = ?,  userPhone = ?, userBirthDate = ? WHERE userId = ?";
-const sqlUpdateUser = "UPDATE USERS SET userFullName = ?, userName = ?, userAddress = ?, userZipCode= ? , userEmail = ? , userGender = ?,  userPhone = ?, userBirthDate = ? WHERE userId = ?";
+const sqlUpdateUserPass = "UPDATE USERS SET userFullName = ?, userPassword = md5(?), userAddress = ?, userZipCode= ? , userEmail = ? , userGender = ?,  userPhone = ?, userBirthDate = ? WHERE userId = ?";
+const sqlUpdateUser = "UPDATE USERS SET userFullName = ?,  userAddress = ?, userZipCode= ? , userEmail = ? , userGender = ?,  userPhone = ?, userBirthDate = ? WHERE userId = ?";
 const sqldeleteUser = "UPDATE USERS SET userState = 'I' WHERE userId = ?";
 /**
  * Function to return the json message obtained from the connection to the database
@@ -122,7 +122,6 @@ function selectUser(req, res){
     const connection = await connect();
     let id = formUser.id;
     let fullName = formUser.fullName;
-    let username = formUser.username;
     let address = formUser.address;
     let zipCode = formUser.zipCode;
     let email = formUser.email;
@@ -141,7 +140,7 @@ function selectUser(req, res){
     }
 
     // If is update use the sqlUpdate query created above otherwise execute the insert query
-    let sql = (isUpdate) ? sqlUpdate : "INSERT INTO users(userFullName, userName, userPassword, userAddress, userZipCode,  userEmail, userGender, userPhone, userBirthDate,userState,userType) VALUES (?,?,?,?,?,?,?,?,?,'A','User')";
+    let sql = (isUpdate) ? sqlUpdate : "INSERT INTO users(userFullName, userPassword, userAddress, userZipCode,  userEmail, userGender, userPhone, userBirthDate,userState,userType) VALUES (?,?,?,?,?,?,?,?,'A','User')";
     connection.connect(function (err) {
         if (err) {
             if (result != null) {
@@ -153,7 +152,7 @@ function selectUser(req, res){
         }
         else {
             // Insertion of the data in the following params
-            let params = password != null ? [fullName, username, password, address, zipCode, email, gender, phone, birthdate,  id] : [fullName, username, address, zipCode, email, gender, phone, birthdate, id];
+            let params = password != null ? [fullName, password, address, zipCode, email, gender, phone, birthdate,  id] : [fullName,  address, zipCode, email, gender, phone, birthdate, id];
 
             connection.query(sql, params, function (err, rows, results) {
                 if (err) {

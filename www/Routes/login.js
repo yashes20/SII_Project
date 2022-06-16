@@ -31,14 +31,9 @@ router.post('/register', signupValidation, (req, res, next) => {
                         let user =
                         {
                             fullName: req.body.fullName,
-                            username: req.body.username,
                             password: hash,
-                            address: req.body.address,
-                            zipCode: req.body.zipCode,
                             email: req.body.email,
-                            gender: req.body.gender,
-                            phone: req.body.phone,
-                            birthDate: req.body.birthDate
+                            gender: req.body.gender
                         };
                         requestHandlers.createUpdateUser(user, false, (err, result) => {
                             if (err) {

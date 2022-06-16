@@ -285,7 +285,7 @@ class InformationTasks {
     /**
      * Function that has as main goal to request to the NODE.JS server the resource users by id through the GET verb, using asynchronous requests and JSON
      */
-     getUsers() {
+      getUsers() {
         let users = this.users;
         users.length = 0;
         var xhr = new XMLHttpRequest();
@@ -301,7 +301,7 @@ class InformationTasks {
         };
         xhr.send();
     }
-
+ 
     /**
      * Function that has as main goal to request to the NODE.JS server the user resource through the GET verb, using asynchronous requests and JSON
      */

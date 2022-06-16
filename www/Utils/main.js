@@ -122,8 +122,6 @@ function selectedUser(selecteds){
 
         document.getElementById("id").value = selected[0].textContent;
         document.getElementById('name').value = selected[1].textContent;
-        document.getElementById('username').value = selected[2].textContent;
-        document.getElementById("username").setAttribute("readonly", "readonly");
         document.getElementById('birthdate').value = selected[3].textContent;
         document.getElementById('address').value = selected[4].textContent;
         document.getElementById('zipcode').value = selected[5].textContent;

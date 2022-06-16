@@ -18,7 +18,6 @@
 * @constructs FormUser
 * @param {int} id - user's id
 * @param {string} fullName - user's full name
-  @param {string} username - user's username
   @param {string} password - user's password
 * @param {Date} birthDate - user's birthdate
   @param {string} address - user's address
@@ -28,10 +27,9 @@
   @param {string} phone - user's phone number
 */
 class FormUser {
-    constructor(id, fullName, username, password, birthDate, address, zipCode, email, gender, phone) {
+    constructor(id, fullName, password, birthDate, address, zipCode, email, gender, phone) {
         this.id = id;
         this.fullName = fullName;
-        this.username = username;
         this.password = password;
         this.birthDate = birthDate;
         this.address = address;
