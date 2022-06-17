@@ -22,12 +22,6 @@ const requestHandlers = require("./scripts/request-handlers.js");
 const bodyParser = require("body-parser");
 
 const app = express();
-// Use multer
-const multer = require('multer');
-// Use path
-const path = require('path');
-// Use fs
-const fs = require('fs');
 
 app.use(express.json());
 

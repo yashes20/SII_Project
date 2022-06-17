@@ -246,7 +246,7 @@ class InformationTasks {
     /**
      * Function that has as main goal to request to the NODE.JS server the resource categories by id through the GET verb, using asynchronous requests and JSON
      */
-     getStatus() {
+    getStatus() {
         let status = this.status;
         status.length = 0;
         var xhr = new XMLHttpRequest();
@@ -265,7 +265,7 @@ class InformationTasks {
     /**
      * Function that has as main goal to request to the NODE.JS server the resource categories by id through the GET verb, using asynchronous requests and JSON
      */
-     getCategories() {
+    getCategories() {
         let categories = this.categories;
         categories.length = 0;
         var xhr = new XMLHttpRequest();
@@ -285,7 +285,7 @@ class InformationTasks {
     /**
      * Function that has as main goal to request to the NODE.JS server the resource users by id through the GET verb, using asynchronous requests and JSON
      */
-      getUsers() {
+    getUsers() {
         let users = this.users;
         users.length = 0;
         var xhr = new XMLHttpRequest();
