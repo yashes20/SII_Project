@@ -122,12 +122,12 @@ function selectedUser(selecteds){
 
         document.getElementById("id").value = selected[0].textContent;
         document.getElementById('name').value = selected[1].textContent;
-        document.getElementById('birthdate').value = selected[3].textContent;
-        document.getElementById('address').value = selected[4].textContent;
-        document.getElementById('zipcode').value = selected[5].textContent;
-        document.getElementById('email').value = selected[6].textContent;
-        document.getElementById('gender').value= selected[7].textContent;    
-        document.getElementById('phone').value = selected[8].textContent;
+        document.getElementById('birthdate').value = selected[2].textContent;
+        document.getElementById('address').value = selected[3].textContent;
+        document.getElementById('zipcode').value = selected[4].textContent;
+        document.getElementById('email').value = selected[5].textContent;
+        document.getElementById('gender').value= selected[6].textContent;    
+        document.getElementById('phone').value = selected[7].textContent;
     }
 }
 

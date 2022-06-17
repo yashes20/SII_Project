@@ -289,7 +289,7 @@ class InformationUsers {
                     self.showUsers("select");
                 }
                 else{
-                    self.getUserById(formUser.id);
+                    //self.getUserById(formUser.id);
                     self.showUsers("select");
                 }
             }

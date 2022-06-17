@@ -46,9 +46,10 @@ router.put("/users/:id", upload.any(), (req, res) => {
                     email: userData.email,
                     gender: userData.gender,
                     phone: userData.phone,
-                    birthDate: userData.birthDate
+                    birthDate: userData.birthDate,
+                    id: userData.id
                 };
-                requestHandlers.createUpdateUser(user, false, (err, rows, results) => {
+                requestHandlers.createUpdateUser(user, user.id !== null ? true : false, (err, rows, results) => {
                     if (err) {
                         console.log(err);
         

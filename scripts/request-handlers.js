@@ -13,7 +13,7 @@ const queryAllTasks = "SELECT taskId, taskName, taskDescription,taskDateCreation
 const queryTaskStatus = "SELECT taskId, taskName, taskDescription,taskDateCreation, taskStatusId, status.statusName AS taskStatus, taskDateStatus, taskCategoryId, taskIsEnabled, userCreation, userAssignment, taskAddress, taskLatitude,taskLongitude from tasks INNER JOIN status ON tasks.taskStatusId = status.statusId where tasks.taskStatusId = ? and tasks.taskIsEnabled = 1";
 const queryTaskUserId = "SELECT taskId, taskName, taskDescription,taskDateCreation, taskStatusId, status.statusName AS taskStatus, taskDateStatus, taskCategoryId, taskIsEnabled, userCreation, userAssignment, taskAddress, taskLatitude,taskLongitude from tasks INNER JOIN status ON tasks.taskStatusId = status.statusId where userCreation = ? and tasks.taskIsEnabled = 1";
 
-const sqlUpdateUserPass = "UPDATE USERS SET userFullName = ?, userPassword = md5(?), userAddress = ?, userZipCode= ? , userEmail = ? , userGender = ?,  userPhone = ?, userBirthDate = ? WHERE userId = ?";
+const sqlUpdateUserPass = "UPDATE USERS SET userFullName = ?, userPassword = ?, userAddress = ?, userZipCode= ? , userEmail = ? , userGender = ?,  userPhone = ?, userBirthDate = ? WHERE userId = ?";
 const sqlUpdateUser = "UPDATE USERS SET userFullName = ?,  userAddress = ?, userZipCode= ? , userEmail = ? , userGender = ?,  userPhone = ?, userBirthDate = ? WHERE userId = ?";
 const sqldeleteUser = "UPDATE USERS SET userState = 'I' WHERE userId = ?";
 /**
