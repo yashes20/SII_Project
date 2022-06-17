@@ -50,9 +50,9 @@ const taskRouter = require('./www/Routes/taskRoutes.js');
 
 app.use('/api', loginRouter);
 
-app.use('/', userRouter);
+app.use('/users', userRouter);
 
-app.use('/', taskRouter);
+app.use('/tasks', taskRouter);
  
 // Handling Errors
 app.use((err, req, res, next) => {

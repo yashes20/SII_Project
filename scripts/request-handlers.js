@@ -251,8 +251,8 @@ function selectTasksByUserId(req, res){
     let category = postTask.category;
     let userCreation = postTask.userCreation;
     let address = postTask.address;
-    let taskLatitude = postTask.taskLatitude;
-    let taskLongitude = postTask.taskLongitude;
+    let latitude = postTask.latitude;
+    let longitude = postTask.longitude;
 
     
     // insert
@@ -268,7 +268,7 @@ function selectTasksByUserId(req, res){
         }
         else {
             // Insertion of the data in the following params
-            connection.query(sql, [name, description, category, userCreation, address, taskLatitude, taskLongitude], function (err, rows, results) {
+            connection.query(sql, [name, description, category, userCreation, address, latitude, longitude], function (err, rows, results) {
                 if (err) {
                     if (result != null) {
                         result(err, null, null);
@@ -303,8 +303,8 @@ function selectTasksByUserId(req, res){
     let userCreation = putTask.userCreation;
     let userAssignment = putTask.userAssignment;
     let address = putTask.address;
-    let taskLatitude = putTask.taskLatitude;
-    let taskLongitude = putTask.taskLongitude;
+    let latitude = putTask.latitude;
+    let longitude = putTask.longitude;
 
     
     // UPDATE
@@ -320,7 +320,7 @@ function selectTasksByUserId(req, res){
         }
         else {
             // Insertion of the data in the following params
-            connection.query(sql, [name, description, status, category, userCreation, userAssignment, address, taskLatitude, taskLongitude, id], function (err, rows, results) {
+            connection.query(sql, [name, description, status, category, userCreation, userAssignment, address, latitude, longitude, id], function (err, rows, results) {
                 if (err) {
                     if (result != null) {
                         result(err, null, null);

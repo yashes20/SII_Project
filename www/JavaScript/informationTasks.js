@@ -462,9 +462,6 @@ class InformationTasks {
      */
      postTask(formTask){
         const self = this;
-        let formData = new FormData();
-        formData.append('formTask', JSON.stringify(formTask));
-
         const xhr = new XMLHttpRequest();
         xhr.responseType="json";
         xhr.open('POST', '/tasks');
@@ -475,8 +472,9 @@ class InformationTasks {
                 self.showTasks("selectAll");
             }
         }
-        //xhr.setRequestHeader('Content-Type', 'application/json');
-        xhr.send(formData);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.send(JSON.stringify(formTask));
+       
     }
 
     /**
@@ -486,12 +484,9 @@ class InformationTasks {
      */
      putTask(formTask){
         const self = this;
-        let formData = new FormData();
-        formData.append('formTask', JSON.stringify(formTask));
-
         const xhr = new XMLHttpRequest();
         xhr.responseType="json";
-        xhr.open('PUT', '/tasks');
+        xhr.open('PUT', '/tasks/' + formTask.id);
         
         xhr.onreadystatechange = function () {
             if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
@@ -499,8 +494,8 @@ class InformationTasks {
                 self.showTasks("selectAll");
             }
         }
-        //xhr.setRequestHeader('Content-Type', 'application/json');
-        xhr.send(formData);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.send(JSON.stringify(formTask));
     } 
     
     /**

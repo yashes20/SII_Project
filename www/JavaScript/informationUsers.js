@@ -273,9 +273,6 @@ class InformationUsers {
      */
     putUser(formUser, isUpdate){
         const self = this;
-        let formData = new FormData();
-        formData.append('formUser', JSON.stringify(formUser));
-
         const xhr = new XMLHttpRequest();
         xhr.responseType="json";
         xhr.open('PUT', '/users/' + formUser.id);
@@ -294,7 +291,8 @@ class InformationUsers {
                 }
             }
         }
-        xhr.send(formData);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.send(JSON.stringify(formUser));
     } 
     
     /**
