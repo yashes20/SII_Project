@@ -134,7 +134,7 @@ function selectUser(req, res){
 
     // Check if is update or not
     if (isUpdate) {
-        if (password != null) {
+        if (password.trim().length != 0) {
             sqlUpdate = sqlUpdateUserPass;
         }
     }
@@ -152,7 +152,7 @@ function selectUser(req, res){
         }
         else {
             // Insertion of the data in the following params
-            let params = password != null ? [fullName, password, address, zipCode, email, gender, phone, birthdate,  id] : [fullName,  address, zipCode, email, gender, phone, birthdate, id];
+            let params = password.trim().length != 0 ? [fullName, password, address, zipCode, email, gender, phone, birthdate,  id] : [fullName,  address, zipCode, email, gender, phone, birthdate, id];
 
             connection.query(sql, params, function (err, rows, results) {
                 if (err) {
