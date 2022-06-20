@@ -20,13 +20,13 @@
 * @param {string} name - task name
   @param {string} description - task's description
 * @param {Date} dateCreation - task's date creation
-  @param {int} idStatus - task's status
-  @param {string} status - task's status
+  @param {Status} status - task's status
   @param {Date} dateStatus - task's date status
-  @param {Category} category - task's category
+  @param {category} category- task's category description
   @param {string} isEnabled - task's isEnabled
-  @param {User} userCreation - task's user creation
-  @param {User} userAssignment - task's user Assignment
+  @param {User} userCreation - task's user creation description
+  @param {User} userAssignmen - task's user Assignment description
+  @param {Date} dateAssignment - task's date Assignment 
   @param {string} address - task's taskAddress
   @param {float} latitude - task's taskLatitude
   @param {float} longitude - task's taskLongitude
@@ -34,18 +34,18 @@
 
 */
 class Task {
-    constructor(id, name, description, dateCreation, idStatus, status, dateStatus, category, isEnabled, userCreation, userAssignment, address,latitude,longitude ) {
+    constructor(id, name, description, dateCreation, status, dateStatus, category, isEnabled, userCreation, userAssignment, dateAssignment,address,latitude,longitude ) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.dateCreation = dateCreation;
-        this.idStatus = idStatus;
         this.status = status;
         this.dateStatus = dateStatus;
         this.category = category;
         this.isEnabled = isEnabled;
         this.userCreation = userCreation;
         this.userAssignment = userAssignment;
+        this.dateAssignment = dateAssignment;
         this.address = address;
         this.latitude = latitude;
         this.longitude = longitude;

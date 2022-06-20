@@ -18,8 +18,9 @@
 * @constructs postTask
 * @param {string} name - task name
   @param {string} description - task's description
-  @param {Category} category - task's category
-  @param {User} userCreation - task's user creation
+  @param {int} category - task's category
+  @param {int} userCreation - task's user creation
+  @param {date} dateAssignment - task's user date Assignment
   @param {string} address - task's taskAddress
   @param {number} latitude - task's taskLatitude
   @param {number} longitude - task's taskLongitude
@@ -27,12 +28,13 @@
 
 */
 class postTask {
-    constructor( name, description, category, userCreation, address,latitude,longitude ) {
+    constructor( name, description, category, userCreation, dateAssignment, address,latitude,longitude ) {
         this.name = name;
         this.description = description;
         this.category = category;
         this.userCreation = userCreation;
         this.address = address;
+        this.dateAssignment =dateAssignment;
         this.latitude = latitude;
         this.longitude = longitude;
     }

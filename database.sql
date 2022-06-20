@@ -110,6 +110,7 @@ CREATE TABLE `tasks` (
   `taskIsEnabled` tinyint NULL DEFAULT 1,
   `userCreation` int(11) NOT NULL,
   `userAssignment` int(11) ,
+  `taskDateAssignment` datetime,
   `taskAddress` varchar(255) NOT NULL,
   `taskLatitude` FLOAT( 10, 6 ), 
   `taskLongitude` FLOAT( 10, 6 ),
@@ -120,9 +121,11 @@ CREATE TABLE `tasks` (
 
 -- Insert task
 INSERT INTO `tasks` (`taskName`, `taskDescription`,
- `taskDateCreation`, `taskStatusId`, `taskDateStatus`, `taskCategoryId`,`taskIsEnabled`,`userCreation`,
+ `taskDateCreation`, `taskStatusId`, `taskDateStatus`, 
+ `taskCategoryId`,`taskIsEnabled`,`userCreation`,`taskDateAssignment`,
  `taskAddress`, `taskLatitude`,`taskLongitude` ) VALUES
 ('Levar o cão ao veterinário.', 'Por favor, necessito levar o cão ao veterinário, pois não posso faze-lo.',
-'2022-05-21 15:40:00',1, '2022-05-21 15:40:00', 1, 1, 1, 
+'2022-05-21 15:40:00',1, '2022-05-21 15:40:00',  
+1, 1, 1, '2022-06-21 15:40:00',
 'Av. João Wallig, 1800 - Passo da Areia, Porto Alegre - RS','-30.027668', '-51.163269');
 

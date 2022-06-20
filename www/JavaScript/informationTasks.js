@@ -399,6 +399,7 @@ class InformationTasks {
         const statusList = document.getElementById('statusTask');
         const idStatusf = statusList.options[statusList.selectedIndex].value;
 
+        const dateAssignment = document.getElementById('dateAssignment').value;
         const address = document.getElementById('addressTask').value;
         const latitude = parseFloat(document.getElementById('taskLatitude').value);
         const longitude = parseFloat(document.getElementById('taskLongitude').value);
@@ -414,7 +415,7 @@ class InformationTasks {
             args.push(idUserCreation);
             args.push(address);
 
-            formTask= new postTask(name,description, idcategory, idUserCreation, address, latitude, longitude);
+            formTask= new postTask(name,description, idcategory, idUserCreation, dateAssignment, address, latitude, longitude);
 
         } else if (acao == "update") {
 
@@ -437,7 +438,7 @@ class InformationTasks {
             args.push(idUserCreation);
             args.push(address);
 
-            formTask = new putTask(id, name,description, idStatus, idcategory, idUserCreation, iduserAssignment, address, latitude, longitude);
+            formTask = new putTask(id, name,description, idStatus, idcategory, idUserCreation, iduserAssignment, dateAssignment, address, latitude, longitude);
 
         }
 

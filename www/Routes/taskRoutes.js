@@ -4,10 +4,9 @@ const express = require("express");
 const router = express.Router();
 // Use request handles
 const requestHandlers = require("../../scripts/request-handlers.js");
-// Use multer
-const multer = require('multer');
 
-const upload = multer();
+const { newTaskValidation, updateTaskValidation } = require('../Utils/validation');
+const { validationResult } = require('express-validator');
 
 // Calls a function to get all tasks
 router.get("/", requestHandlers.selectAllTasks);
@@ -20,35 +19,63 @@ router.get("/users/:id", requestHandlers.selectTasksByUserId);
 
 //create a new task
 // Calls a function create a new task
-router.post("/", upload.any(), (req, res) => {
-  let task = req.body;
-  
-  requestHandlers.createTask(task, (err, rows, results) => {
-      if (err) {
-          console.log(err);
+router.post("/", newTaskValidation, (req, res) => {
+    let task = req.body;
 
-          res.status(500).json({"message": "error"});
-      } else {
-          res.status(200).json({"message": "success", "task": rows, "results":results });
-      }
+    const errors = validationResult(req);
 
-  })
+    if (!errors.isEmpty()) {   //Mostra os erros ao utilizador
+
+        var error_msg = ''
+        errors.array().forEach(function (error) {
+            error_msg += "Campo " + error.param + ", " + error.msg + '<br>'
+        })
+        req.flash('error', error_msg);
+        console.log("error");
+    } else {
+
+        requestHandlers.createTask(task, (err, rows, results) => {
+            if (err) {
+                console.log(err);
+
+                res.status(500).json({ "message": "error" });
+            } else {
+                res.status(200).json({ "message": "success", "task": rows, "results": results });
+            }
+
+        })
+    }
 });
 
 // Calls a function update a task
-router.put("/:id", upload.any(), (req, res) => {
+router.put("/:id", updateTaskValidation, (req, res) => {
     let task = req.body;
-    let id = req.params.id; 
+    let id = req.params.id;
     task.id = id;
-    requestHandlers.updateTask(task, (err, rows, results) => {
-        if (err) {
-            console.log(err);
-  
-            res.status(500).json({"message": "error"});
-        } else {
-            res.status(200).json({"message": "success", "task": rows, "results":results });
-        }
-  
-    })
-  });
-  module.exports = router;
+    //task.dateAssignment = dateA;
+
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {   //Mostra os erros ao utilizador
+
+        var error_msg = ''
+        errors.array().forEach(function (error) {
+            error_msg += "Campo " + error.param + ", " + error.msg + '<br>'
+        })
+        req.flash('error', error_msg);
+        console.log("error");
+
+    } else {
+        requestHandlers.updateTask(task, (err, rows, results) => {
+            if (err) {
+                console.log(err);
+
+                res.status(500).json({ "message": "error" });
+            } else {
+                res.status(200).json({ "message": "success", "task": rows, "results": results });
+            }
+
+        })
+    }
+});
+module.exports = router;

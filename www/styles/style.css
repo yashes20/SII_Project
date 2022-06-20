@@ -189,6 +189,11 @@ input {
 	left: 20% !important;
 }
 
+.required:before {
+    content:"* ";
+    color:red;
+}
+
 @media 
 only screen and (max-width: 955px),
 (min-device-width: 600px) and (max-device-width: 1024px)  {

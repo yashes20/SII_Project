@@ -19,6 +19,7 @@
  * @memberof window
  * @params {Event} event - object that will represent the event
  */
+
 window.onload = function (event) {
     var infoUsers = new InformationUsers("divInformation");
     var infoTasks = new InformationTasks("divInformation");
@@ -29,7 +30,6 @@ window.onload = function (event) {
     infoTasks.getStatus();
     window.infoUsers = infoUsers;
     window.infoTasks = infoTasks;
-
     // isLoggedIn();
 
     // var login = new Login("login");
@@ -49,7 +49,7 @@ function validadeForm(args) {
             result = false;
     });
     if (!result) {
-        alert("todos os parametros devem ser preenchidos!");
+        alert("fill all required fields!");
         return false;
     }
     else {return true;}
@@ -147,18 +147,22 @@ function selectedUser(selecteds){
          document.getElementById('taskName').value = selected[1].textContent;
          document.getElementById('descriptionTask').value = selected[2].textContent;
 
-         var category = document.getElementById("statusTask");
-         document.getElementById('statusTask').options[category.selectedIndex].textContent = selected[4].textContent;
+         var status = document.getElementById("statusTask");
+         status.value = selected[4].textContent;
+         //document.getElementById('statusTask').options[category.selectedIndex].value = selected[4].textContent;
 
          var category = document.getElementById("categoryTask");
-         document.getElementById('categoryTask').options[category.selectedIndex].textContent = selected[7].textContent;
+         //document.getElementById('categoryTask').options[category.selectedIndex].value = selected[7].textContent;
+         category.value = selected[6].textContent;
 
          var user = document.getElementById("userTask");
-         document.getElementById('userTask').options[user.selectedIndex].textContent = selected[9].textContent;
+         user.value = selected[8].textContent;
+         //document.getElementById('userTask').options[user.selectedIndex].textContent = selected[11].textContent;
 
-         var user = document.getElementById("userAssignment");
-         document.getElementById('userAssignment').options[user.selectedIndex].textContent = selected[10].textContent;
-
+         var userAss = document.getElementById("userAssignment");
+         userAss.value = selected[9].textContent;
+         
+         document.getElementById('dateAssignment').value =selected[10].textContent;
          document.getElementById('addressTask').value = selected[11].textContent;
          document.getElementById('taskLatitude').value = selected[12].textContent;
          document.getElementById('taskLongitude').value = selected[13].textContent;

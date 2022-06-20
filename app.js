@@ -33,9 +33,13 @@ app.use(bodyParser.urlencoded({
 
 app.use(express.static("www"));
 
+// validation logger section
+const createError = require('http-errors');
+var logger = require("morgan");
+app.use(logger("dev"));
 // authentication
 // authentication's section
-const createError = require('http-errors');
+
 const cors = require('cors');
 app.use(cors());
 const loginRouter = require('./www/Routes/login.js');

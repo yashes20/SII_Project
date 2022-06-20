@@ -9,9 +9,37 @@ const queryCategories = "SELECT categoryId, categoryName from categories";
 const queryStatus = "SELECT statusId, statusName from status"; // somente status dos users
 const queryUsers = "SELECT userId, userFullName,  DATE_FORMAT(userBirthDate,'%Y-%m-%d') AS userBirthDate, userAddress, userZipCode, userEmail, userGender, userPhone  FROM users WHERE userState ='A'";
 const queryUser = "SELECT userId, userFullName,  DATE_FORMAT(userBirthDate,'%Y-%m-%d') AS userBirthDate, userAddress, userZipCode, userEmail, userGender, userPhone  FROM users WHERE userId = ?";
-const queryAllTasks = "SELECT taskId, taskName, taskDescription,taskDateCreation, taskStatusId, status.statusName AS taskStatus, taskDateStatus, taskCategoryId, taskIsEnabled, userCreation, userAssignment, taskAddress, taskLatitude,taskLongitude from tasks INNER JOIN status ON tasks.taskStatusId = status.statusId where tasks.taskIsEnabled = 1";
-const queryTaskStatus = "SELECT taskId, taskName, taskDescription,taskDateCreation, taskStatusId, status.statusName AS taskStatus, taskDateStatus, taskCategoryId, taskIsEnabled, userCreation, userAssignment, taskAddress, taskLatitude,taskLongitude from tasks INNER JOIN status ON tasks.taskStatusId = status.statusId where tasks.taskStatusId = ? and tasks.taskIsEnabled = 1";
-const queryTaskUserId = "SELECT taskId, taskName, taskDescription,taskDateCreation, taskStatusId, status.statusName AS taskStatus, taskDateStatus, taskCategoryId, taskIsEnabled, userCreation, userAssignment, taskAddress, taskLatitude,taskLongitude from tasks INNER JOIN status ON tasks.taskStatusId = status.statusId where userCreation = ? and tasks.taskIsEnabled = 1";
+
+const queryAllTasks = "SELECT taskId, taskName, taskDescription,taskDateCreation, taskStatusId,"+ 
+"taskDateStatus, taskCategoryId, taskIsEnabled, userCreation,"+
+"userAssignment, DATE_FORMAT(taskDateAssignment,'%Y-%m-%d %H:%i') as taskDateAssignment, taskAddress, taskLatitude,taskLongitude "+
+"from tasks "+
+"INNER JOIN status ON tasks.taskStatusId = status.statusId "+
+"INNER JOIN categories ON tasks.taskCategoryId = categories.categoryId "+
+"INNER JOIN users AS USERS1 ON tasks.userCreation = USERS1.userId "+
+"left JOIN users as USERS2 ON tasks.userAssignment = USERS2.userId "+
+"where tasks.taskIsEnabled = 1";
+
+const queryTaskStatus = "SELECT taskId, taskName, taskDescription,taskDateCreation, taskStatusId,"+ 
+"taskDateStatus, taskCategoryId, taskIsEnabled, userCreation,"+
+"userAssignment, DATE_FORMAT(taskDateAssignment,'%Y-%m-%d %H:%i') as taskDateAssignment,  taskAddress, taskLatitude,taskLongitude "+
+"from tasks "+
+"INNER JOIN status ON tasks.taskStatusId = status.statusId "+
+"INNER JOIN categories ON tasks.taskCategoryId = categories.categoryId "+
+"INNER JOIN users AS USERS1 ON tasks.userCreation = USERS1.userId "+
+"left JOIN users as USERS2 ON tasks.userAssignment = USERS2.userId "+
+"where tasks.taskStatusId = ? and tasks.taskIsEnabled = 1 ";
+
+
+const queryTaskUserId = "SELECT taskId, taskName, taskDescription,taskDateCreation, taskStatusId,"+ 
+"taskDateStatus, taskCategoryId, taskIsEnabled, userCreation,"+
+"userAssignment, DATE_FORMAT(taskDateAssignment,'%Y-%m-%d %H:%i') as taskDateAssignment, taskAddress, taskLatitude,taskLongitude "+
+"from tasks "+
+"INNER JOIN status ON tasks.taskStatusId = status.statusId "+
+"INNER JOIN categories ON tasks.taskCategoryId = categories.categoryId "+
+"INNER JOIN users AS USERS1 ON tasks.userCreation = USERS1.userId "+
+"left JOIN users as USERS2 ON tasks.userAssignment = USERS2.userId "+
+"where tasks.userCreation = ? and tasks.taskIsEnabled = 1 ";
 
 const sqlUpdateUserPass = "UPDATE USERS SET userFullName = ?, userPassword = ?, userAddress = ?, userZipCode= ? , userEmail = ? , userGender = ?,  userPhone = ?, userBirthDate = ? WHERE userId = ?";
 const sqlUpdateUser = "UPDATE USERS SET userFullName = ?,  userAddress = ?, userZipCode= ? , userEmail = ? , userGender = ?,  userPhone = ?, userBirthDate = ? WHERE userId = ?";
@@ -250,13 +278,14 @@ function selectTasksByUserId(req, res){
     let description = postTask.description;
     let category = postTask.category;
     let userCreation = postTask.userCreation;
+    let dateAssignment = postTask.dateAssignment;
     let address = postTask.address;
     let latitude = postTask.latitude;
     let longitude = postTask.longitude;
 
     
     // insert
-    let sql ="INSERT INTO tasks(taskName, taskDescription, taskDateCreation, taskStatusId, taskDateStatus, taskCategoryId,taskIsEnabled,userCreation,taskAddress,taskLatitude,taskLongitude) VALUES (?,?,NOW(),1,NOW(),?,1,?,?,?,?)";
+    let sql ="INSERT INTO tasks(taskName, taskDescription, taskDateCreation, taskStatusId, taskDateStatus, taskCategoryId,taskIsEnabled,userCreation, taskDateAssignment, taskAddress,taskLatitude,taskLongitude) VALUES (?,?,NOW(),1,NOW(),?,1,?,?,?,?,?)";
     connection.connect(function (err) {
         if (err) {
             if (result != null) {
@@ -268,7 +297,7 @@ function selectTasksByUserId(req, res){
         }
         else {
             // Insertion of the data in the following params
-            connection.query(sql, [name, description, category, userCreation, address, latitude, longitude], function (err, rows, results) {
+            connection.query(sql, [name, description, category, userCreation, dateAssignment, address, latitude, longitude], function (err, rows, results) {
                 if (err) {
                     if (result != null) {
                         result(err, null, null);
@@ -302,13 +331,14 @@ function selectTasksByUserId(req, res){
     let category = putTask.category;
     let userCreation = putTask.userCreation;
     let userAssignment = putTask.userAssignment;
+    let dateAssignment = putTask.dateAssignment;
     let address = putTask.address;
     let latitude = putTask.latitude;
     let longitude = putTask.longitude;
 
     
     // UPDATE
-    let sql ="UPDATE tasks SET taskName = ?, taskDescription = ?, taskStatusId = ?, taskDateStatus = NOW(), taskCategoryId = ?, userCreation = ?, userAssignment = ?, taskAddress = ?, taskLatitude = ?, taskLongitude = ? WHERE taskId = ? ";
+    let sql ="UPDATE tasks SET taskName = ?, taskDescription = ?, taskStatusId = ?, taskDateStatus = NOW(), taskCategoryId = ?, userCreation = ?, userAssignment = ?, taskDateAssignment = ?, taskAddress = ?, taskLatitude = ?, taskLongitude = ? WHERE taskId = ? ";
     connection.connect(function (err) {
         if (err) {
             if (result != null) {
@@ -320,7 +350,7 @@ function selectTasksByUserId(req, res){
         }
         else {
             // Insertion of the data in the following params
-            connection.query(sql, [name, description, status, category, userCreation, userAssignment, address, latitude, longitude, id], function (err, rows, results) {
+            connection.query(sql, [name, description, status, category, userCreation, userAssignment, dateAssignment, address, latitude, longitude, id], function (err, rows, results) {
                 if (err) {
                     if (result != null) {
                         result(err, null, null);

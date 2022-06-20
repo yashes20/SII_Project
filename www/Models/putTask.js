@@ -23,6 +23,7 @@
   @param {int} idStatus - task's idStatus
   @param {User} userCreation - task's user creation
   @param {User} userAssignment - task's user userAssignment
+  @param {date} dateAssignment - task's user date Assignment
   @param {string} address - task's taskAddress
   @param {number} latitude - task's taskLatitude
   @param {number} longitude - task's taskLongitude
@@ -30,7 +31,7 @@
 
 */
 class putTask {
-    constructor( id, name, description, idStatus, category, userCreation, userAssignment, address,latitude,longitude ) {
+    constructor( id, name, description, idStatus, category, userCreation, userAssignment, dateAssignment, address,latitude,longitude ) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -38,6 +39,7 @@ class putTask {
         this.category = category;
         this.userCreation = userCreation;
         this.userAssignment = userAssignment;
+        this.dateAssignment =dateAssignment;
         this.address = address;
         this.latitude = latitude;
         this.longitude = longitude;
