@@ -26,7 +26,6 @@ exports.newTaskValidation = [
     check('category', 'category is required').not().isEmpty(),
     check('userCreation', 'userCreation is required').not().isEmpty(),
     check('dateAssignment', 'DateAssignment is required').not().isEmpty(),
-    check('idStatus', 'idStatus is required').not().isEmpty(),
     check('latitude')
     // if the latitude is provided...
     .if(check('latitude', 'Latitude must between -90 and 90').not().isLatLong())
@@ -38,7 +37,7 @@ exports.updateTaskValidation = [
     check('category', 'category is required').not().isEmpty(),
     check('userCreation', 'userCreation is required').not().isEmpty(),
     check('dateAssignment', 'DateAssignment is required').not().isEmpty(),
-    check('idStatus', 'idStatus is required').not().isEmpty(),
+    check('status', 'Status is required').not().isEmpty(),
     check('latitude')
     // if the latitude is provided...
     .if(check('latitude', 'Latitude must between -90 and 90').not().isLatLong())

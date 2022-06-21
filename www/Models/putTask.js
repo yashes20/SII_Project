@@ -20,7 +20,7 @@
 * @param {string} name - task name
   @param {string} description - task's description
   @param {Category} category - task's category
-  @param {int} idStatus - task's idStatus
+  @param {Status} status - task's idStatus
   @param {User} userCreation - task's user creation
   @param {User} userAssignment - task's user userAssignment
   @param {date} dateAssignment - task's user date Assignment
@@ -31,11 +31,11 @@
 
 */
 class putTask {
-    constructor( id, name, description, idStatus, category, userCreation, userAssignment, dateAssignment, address,latitude,longitude ) {
+    constructor( id, name, description, status, category, userCreation, userAssignment, dateAssignment, address,latitude,longitude ) {
         this.id = id;
         this.name = name;
         this.description = description;
-        this.idStatus = idStatus;
+        this.status = status;
         this.category = category;
         this.userCreation = userCreation;
         this.userAssignment = userAssignment;

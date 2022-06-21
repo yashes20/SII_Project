@@ -15,13 +15,19 @@
 "use strict";
 
 // Use express
-const express = require("express");
+//const express = require("express");
 // Use request handles
 const requestHandlers = require("./scripts/request-handlers.js");
 // Use body parser
 const bodyParser = require("body-parser");
+// messages flash
+var flash = require('flash-express'),
+      express = require('express'),
+      app = express();
+      
+app.use(flash());
 
-const app = express();
+//const app = express();
 
 app.use(express.json());
 
@@ -33,10 +39,11 @@ app.use(bodyParser.urlencoded({
 
 app.use(express.static("www"));
 
+
 // validation logger section
-const createError = require('http-errors');
-var logger = require("morgan");
-app.use(logger("dev"));
+//const createError = require('http-errors');
+//var logger = require("morgan");
+//app.use(logger("dev"));
 // authentication
 // authentication's section
 

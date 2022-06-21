@@ -425,7 +425,7 @@ class InformationTasks {
             var taskOld = selected(document.getElementById("taskTable"), "tasks", "update");
 
             if (iduserAssignment != "" && (taskOld.iduserAssignment == "" ||taskOld.iduserAssignment == undefined) ) {
-                idStatus = 2;
+                idStatus = "2";
             }
 
             if (iduserAssignment === ""){
@@ -437,6 +437,7 @@ class InformationTasks {
             args.push(idcategory);
             args.push(idUserCreation);
             args.push(address);
+            args.push(idStatus);
 
             formTask = new putTask(id, name,description, idStatus, idcategory, idUserCreation, iduserAssignment, dateAssignment, address, latitude, longitude);
 

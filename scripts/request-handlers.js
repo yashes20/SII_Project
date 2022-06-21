@@ -327,7 +327,7 @@ function selectTasksByUserId(req, res){
     let id = putTask.id;
     let name = putTask.name;
     let description = putTask.description;
-    let status = putTask.idStatus;
+    let status = putTask.status;
     let category = putTask.category;
     let userCreation = putTask.userCreation;
     let userAssignment = putTask.userAssignment;

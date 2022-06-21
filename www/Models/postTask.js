@@ -18,8 +18,8 @@
 * @constructs postTask
 * @param {string} name - task name
   @param {string} description - task's description
-  @param {int} category - task's category
-  @param {int} userCreation - task's user creation
+  @param {Category} category - task's category
+  @param {User} userCreation - task's user creation
   @param {date} dateAssignment - task's user date Assignment
   @param {string} address - task's taskAddress
   @param {number} latitude - task's taskLatitude
