@@ -181,7 +181,7 @@ function selectedUser(selecteds){
         selected = selected.getElementsByTagName("td");
         
         oldTask.id = selected[0].textContent;
-        oldTask.status = selected[5].textContent;
+        oldTask.status = selected[4].textContent;
         oldTask.userAssignment = selected[9].textContent;
     }
     return oldTask;

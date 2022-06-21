@@ -422,9 +422,12 @@ class InformationTasks {
             const userAssignmentList = document.getElementById('userAssignment');
             var iduserAssignment = userAssignmentList.options[userAssignmentList.selectedIndex].value;
 
-            var taskOld = selected(document.getElementById("taskTable"), "tasks", "update");
+            let table = document.getElementById("taskTable");
+            let selecteds = table.getElementsByClassName("selecionado");
 
-            if (iduserAssignment != "" && (taskOld.iduserAssignment == "" ||taskOld.iduserAssignment == undefined) ) {
+            var taskOld = selecteTaskOldValues(selecteds);
+
+            if (iduserAssignment != "" && (taskOld.userAssignment == "" ||taskOld.userAssignment == undefined) ) {
                 idStatus = "2";
             }
 
