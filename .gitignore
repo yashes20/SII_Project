@@ -1,6 +1,3 @@
-
-package.json
-package-lock.json
 node_modules/wkx/README.md
 node_modules/wkx/package.json
 node_modules/wkx/LICENSE.txt
@@ -1952,7 +1949,6 @@ node_modules/.bin/cross-env-shell.cmd
 node_modules/.bin/cross-env-shell
 node_modules/.bin/cross-env
 models/index.js
-database.sql
 coverage/lcov.info
 coverage/lcov-report/www/Utils/validation.js.html
 coverage/lcov-report/www/Utils/index.html
@@ -1967,9 +1963,6 @@ coverage/lcov-report/scripts/index.html
 coverage/lcov-report/index.html
 coverage/coverage-final.json
 coverage/clover.xml
-config/config.json
-app.js
-app.js
 coverage/clover.xml
 coverage/coverage-final.json
 coverage/lcov-report/index.html
@@ -1983,11 +1976,7 @@ coverage/lcov-report/www/Routes/taskRoutes.js.html
 coverage/lcov-report/www/Utils/index.html
 coverage/lcov-report/www/Utils/validation.js.html
 coverage/lcov.info
-database.sql
 node_modules/.package-lock.json
-package-lock.json
-package.json
-app.js
 coverage/clover.xml
 coverage/coverage-final.json
 coverage/lcov-report/index.html
@@ -2001,14 +1990,9 @@ coverage/lcov-report/www/Routes/taskRoutes.js.html
 coverage/lcov-report/www/Utils/index.html
 coverage/lcov-report/www/Utils/validation.js.html
 coverage/lcov.info
-database.sql
 node_modules/.package-lock.json
 package-lock.json
-package.json
-package.json
-package-lock.json
 node_modules/.package-lock.json
-database.sql
 coverage/lcov.info
 coverage/lcov-report/www/Utils/validation.js.html
 coverage/lcov-report/www/Utils/index.html
@@ -2022,11 +2006,3 @@ coverage/lcov-report/scripts/index.html
 coverage/lcov-report/index.html
 coverage/coverage-final.json
 coverage/clover.xml
-app.js
-www/Routes/login.js
-www/Routes/authentication.js
-www/JavaScript/informationUsers.js
-www/JavaScript/informationTasks.js
-www/JavaScript/informationLogin.js
-www/index.html
-package.json
