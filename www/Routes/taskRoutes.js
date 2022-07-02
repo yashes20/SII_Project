@@ -7,16 +7,15 @@ const router = express.Router();
 const requestHandlers = require("../../scripts/request-handlers.js");
 
 // Authorization
-
 var verifyToken = require('./verifyToken');
 
 const { newTaskValidation, updateTaskValidation } = require('../Utils/validation');
 const { validationResult } = require('express-validator');
 
-// Calls a function to get all tasks
+// Calls a function to get a task by id
 router.get("/:id", requestHandlers.selectTasksById);
 
-// Calls a function to get task by id
+// Calls a function to get all tasks
 router.get("/", requestHandlers.selectAllTasks);
 
 // Calls a function to get all tasks by status
@@ -37,10 +36,13 @@ router.post("/", newTaskValidation, (req, res) => {
 
         var error_msg = ''
         errors.array().forEach(function (error) {
-            error_msg += "Campo " + error.param + ", " + error.msg + '<br>'
+            error_msg += "Field " + error.param + ", " + error.msg
         })
-        req.flash('error', error_msg);
-        console.log("error");
+        //req.flash('error', error_msg);
+        return res.status(400).send({
+            msg: error_msg
+        });
+
     } else {
 
         requestHandlers.createTask(task, (err, rows, results) => {
@@ -69,10 +71,12 @@ router.put("/:id", updateTaskValidation, (req, res) => {
 
         var error_msg = ''
         errors.array().forEach(function (error) {
-            error_msg += "Campo " + error.param + ", " + error.msg + '<br>'
+            error_msg += "Field " + error.param + ", " + error.msg
         })
-        req.flash('error', error_msg);
-        console.log("error");
+        //req.flash('error', error_msg);
+        return res.status(400).send({
+            msg: error_msg
+        });
 
     } else {
         requestHandlers.updateTask(task, (err, rows, results) => {

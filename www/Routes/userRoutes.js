@@ -30,19 +30,13 @@ router.put("/:id", userValidation, upload.any(), (req, res) => {
 
         var error_msg = ''
         errors.array().forEach(function (error) {
-            error_msg += "Campo " + error.param + ", " + error.msg + '<br>'
+            error_msg += "Field " + error.param + ", " + error.msg
         })
-        req.flash('error', error_msg);
-        console.log("error");
-
-        /* res.render('docente/add', { 
-            title: 'Adicionar um Novo Docente',
-            nome: req.body.nome,
-            area: req.body.area,
-            experiencia: req.body.experiencia,
-            email: req.body.email
+        //req.flash('error', error_msg);
+        return res.status(400).send({
+            msg: error_msg
         });
-         */
+        
     } else {
         let user = req.body;
         let password = user.password;

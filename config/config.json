@@ -1,23 +1,23 @@
 {
   "development": {
-    "username": "admin",
-    "password": "pai2022",
-    "database": "sii_project_test",
-    "host": "localhost",
-    "dialect": "mysql"
-  },
-  "test": {
-    "username": "admin",
-    "password": "pai2022",
-    "database": "sii_project_test",
-    "host": "localhost",
-    "dialect": "mysql"
-  },
-  "production": {
-    "username": "admin",
+    "user": "admin",
     "password": "pai2022",
     "database": "sii_project",
     "host": "localhost",
-    "dialect": "mysql"
+    "insecureAuth" : true
+  },
+  "test": {
+    "user": "admin",
+    "password": "pai2022",
+    "database": "sii_project_test",
+    "host": "localhost",
+    "insecureAuth" : true
+  },
+  "production": {
+    "user": "admin",
+    "password": "pai2022",
+    "database": "sii_project",
+    "host": "localhost",
+    "insecureAuth" : true
   }
 }

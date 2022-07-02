@@ -2,23 +2,27 @@ const express = require('express');
 const router = express.Router();
 const db = require('../../scripts/dbConnection');
 const requestHandlers = require("../../scripts/request-handlers.js");
-const { signupValidation, loginValidation } = require('../Utils/validation');
+const { registerValidation, signupValidation, loginValidation } = require('../Utils/validation');
 const { validationResult } = require('express-validator');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
 //, 
-router.post('/register', signupValidation, (req, res, next) => {
-    let r = req.body.formUser;
+router.post('/register', registerValidation, (req, res, next) => {
+
+    const errors = validationResult(req);
 
     if (!errors.isEmpty()) {   //Mostra os erros ao utilizador
 
         var error_msg = ''
         errors.array().forEach(function (error) {
-            error_msg += "Campo " + error.param + ", " + error.msg + '<br>'
+            error_msg += "Field " + error.param + ", " + error.msg
         })
-        req.flash('error', error_msg);
-        console.log("error");
+        //req.flash('error', error_msg);
+        return res.status(400).send({
+            msg: error_msg
+        });
+
     } else {
 
         db.query(
@@ -72,10 +76,13 @@ router.post('/login', loginValidation, (req, res, next) => {
 
         var error_msg = ''
         errors.array().forEach(function (error) {
-            error_msg += "Campo " + error.param + ", " + error.msg + '<br>'
+            error_msg += "Field " + error.param + ", " + error.msg
         })
-        req.flash('error', error_msg);
-        console.log("error");
+        //req.flash('error', error_msg);
+        return res.status(400).send({
+            msg: error_msg
+        });
+
     } else {
         db.query(
             `SELECT * FROM users WHERE userEmail = ${db.escape(req.body.email)};`,
@@ -136,10 +143,12 @@ router.post('/get-user', signupValidation, (req, res, next) => {
 
         var error_msg = ''
         errors.array().forEach(function (error) {
-            error_msg += "Campo " + error.param + ", " + error.msg + '<br>'
+            error_msg += "Field " + error.param + ", " + error.msg
         })
-        req.flash('error', error_msg);
-        console.log("error");
+        //req.flash('error', error_msg);
+        return res.status(400).send({
+            msg: error_msg
+        });
         
     } else {
         if (

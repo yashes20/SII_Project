@@ -2,7 +2,9 @@
 
 // Use of the mysql
 const mysql = require("mysql2");
-const options = require("./connection-options.json");
+//const options = require("./connection-options.json");
+const env = process.env.NODE_ENV || 'development';
+const options = require(__dirname + '/../config/config.json')[env];
 
 // Creation of the querys for the CRUD functionalities
 const queryCategories = "SELECT categoryId, categoryName from categories";
