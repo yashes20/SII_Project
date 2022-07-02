@@ -21,18 +21,43 @@ it('get tasks', async () => {
     await request(app).get('/tasks')
         .expect(200)
         .then((response) => {
-            // Check type and length
-            //console.log(response.body);
-            expect(response.body.message).toEqual("success");
-            //expect(response.body.length).toEqual(1);
-
             // Check data
-            //expect(response.body.task).toBe(Task);
-            //expect(response.body[0].title).toBe(post.title);
-            //expect(response.body[0].content).toBe(post.content);
+            expect(response.body.message).toEqual("success");
+            expect(response.body.task[0].taskId).not.toBeNull();
         });
-    //console.log(res.task);
-    //expect(res.statusCode).toEqual(200)
+});
+
+it('get tasks status', async () => {
+
+    await request(app).get('/tasks/status/' + "1")
+        .expect(200)
+        .then((response) => {
+            // Check data
+            expect(response.body.message).toEqual("success");
+            //expect(response.body.task[0]).toEqual("1");
+        });
+});
+
+it('get tasks by user', async () => {
+
+    await request(app).get('/tasks/users/' + "1")
+        .expect(200)
+        .then((response) => {
+            // Check data
+            expect(response.body.message).toEqual("success");
+            expect(response.body.task[0].userCreation).toEqual(1);
+        });
+});
+
+it('get tasks by id', async () => {
+
+    await request(app).get('/tasks/' + "1")
+        .expect(200)
+        .then((response) => {
+            // Check data
+            expect(response.body.message).toEqual("success");
+            expect(response.body.task[0].taskId).toEqual(1);
+        });
 });
 
 describe("POST request", () => {
@@ -66,23 +91,11 @@ describe("POST request", () => {
                     
                     .then((response) => {
                         //console.log(response);
-                        taskId = response.body.task.insertId;
-                        console.log("POST response taskId : ", taskId)
-                        if (response.message) {
-                            return console.log(response.message);
-                        }
-                        console.log("POST response body : ", response.body)
                         // Check data
-                        .expect(response.body.message).toEqual("success")
-                        //done();
-                        //expect(response.body.message).toEqual("success");
-                        //expect(response.statusCode).toEqual(200)
-                        //expect(response.body.length).toEqual(1);
+                        expect(response.body.message).toEqual("success");
+                        expect(response.body.task.insertId).not.toBeNull();
 
-                        // Check data
-                        //expect(response.body.task).toBe(Task);
-                        //expect(response.body[0].title).toBe(post.title);
-                        //expect(response.body[0].content).toBe(post.content);
+                        
                     });
             } catch (err) {
                 // write test for failure here
@@ -97,6 +110,54 @@ describe("POST request", () => {
     }
 });
 
-/*test('Create a task', async () => {
-    
-});*/
+describe("PUT request", () => {
+
+    try {
+        let putTask;
+        beforeEach(function () {
+            console.log("Input PUT a task");
+            putTask = {
+                name: "Task test",
+                description: "description",
+                status: 1,
+                category: 1,
+                userCreation: 1,
+                userAssignment: 2,
+                dateAssignment: "2022-06-25 15:40",
+                address: "address task",
+                latitude: "-30.027668",
+                longitude: "-51.163269"
+            }; // task to update
+
+        });
+        afterEach(function () {
+            console.log("task are updated");
+        });
+
+        it('should put task', async () => {
+            try {
+                await request(app).put('/tasks/' + 2)
+                    .send(putTask)
+                    .set('Accept', /json/)
+                    .expect(200).expect('Content-type', /json/)
+                    
+                    .then((response) => {
+                        console.log(response);
+                        // Check data
+                        expect(response.body.message).toEqual("success");
+                        expect(response.body.task.affectedRows).toEqual(1);
+
+                        
+                    });
+            } catch (err) {
+                // write test for failure here
+                console.log(`Error ${err}`)
+            }
+
+        })
+
+    }
+    catch (err) {
+        console.log("ERROR : ", err)
+    }
+});
