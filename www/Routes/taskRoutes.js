@@ -6,10 +6,17 @@ const router = express.Router();
 // Use request handles
 const requestHandlers = require("../../scripts/request-handlers.js");
 
+// Authorization
+
+var verifyToken = require('./verifyToken');
+
 const { newTaskValidation, updateTaskValidation } = require('../Utils/validation');
 const { validationResult } = require('express-validator');
 
 // Calls a function to get all tasks
+router.get("/:id", requestHandlers.selectTasksById);
+
+// Calls a function to get task by id
 router.get("/", requestHandlers.selectAllTasks);
 
 // Calls a function to get all tasks by status
@@ -21,6 +28,7 @@ router.get("/users/:id", requestHandlers.selectTasksByUserId);
 //create a new task
 // Calls a function create a new task
 router.post("/", newTaskValidation, (req, res) => {
+
     let task = req.body;
 
     const errors = validationResult(req);

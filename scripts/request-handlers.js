@@ -41,6 +41,16 @@ const queryTaskUserId = "SELECT taskId, taskName, taskDescription,taskDateCreati
 "left JOIN users as USERS2 ON tasks.userAssignment = USERS2.userId "+
 "where tasks.userCreation = ? and tasks.taskIsEnabled = 1 ";
 
+const queryTaskId = "SELECT taskId, taskName, taskDescription,taskDateCreation, taskStatusId,"+ 
+"taskDateStatus, taskCategoryId, taskIsEnabled, userCreation,"+
+"userAssignment, DATE_FORMAT(taskDateAssignment,'%Y-%m-%d %H:%i') as taskDateAssignment, taskAddress, taskLatitude,taskLongitude "+
+"from tasks "+
+"INNER JOIN status ON tasks.taskStatusId = status.statusId "+
+"INNER JOIN categories ON tasks.taskCategoryId = categories.categoryId "+
+"INNER JOIN users AS USERS1 ON tasks.userCreation = USERS1.userId "+
+"left JOIN users as USERS2 ON tasks.userAssignment = USERS2.userId "+
+"where tasks.taskId = ? and tasks.taskIsEnabled = 1 ";
+
 const sqlUpdateUserPass = "UPDATE USERS SET userFullName = ?, userPassword = ?, userAddress = ?, userZipCode= ? , userEmail = ? , userGender = ?,  userPhone = ?, userBirthDate = ? WHERE userId = ?";
 const sqlUpdateUser = "UPDATE USERS SET userFullName = ?,  userAddress = ?, userZipCode= ? , userEmail = ? , userGender = ?,  userPhone = ?, userBirthDate = ? WHERE userId = ?";
 const sqldeleteUser = "UPDATE USERS SET userState = 'I' WHERE userId = ?";
@@ -255,7 +265,7 @@ function selectUser(req, res){
     createConnectionToDbP(req, res, queryTaskStatus, "task");
  }
 
-  /**
+ /**
  * Function to get all new tasks by user creation
  * 
  * @param {*} req - Variable with the request body
@@ -264,7 +274,16 @@ function selectUser(req, res){
 function selectTasksByUserId(req, res){
     createConnectionToDbP(req, res, queryTaskUserId, "task");
  }
- 
+
+ /**
+ * Function to get task by task id
+ * 
+ * @param {*} req - Variable with the request body
+ * @param {*} res - Variable with the response 
+ */
+function selectTasksById(req, res){
+    createConnectionToDbP(req, res, queryTaskId, "task");
+ }
 
  /**
  * This function is used to create a new task
@@ -369,4 +388,16 @@ function selectTasksByUserId(req, res){
     });
 }
 
-module.exports = {selectqueryStatus,selectCategories,selectUsers,selectUser,createUpdateUser,deleteUser, selectAllTasks, selectTasksByStatus,selectTasksByUserId,createTask,updateTask}
+module.exports =
+ {selectqueryStatus,
+ selectCategories,
+ selectUsers,
+ selectUser,
+ createUpdateUser,
+ deleteUser, 
+ selectAllTasks, 
+ selectTasksByStatus,
+ selectTasksByUserId,
+ selectTasksById,
+ createTask,
+ updateTask}

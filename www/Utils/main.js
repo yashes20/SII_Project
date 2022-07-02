@@ -28,6 +28,9 @@ window.onload = function (event) {
     infoTasks.getCategories();
     infoTasks.getUsers();
     infoTasks.getStatus();
+    var infoLogin = new InformationLogin("login");
+    //login.logOff();
+    window.infoLogin = infoLogin;
     window.infoUsers = infoUsers;
     window.infoTasks = infoTasks;
     // isLoggedIn();

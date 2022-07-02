@@ -48,6 +48,8 @@ class InformationUsers {
         }
         /** Update the title */
         document.getElementById("headerTitle").textContent="Users";
+        document.getElementById("sectionLogin").style.display = "none";
+        document.getElementById("formLogin").style.display="none";
         // if (sessionStorageObter("username_login")  === null) {
         //     document.getElementById("divInformation").style.display="none";
         //     return;

@@ -40,8 +40,10 @@ class InformationTasks {
 
         /** Clear the content */
         document.getElementById("divInformation").style.display="none";    
-        //document.getElementById("formUser").style.display = "none";
-        document.getElementById("formTask").style.display = "none";
+        document.getElementById("formUser").style.display = "none";
+        document.getElementById("formTask").style.display = "none"; 
+        document.getElementById("sectionLogin").style.display = "block";
+        document.getElementById("formLogin").style.display="block";
     }
     /**
      * Show the task table
@@ -57,6 +59,8 @@ class InformationTasks {
             infoTasks.getTaskByStatusId("1"); 
         } else if (acao === "user") {
             infoTasks.getTaskByUserId("1");
+        } else if (acao === "taskId") {
+            infoTasks.getTaskById("1");
         }
         /** Update the title */
         document.getElementById("headerTitle").textContent="Tasks";
@@ -379,7 +383,31 @@ class InformationTasks {
         };
         xhr.send(tableElement);
     } 
+    /**
+     * Function that has as main goal to request to the NODE.JS server the resource task by id through the GET verb, using asynchronous requests and JSON
+     */
+     getTaskById(id) {
+        const self = this;
+        var tableElement = document.getElementById("taskTable");
+        tableElement = document.createElement("table");
+        tableElement.setAttribute("id", "taskTable");
 
+        let tasks = this.tasks;
+        tasks.length = 0;
+        var xhr = new XMLHttpRequest();
+        xhr.responseType="json";
+        xhr.open('GET', '/tasks/' + id, true);
+        xhr.onreadystatechange = function () {
+            if (this.readyState === 4 && this.status === 200) {
+                let info = xhr.response.task;
+                info.forEach(p => {
+                    tasks.push(p);
+                });
+                self.showTasks("selectAll");
+            }
+        };
+        xhr.send(tableElement);
+    }
     /**
      * Function that inserts or updates the resource user with a request to the NODE.JS server through the POST or PUT verb, using asynchronous requests and JSON
      * @param {String} acao - controls which CRUD operation we want to do
@@ -469,6 +497,7 @@ class InformationTasks {
         const self = this;
         const xhr = new XMLHttpRequest();
         xhr.responseType="json";
+        xhr.setRequestHeader('Authorization', 'Bearer ' + formTask.tokenField);
         xhr.open('POST', '/tasks');
         
         xhr.onreadystatechange = function () {

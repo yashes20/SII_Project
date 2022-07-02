@@ -30,7 +30,8 @@
     <script src="Models/putTask.js"></script>
     <script src="Models/category.js"></script>
     <script src="Models/status.js"></script>
-    
+
+    <script src="JavaScript/informationLogin.js"></script>
     <script src="JavaScript/informationUsers.js"></script>
     <script src="JavaScript/informationTasks.js"></script>
     <script src="Utils/main.js"></script>
@@ -50,6 +51,7 @@
             <li><a id="menuTask" href="javascript: infoTasks.showTasks('select');">All Tasks</a></li>
             <li><a id="menuTask" href="javascript: infoTasks.showTasks('status');">Tasks By Status</a></li>
             <li><a id="menuTask" href="javascript: infoTasks.showTasks('user');">Tasks By User</a></li>
+            <li><a id="menuTask" href="javascript: infoTasks.showTasks('taskId');">Tasks By Id</a></li>
             <li><a id="menuLogin" href="javascript: login.logOff();">Log off</a></li>
         </ul>
     </nav>
@@ -59,6 +61,50 @@
             <div style="height: 100px;"></div> 
       
             <div id="divInformation"></div>
+            <!--<div class="content">    -->  
+            <!--LOGIN FORM-->
+            <section id="sectionLogin">
+              <div class="container py-5 h-100">
+                <div class="row d-flex align-items-center justify-content-center h-100">
+                  <!--<div class="col-md-8 col-lg-7 col-xl-6">
+                    <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.svg" class="img-fluid" alt="Girl with a key that allows her to enter the website">
+                  </div>-->  
+                  <div class="col-md-7 col-lg-5 col-xl-5 offset-xl-1" id="login">
+                    <form id="formLogin" action="javascript:login.processingLogin();">
+                      <h2>Login</h2>
+                      <!-- Email input -->
+                      <div class="form-outline mb-4">
+                        <input type="email" id="email_login" name="email_login" required="required" class="form-control form-control-lg" />
+                        <label class="labelLogin" for="email_login">Username</label>
+                      </div>
+                      <!-- Password input -->
+                      <div class="form-outline mb-4">
+                        <input type="password" id="password_login" name="password_login" required="required" class="form-control form-control-lg" />
+                        <label class="labelLogin" for="password_login">Password</label>
+                      </div>
+            
+                      <div class="d-flex justify-content-around align-items-center mb-4">
+                        <!-- Checkbox -->
+                        <div class="form-check">
+                          <input
+                            class="form-check-input"
+                            type="checkbox"
+                            value=""
+                            id="manterlogado"
+                            checked
+                          />
+                          <label class="labelLogin" for="manterlogado"> Remember me </label>
+                        </div>
+                      </div>
+            
+                      <!-- Submit button -->
+                      <button type="submit" class="btn btn-primary">Sign in</button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+          </section>
+            
             <section id="sectionUserModal">
               <div class="modal" id="myModalUser">
                 <div class="modal-dialog">
@@ -217,7 +263,7 @@
                           </div>
                           <label class="col-form-label">Are you sure you wanna assign this task?</label>
                           <br>
-                          <button type="submit" class="btn btn-light" id="assocTask" data-bs-dismiss="modal">Save</button>
+                          <button type="submit" class="btn btn-light" id="assocTask" data-bs-dismiss="modal"></button>>Save</button>
                         </div>
                       </form>
           
