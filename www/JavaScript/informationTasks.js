@@ -36,14 +36,22 @@ class InformationTasks {
     }
     showHome() {
         /** Update the title */
-        document.getElementById("headerTitle").textContent="Home";
+        document.getElementById("headerTitle").textContent = "Home";
 
         /** Clear the content */
-        document.getElementById("divInformation").style.display="none";    
+        document.getElementById("divInformation").style.display = "none";
         document.getElementById("formUser").style.display = "none";
-        document.getElementById("formTask").style.display = "none"; 
-        document.getElementById("sectionLogin").style.display = "block";
-        document.getElementById("formLogin").style.display="block";
+        document.getElementById("formTask").style.display = "none";
+
+        if (sessionStorageObter("email_login") === null) {
+            document.getElementById("sectionLogin").style.display = "block";
+            document.getElementById("formLogin").style.display = "block";
+        }
+        else {
+            document.getElementById("sectionLogin").style.display = "none";
+            document.getElementById("formLogin").style.display = "none";
+        }
+
     }
     /**
      * Show the task table
@@ -54,52 +62,54 @@ class InformationTasks {
     showTasks(acao) {
         let self = this;
         if (acao === "select") {
-           infoTasks.getTasks();
+            infoTasks.getTasks();
         } else if (acao === "status") {
-            infoTasks.getTaskByStatusId("1"); 
+            infoTasks.getTaskByStatusId("1");
         } else if (acao === "user") {
             infoTasks.getTaskByUserId("1");
         } else if (acao === "taskId") {
             infoTasks.getTaskById("1");
         }
         /** Update the title */
-        document.getElementById("headerTitle").textContent="Tasks";
-        // if (sessionStorageObter("username_login")  === null) {
-        //     document.getElementById("divInformation").style.display="none";
-        //     return;
-        // }
-        // else {
-        document.getElementById("divInformation").style.display="block";
-        //}
-        // document.getElementById("demo").style.display = "none";
-        
+        document.getElementById("headerTitle").textContent = "Tasks";
 
-        let cleanDiv= document.createElement("div");
-        replaceChilds("divInformation",cleanDiv);
+        /** check user login */
+        if (sessionStorageObter("email_login") === null) {
+            document.getElementById("divInformation").style.display = "none";
+            return;
+        }
+        else {
+            document.getElementById("divInformation").style.display = "block";
+        }
+        // document.getElementById("demo").style.display = "none";
+
+
+        let cleanDiv = document.createElement("div");
+        replaceChilds("divInformation", cleanDiv);
 
         let taskTable = document.createElement("table");
         taskTable.setAttribute("id", "taskTable");
-        let th = tableLine(new Task(),true);
+        let th = tableLine(new Task(), true);
         taskTable.appendChild(th);
-        this.tasks.forEach(p=>{
+        this.tasks.forEach(p => {
             let tr = tableLine(p);
             taskTable.appendChild(tr);
         });
-        replaceChilds("divInformation",taskTable);
+        replaceChilds("divInformation", taskTable);
 
         var table = document.getElementById("taskTable");
         var rows = table.getElementsByTagName("tr");
 
-        for(var i = 0; i < rows.length; i++){
+        for (var i = 0; i < rows.length; i++) {
             var row = rows[i];
 
-            row.addEventListener("click", function(){
-            //Add to the current
-            selLinha(this, false); //Select only one
-            //selLinha(this, true); //Select multiple
+            row.addEventListener("click", function () {
+                //Add to the current
+                selLinha(this, false); //Select only one
+                //selLinha(this, true); //Select multiple
             });
         }
-            
+
         /**
          * Function to handle the delete event
          */
@@ -145,7 +155,7 @@ class InformationTasks {
         /**
          * Function to handle the update event
          */
-         function AssignmentTaskEventHandler() {
+        function AssignmentTaskEventHandler() {
             document.getElementById('associationTask').style.display = "block";
             document.getElementById('formTask').style.display = "none";
             document.getElementById('deleteTask').style.display = "none";
@@ -163,7 +173,7 @@ class InformationTasks {
         /**
          * Function to set up the tasks's form
          */
-        function setupForm(){
+        function setupForm() {
             document.getElementById('formTask').style.display = 'block';
             document.getElementById('formTask').reset();
             document.getElementById('categoryTask').options.length = 0;
@@ -171,25 +181,25 @@ class InformationTasks {
             document.getElementById('userAssignment').options.length = 0;
             document.getElementById('statusTask').options.length = 0;
 
-            self.status.forEach ( (e) => {
-                document.getElementById('statusTask').options.add(new Option(e.statusName,e.statusId));
+            self.status.forEach((e) => {
+                document.getElementById('statusTask').options.add(new Option(e.statusName, e.statusId));
             });
 
             document.getElementById("statusTask").setAttribute("readonly", "readonly");
 
-            self.categories.forEach ( (e) => {
+            self.categories.forEach((e) => {
                 console.log(e.categoryId);
-                document.getElementById('categoryTask').options.add(new Option(e.categoryName,e.categoryId));
+                document.getElementById('categoryTask').options.add(new Option(e.categoryName, e.categoryId));
             });
 
-            self.users.forEach ( (e) => {
-                document.getElementById('userTask').options.add(new Option(e.userFullName,e.userId));
+            self.users.forEach((e) => {
+                document.getElementById('userTask').options.add(new Option(e.userFullName, e.userId));
             });
-            
+
             document.getElementById('userAssignment').options.add(new Option(""));
-            self.users.forEach ( (e) => {
-                document.getElementById('userAssignment').options.add(new Option(e.userFullName,e.userId));
-            }); 
+            self.users.forEach((e) => {
+                document.getElementById('userAssignment').options.add(new Option(e.userFullName, e.userId));
+            });
         }
 
         /**
@@ -197,46 +207,46 @@ class InformationTasks {
          * 
          * @param {*} type 
          */
-        function loadTask(type){
+        function loadTask(type) {
             document.getElementById('formTask').reset();
             document.getElementById('categoryTask').options.length = 0;
             document.getElementById('userTask').options.length = 0;
             document.getElementById('userAssignment').options.length = 0;
             document.getElementById('statusTask').options.length = 0;
 
-            self.status.forEach ( (e) => {
-                document.getElementById('statusTask').options.add(new Option(e.statusName,e.statusId));
+            self.status.forEach((e) => {
+                document.getElementById('statusTask').options.add(new Option(e.statusName, e.statusId));
             });
 
-            self.categories.forEach ( (e) => {
-                document.getElementById('categoryTask').options.add(new Option(e.categoryName,e.categoryId));
+            self.categories.forEach((e) => {
+                document.getElementById('categoryTask').options.add(new Option(e.categoryName, e.categoryId));
             });
 
-            self.users.forEach ( (e) => {
-                document.getElementById('userTask').options.add(new Option(e.userFullName,e.userId));
+            self.users.forEach((e) => {
+                document.getElementById('userTask').options.add(new Option(e.userFullName, e.userId));
             });
 
             document.getElementById('userAssignment').options.add(new Option(""));
-            self.users.forEach ( (e) => {
-                document.getElementById('userAssignment').options.add(new Option(e.userFullName,e.userId));
-            }); 
+            self.users.forEach((e) => {
+                document.getElementById('userAssignment').options.add(new Option(e.userFullName, e.userId));
+            });
 
-            if(type === "delete"){
+            if (type === "delete") {
                 if (selected(document.getElementById("taskTable"), "tasks", "delete"))
-                document.getElementById('formTask').style.display = 'none';
+                    document.getElementById('formTask').style.display = 'none';
             }
-            else if(type === "update"){
+            else if (type === "update") {
                 if (selected(document.getElementById("taskTable"), "tasks", "update"))
-                document.getElementById('associationTask').style.display = 'none';
+                    document.getElementById('associationTask').style.display = 'none';
                 document.getElementById('formTask').style.display = 'block';
             }
-            else if(type === "assignment"){
+            else if (type === "assignment") {
                 if (selected(document.getElementById("taskTable"), "tasks", "assignment"))
-                document.getElementById('formTask').style.display = 'none';
+                    document.getElementById('formTask').style.display = 'none';
                 document.getElementById('associationTask').style.display = 'block';
             }
         }
-        
+
         var divButtons = document.createElement('div');
         divButtons.id = 'divButtons';
         document.getElementById("divInformation").appendChild(divButtons);
@@ -254,7 +264,7 @@ class InformationTasks {
         let status = this.status;
         status.length = 0;
         var xhr = new XMLHttpRequest();
-        xhr.responseType="json";
+        xhr.responseType = "json";
         xhr.open("GET", "/status", true);
         xhr.onreadystatechange = function () {
             if (this.readyState === 4 && this.status === 200) {
@@ -273,7 +283,7 @@ class InformationTasks {
         let categories = this.categories;
         categories.length = 0;
         var xhr = new XMLHttpRequest();
-        xhr.responseType="json";
+        xhr.responseType = "json";
         xhr.open("GET", "/categories", true);
         xhr.onreadystatechange = function () {
             if (this.readyState === 4 && this.status === 200) {
@@ -293,7 +303,7 @@ class InformationTasks {
         let users = this.users;
         users.length = 0;
         var xhr = new XMLHttpRequest();
-        xhr.responseType="json";
+        xhr.responseType = "json";
         xhr.open("GET", "/users", true);
         xhr.onreadystatechange = function () {
             if (this.readyState === 4 && this.status === 200) {
@@ -305,11 +315,11 @@ class InformationTasks {
         };
         xhr.send();
     }
- 
+
     /**
      * Function that has as main goal to request to the NODE.JS server the user resource through the GET verb, using asynchronous requests and JSON
      */
-     getTasks() {
+    getTasks() {
         const self = this;
         let tasks = this.tasks;
         tasks.length = 0;
@@ -317,7 +327,7 @@ class InformationTasks {
         tableElement = document.createElement("table");
         tableElement.setAttribute("id", "taskTable");
         var xhr = new XMLHttpRequest();
-        xhr.responseType="json";
+        xhr.responseType = "json";
         xhr.open("GET", "/tasks", true);
         xhr.onreadystatechange = function () {
             if (this.readyState === 4 && this.status === 200) {
@@ -329,13 +339,13 @@ class InformationTasks {
             }
         };
         xhr.send(tableElement);
-           
+
     }
 
     /**
      * Function that has as main goal to request to the NODE.JS server the resource task by id through the GET verb, using asynchronous requests and JSON
      */
-     getTaskByUserId(id) {
+    getTaskByUserId(id) {
         const self = this;
         var tableElement = document.getElementById("taskTable");
         tableElement = document.createElement("table");
@@ -344,7 +354,7 @@ class InformationTasks {
         let tasks = this.tasks;
         tasks.length = 0;
         var xhr = new XMLHttpRequest();
-        xhr.responseType="json";
+        xhr.responseType = "json";
         xhr.open('GET', '/tasks/users/' + id, true);
         xhr.onreadystatechange = function () {
             if (this.readyState === 4 && this.status === 200) {
@@ -361,7 +371,7 @@ class InformationTasks {
     /**
      * Function that has as main goal to request to the NODE.JS server the resource task by id through the GET verb, using asynchronous requests and JSON
      */
-     async getTaskByStatusId(id) {
+    async getTaskByStatusId(id) {
         const self = this;
         var tableElement = document.getElementById("taskTable");
         tableElement = document.createElement("table");
@@ -370,10 +380,10 @@ class InformationTasks {
         let tasks = this.tasks;
         tasks.length = 0;
         var xhr = new XMLHttpRequest();
-        xhr.responseType="json";
+        xhr.responseType = "json";
         xhr.open('GET', '/tasks/status/' + id, true);
         xhr.onreadystatechange = function () {
-            if (this.readyState === 4  && this.status === 200) {
+            if (this.readyState === 4 && this.status === 200) {
                 let info = xhr.response.task;
                 info.forEach(p => {
                     tasks.push(p);
@@ -382,11 +392,11 @@ class InformationTasks {
             }
         };
         xhr.send(tableElement);
-    } 
+    }
     /**
      * Function that has as main goal to request to the NODE.JS server the resource task by id through the GET verb, using asynchronous requests and JSON
      */
-     getTaskById(id) {
+    getTaskById(id) {
         const self = this;
         var tableElement = document.getElementById("taskTable");
         tableElement = document.createElement("table");
@@ -395,7 +405,7 @@ class InformationTasks {
         let tasks = this.tasks;
         tasks.length = 0;
         var xhr = new XMLHttpRequest();
-        xhr.responseType="json";
+        xhr.responseType = "json";
         xhr.open('GET', '/tasks/' + id, true);
         xhr.onreadystatechange = function () {
             if (this.readyState === 4 && this.status === 200) {
@@ -412,7 +422,7 @@ class InformationTasks {
      * Function that inserts or updates the resource user with a request to the NODE.JS server through the POST or PUT verb, using asynchronous requests and JSON
      * @param {String} acao - controls which CRUD operation we want to do
      */
-    processingTask (acao) {
+    processingTask(acao) {
 
         const id = parseInt(document.getElementById('idTask').value);
         const name = document.getElementById('taskName').value;
@@ -431,19 +441,19 @@ class InformationTasks {
         const address = document.getElementById('addressTask').value;
         const latitude = parseFloat(document.getElementById('taskLatitude').value);
         const longitude = parseFloat(document.getElementById('taskLongitude').value);
-        var idStatus =idStatusf;
-        var formTask ="";
+        var idStatus = idStatusf;
+        var formTask = "";
 
         let args = [];
 
-        if (acao == "create"){ 
+        if (acao == "create") {
             args.push(name);
             args.push(description);
             args.push(idcategory);
             args.push(idUserCreation);
             args.push(address);
 
-            formTask= new postTask(name,description, idcategory, idUserCreation, dateAssignment, address, latitude, longitude);
+            formTask = new postTask(name, description, idcategory, idUserCreation, dateAssignment, address, latitude, longitude);
 
         } else if (acao == "update") {
 
@@ -455,11 +465,11 @@ class InformationTasks {
 
             var taskOld = selecteTaskOldValues(selecteds);
 
-            if (iduserAssignment != "" && (taskOld.userAssignment == "" ||taskOld.userAssignment == undefined) ) {
+            if (iduserAssignment != "" && (taskOld.userAssignment == "" || taskOld.userAssignment == undefined)) {
                 idStatus = "2";
             }
 
-            if (iduserAssignment === ""){
+            if (iduserAssignment === "") {
                 iduserAssignment = null;
             }
 
@@ -470,19 +480,19 @@ class InformationTasks {
             args.push(address);
             args.push(idStatus);
 
-            formTask = new putTask(id, name,description, idStatus, idcategory, idUserCreation, iduserAssignment, dateAssignment, address, latitude, longitude);
+            formTask = new putTask(id, name, description, idStatus, idcategory, idUserCreation, iduserAssignment, dateAssignment, address, latitude, longitude);
 
         }
 
         if (acao === 'create') {
-            if (validadeForm(args)){
+            if (validadeForm(args)) {
                 this.postTask(formTask);
-            } 
+            }
         } else if (acao === 'update') {
-            if (validadeForm(args)){
+            if (validadeForm(args)) {
                 this.putTask(formTask, true);
             }
-            
+
         } else if (acao === 'delete') {
             this.deleteTask(formTask);
         }
@@ -493,13 +503,14 @@ class InformationTasks {
      * 
      * @param {*} formTask - tasks's form with all the information
      */
-     postTask(formTask){
+    postTask(formTask) {
         const self = this;
         const xhr = new XMLHttpRequest();
-        xhr.responseType="json";
-        xhr.setRequestHeader('Authorization', 'Bearer ' + formTask.tokenField);
-        xhr.open('POST', '/tasks');
+        xhr.responseType = "json";
         
+        xhr.open('POST', '/tasks');
+        xhr.setRequestHeader('Authorization', 'Bearer ' + sessionStorageObter("token"));
+
         xhr.onreadystatechange = function () {
             if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
                 let info = xhr.response.task;
@@ -508,7 +519,7 @@ class InformationTasks {
         }
         xhr.setRequestHeader('Content-Type', 'application/json');
         xhr.send(JSON.stringify(formTask));
-       
+
     }
 
     /**
@@ -516,12 +527,12 @@ class InformationTasks {
      * 
      * @param {*} formTask - tasks's form with all the information
      */
-     putTask(formTask){
+    putTask(formTask) {
         const self = this;
         const xhr = new XMLHttpRequest();
-        xhr.responseType="json";
+        xhr.responseType = "json";
         xhr.open('PUT', '/tasks/' + formTask.id);
-        
+
         xhr.onreadystatechange = function () {
             if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
                 let info = xhr.response.task;
@@ -530,8 +541,8 @@ class InformationTasks {
         }
         xhr.setRequestHeader('Content-Type', 'application/json');
         xhr.send(JSON.stringify(formTask));
-    } 
-    
+    }
+
     /**
      * Function to delete an existing task
      * 

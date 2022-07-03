@@ -1,4 +1,5 @@
 var jwt = require('jsonwebtoken');
+const db = require('../../scripts/dbConnection');
 
 function verifyToken(req, res, next) {
     if (

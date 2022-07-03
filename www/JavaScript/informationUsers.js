@@ -50,13 +50,14 @@ class InformationUsers {
         document.getElementById("headerTitle").textContent = "Users";
         document.getElementById("sectionLogin").style.display = "none";
         document.getElementById("formLogin").style.display = "none";
-        // if (sessionStorageObter("username_login")  === null) {
-        //     document.getElementById("divInformation").style.display="none";
-        //     return;
-        // }
-        // else {
-        document.getElementById("divInformation").style.display = "block";
-        //}
+        
+        if (sessionStorageObter("email_login")  === null) {
+             document.getElementById("divInformation").style.display="none";
+             return;
+        }
+        else {
+            document.getElementById("divInformation").style.display = "block";
+        }
         // document.getElementById("demo").style.display = "none";
 
 

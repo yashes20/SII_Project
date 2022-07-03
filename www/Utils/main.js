@@ -281,5 +281,41 @@ function isLoggedIn(){
         document.getElementById("menuLogin").style.display = "block";
         //document.getElementById("sectionLogin").style.display = "none";
     }
-    //infoProducts.showHome();
+}
+
+/**
+ * Function to save in the session storage
+ * @param {*} arg 
+ */
+/*  function sessionStorageGravar(arg) { 
+    var text = document.getElementById(arg).value; 
+    sessionStorage.setItem(arg, text); 
+}  */
+
+/**
+ * Function to save in the session storage
+ * @param {*} arg 
+ */
+ function sessionStorageGravar(arg, text) { 
+    sessionStorage.setItem(arg, text); 
+} 
+
+/**
+ * Function to select from the session storage
+ * 
+ * @param {*} arg 
+ * @returns 
+ */
+function sessionStorageObter(arg) { 
+    return sessionStorage.getItem(arg); 
+} 
+
+/**
+ * Function to clean from the sesssion storage
+ * 
+ * @param {*} arg 
+ */
+function sessionStorageLimpar(arg) { 
+    sessionStorage.removeItem(arg); 
+    //document.getElementById("Data").value = ""; 
 }
