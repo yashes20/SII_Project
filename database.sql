@@ -40,7 +40,7 @@ CREATE TABLE users (
   userEmail varchar(100) NOT NULL UNIQUE,
   userGender varchar(1) NOT NULL,
   userPhone varchar(50) ,
-  userBirthDate datetime ,
+  userBirthDate date ,
   userState varchar(1) NOT NULL,
   userType varchar(20) NOT NULL,
   userLatitude FLOAT( 10, 6 ), 
@@ -57,11 +57,11 @@ DROP function IF EXISTS `fun_login_validation`;
 -- Insert default users
 INSERT INTO `users` 
 ( `userFullName`, `userPassword`, `userAddress`, `userZipCode`,  `userEmail`, `userGender`, `userPhone`, `userBirthDate`,`userState`,`userType`) VALUES
-('Yasmin', '1234', 'rua','8888','yashes20@yahoo.com.br','F','89898','1981-06-22 15:40:00','A','Admin');
+('Yasmin', '1234', 'rua','8888','yashes20@yahoo.com.br','F','89898','1981-06-22','A','Admin');
 
 INSERT INTO `users` 
 ( `userFullName`, `userPassword`, `userAddress`, `userZipCode`,  `userEmail`, `userGender`, `userPhone`, `userBirthDate`,`userState`,`userType`) VALUES
-('Nicole',  '1234', 'rua','8888','nvieira@yahoo.com.br','F','89898','1999-06-22 15:40:00','A','Admin');
+('Nicole',  '1234', 'rua','8888','nvieira@yahoo.com.br','F','89898','1999-06-22','A','Admin');
 
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
@@ -149,7 +149,7 @@ CREATE TABLE users (
   userEmail varchar(100) NOT NULL UNIQUE,
   userGender varchar(1) NOT NULL,
   userPhone varchar(50) ,
-  userBirthDate datetime ,
+  userBirthDate date ,
   userState varchar(1) NOT NULL,
   userType varchar(20) NOT NULL,
   userLatitude FLOAT( 10, 6 ), 
@@ -162,11 +162,11 @@ SET GLOBAL log_bin_trust_function_creators = 1;
 -- Insert default users
 INSERT INTO `users` 
 ( `userFullName`, `userPassword`, `userAddress`, `userZipCode`,  `userEmail`, `userGender`, `userPhone`, `userBirthDate`,`userState`,`userType`) VALUES
-('Yasmin', '1234', 'rua','8888','yashes20@yahoo.com.br','F','89898','1981-06-22 15:40:00','A','Admin');
+('Yasmin', '1234', 'rua','8888','yashes20@yahoo.com.br','F','89898','1981-06-22','A','Admin');
 
 INSERT INTO `users` 
 ( `userFullName`, `userPassword`, `userAddress`, `userZipCode`,  `userEmail`, `userGender`, `userPhone`, `userBirthDate`,`userState`,`userType`) VALUES
-('Nicole',  '1234', 'rua','8888','nvieira@yahoo.com.br','F','89898','1999-06-22 15:40:00','A','Admin');
+('Nicole',  '1234', 'rua','8888','nvieira@yahoo.com.br','F','89898','1999-06-22','A','Admin');
 
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

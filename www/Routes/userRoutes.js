@@ -36,48 +36,33 @@ router.put("/:id", userValidation, upload.any(), (req, res) => {
         return res.status(400).send({
             msg: error_msg
         });
-        
+
     } else {
         let user = req.body;
         let password = user.password;
+        user.id = req.params.id;
 
-        db.query(
-            `SELECT * FROM users WHERE LOWER(userEmail) = LOWER(${db.escape(
-                req.body.email
-            )});`,
-            (err, result) => {
-                if (result.length) {
-
-                    req.flash('error', 'This user is already in use!');
-
-                    return res.status(409).send({
-                        msg: 'This user is already in use!'
-                    });
-                } else {
-
-                    bcrypt.hash(password, 10, (err, hash) => {
-                        if (err) {
-                            return res.status(500).send({
-                                msg: err
-                            });
-                        } else {
-                            if (password.trim().length != 0) {
-                                user.password = hash;
-                            }
-                            requestHandlers.createUpdateUser(user, user.id !== null ? true : false, (err, rows, results) => {
-                                if (err) {
-                                    console.log(err);
-
-                                    res.status(500).json({ "message": "error" });
-                                } else {
-                                    res.status(200).json({ "message": "success", "user": rows, "results": results });
-                                }
-
-                            })
-                        }
-                    });
+        bcrypt.hash(password, 10, (err, hash) => {
+            if (err) {
+                return res.status(500).send({
+                    msg: err
+                });
+            } else {
+                if (password.trim().length != 0) {
+                    user.password = hash;
                 }
-            });
+                requestHandlers.updateUser(user, (err, rows, results) => {
+                    if (err) {
+                        console.log(err);
+
+                        res.status(500).json({ "message": "error" });
+                    } else {
+                        res.status(200).json({ "message": "success", "user": rows, "results": results });
+                    }
+
+                })
+            }
+        });
     }
 });
 

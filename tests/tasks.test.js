@@ -1,9 +1,6 @@
 //tasks.test.js
 const request = require('supertest');
 const taskRouter = require('../www/Routes/taskRoutes.js');
-const task = require('../www/Models/task.js');
-var taskPost = require('../www/Models/postTask.js');
-const rows = require('../scripts/request-handlers.js');
 const express = require("express");
 const app = express(); //an instance of an express app, a 'fake' express app
 const bodyParser = require("body-parser");
@@ -146,6 +143,36 @@ describe("PUT request", () => {
                         // Check data
                         expect(response.body.message).toEqual("success");
                         expect(response.body.task.affectedRows).toEqual(1);
+
+                        
+                    });
+            } catch (err) {
+                // write test for failure here
+                console.log(`Error ${err}`)
+            }
+
+        })
+
+    }
+    catch (err) {
+        console.log("ERROR : ", err)
+    }
+});
+
+describe("DELETE request", () => {
+
+    try {
+        
+        it('should put task to invalid', async () => {
+            try {
+                await request(app).delete('/tasks/' + 2)
+                    .set('Accept', /json/)
+                    .expect(200).expect('Content-type', /json/)
+                    
+                    .then((response) => {
+                        console.log(response);
+                        // Check data
+                        expect(response.body.message).toEqual("success");
 
                         
                     });

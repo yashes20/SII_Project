@@ -53,8 +53,11 @@ const queryTaskId = "SELECT taskId, taskName, taskDescription,taskDateCreation, 
 "left JOIN users as USERS2 ON tasks.userAssignment = USERS2.userId "+
 "where tasks.taskId = ? and tasks.taskIsEnabled = 1 ";
 
-const sqlUpdateUserPass = "UPDATE USERS SET userFullName = ?, userPassword = ?, userAddress = ?, userZipCode= ? , userEmail = ? , userGender = ?,  userPhone = ?, userBirthDate = ? WHERE userId = ?";
-const sqlUpdateUser = "UPDATE USERS SET userFullName = ?,  userAddress = ?, userZipCode= ? , userEmail = ? , userGender = ?,  userPhone = ?, userBirthDate = ? WHERE userId = ?";
+const sqldeleteTask = "UPDATE TASKS SET taskIsEnabled = 0 WHERE taskId = ?";
+
+const sqlUpdateUser = "UPDATE USERS SET userFullName = ?, userGender = ? ";
+const sqlInsertUser = "INSERT INTO USERS (userFullName , userPassword, userGender, userEmail, userState, userType) VALUES (?,?,?,?,'A','User')";
+const sqlWhereUpdateUser = " WHERE userId = ?";
 const sqldeleteUser = "UPDATE USERS SET userState = 'I' WHERE userId = ?";
 /**
  * Function to return the json message obtained from the connection to the database
@@ -151,13 +154,12 @@ function selectUser(req, res){
  }
 
 /**
- * This function is used to update an existing user or create a new one based on the param "isUpdate"
+ * This function is used to insert a new user
  * 
  * @param {*} formUser - form with data about the user
- * @param {*} isUpdate - if the operation is to update or create a new data
  * @param {*} result - result from the execution of the query
  */
- async function createUpdateUser(formUser, isUpdate, result) {
+ async function insertUser(formUser, result) {
     // Declaration of variables
     const connection = await connect();
     let id = formUser.id;
@@ -168,19 +170,11 @@ function selectUser(req, res){
     let gender = formUser.gender;
     let phone = formUser.phone;
     let birthdate = formUser.birthDate;
-
-    let sqlUpdate = sqlUpdateUser;
     let password = formUser.password;
 
-    // Check if is update or not
-    if (isUpdate) {
-        if (password.trim().length != 0) {
-            sqlUpdate = sqlUpdateUserPass;
-        }
-    }
+    let sql = sqlInsertUser;
+    let params = [fullName, password, gender, email];
 
-    // If is update use the sqlUpdate query created above otherwise execute the insert query
-    let sql = (isUpdate) ? sqlUpdate : "INSERT INTO users(userFullName, userPassword, userAddress, userZipCode,  userEmail, userGender, userPhone, userBirthDate,userState,userType) VALUES (?,?,?,?,?,?,?,?,'A','User')";
     connection.connect(function (err) {
         if (err) {
             if (result != null) {
@@ -191,9 +185,6 @@ function selectUser(req, res){
             }
         }
         else {
-            // Insertion of the data in the following params
-            let params = password.trim().length != 0 ? [fullName, password, address, zipCode, email, gender, phone, birthdate,  id] : [fullName,  address, zipCode, email, gender, phone, birthdate, id];
-
             connection.query(sql, params, function (err, rows, results) {
                 if (err) {
                     if (result != null) {
@@ -211,15 +202,86 @@ function selectUser(req, res){
 }
 
 /**
- * This function is used to update an existing user or create a new one based on the param "isUpdate"
+ * This function is used to update an existing user
  * 
  * @param {*} formUser - form with data about the user
  * @param {*} result - result from the execution of the query
  */
- async function deleteUser(formUser, result) {
+ async function updateUser(formUser, result) {
     // Declaration of variables
     const connection = await connect();
     let id = formUser.id;
+    let fullName = formUser.fullName;
+    let address = formUser.address;
+    let zipCode = formUser.zipCode;
+    let email = formUser.email;
+    let gender = formUser.gender;
+    let phone = formUser.phone;
+    let birthdate = formUser.birthDate;
+    let password = formUser.password;
+
+    let sql = sqlUpdateUser;
+    let params = [fullName, gender];
+    // Check if optionals fields are filled
+    if (password.trim().length != 0) {
+        sql = sql + ", userPassword = ? ";
+        params.push(password);
+    }
+    if (address.trim().length != 0) {
+        sql = sql + ", userAddress = ? ";
+        params.push(address);
+    }
+    if (zipCode.trim().length != 0) {
+        sql = sql + ", userZipCode = ? ";
+        params.push(zipCode);
+    }
+    if (birthdate.trim().length != 0) {
+        sql = sql + ", userBirthDate = ? ";
+        params.push(birthdate);
+    }
+    if (phone.trim().length != 0) {
+        sql = sql + ", userPhone = ? ";
+        params.push(phone);
+    }
+    // update query
+    sql = sql + sqlWhereUpdateUser;
+    params.push(id);
+
+    connection.connect(function (err) {
+        if (err) {
+            if (result != null) {
+                result(err, null, null);
+            }
+            else {
+                throw err;
+            }
+        }
+        else {
+            connection.query(sql, params, function (err, rows, results) {
+                if (err) {
+                    if (result != null) {
+                        result(err, null, null);
+                    }
+                    else {
+                        throw err;
+                    }
+                } else {
+                    result(err, rows, results);
+                }
+            });
+        }
+    });
+}
+
+/**
+ * This function is used to delete a existing user 
+ * 
+ * @param {*} id - id
+ * @param {*} result - result from the execution of the query
+ */
+ async function deleteUser(id, result) {
+    // Declaration of variables
+    const connection = await connect();
 
     // update status
     connection.connect(function (err) {
@@ -390,16 +452,56 @@ function selectTasksById(req, res){
     });
 }
 
+/**
+ * This function is used to delete an existing task"
+ * 
+ * @param {*} id - id 
+ * @param {*} result - result from the execution of the query
+ */
+ async function deleteTask(id, result) {
+    // Declaration of variables
+    const connection = await connect();
+
+    // update status
+    connection.connect(function (err) {
+        if (err) {
+            if (result != null) {
+                result(err, null, null);
+            }
+            else {
+                throw err;
+            }
+        }
+        else {
+            connection.query(sqldeleteTask, id, function (err, rows, results) {
+                if (err) {
+                    if (result != null) {
+                        result(err, null, null);
+                    }
+                    else {
+                        throw err;
+                    }
+                } else {
+                    result(err, rows, results);
+                }
+            });
+        }
+    });
+}
+
+
 module.exports =
  {selectqueryStatus,
  selectCategories,
  selectUsers,
  selectUser,
- createUpdateUser,
+ insertUser,
+ updateUser,
  deleteUser, 
  selectAllTasks, 
  selectTasksByStatus,
  selectTasksByUserId,
  selectTasksById,
  createTask,
- updateTask}
+ updateTask,
+ deleteTask}

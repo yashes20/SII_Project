@@ -90,4 +90,19 @@ router.put("/:id", updateTaskValidation, (req, res) => {
         })
     }
 });
+
+// Calls delete task
+router.delete("/:id", (req, res) => {
+    requestHandlers.deleteTask(req.params.id, (err, rows, results) => {
+        if (err) {
+            console.log(err);
+
+            res.status(500).json({ "message": "error" });
+        } else {
+            res.status(200).json({ "message": "success", "task": rows, "results": results });
+        }
+
+    });
+});
+
 module.exports = router;

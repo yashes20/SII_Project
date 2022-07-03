@@ -20,7 +20,10 @@ exports.loginValidation = [
 ]
 
 exports.userValidation = [
-    check('email', 'Please include a valid email').isEmail().normalizeEmail({ gmail_remove_dots: true }),
+    check('fullName')
+    .if(check('fullName', 'Name is required').not().isEmpty()),
+    check('gender')
+    .if(check('gender', 'gender is required').not().isEmpty()),
     check('password')
     // if the new password is provided...
     .if(check('password', 'Password must be between 6 and 10 characters').exists({checkFalsy: true}))

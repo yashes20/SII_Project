@@ -70,9 +70,9 @@ app.use((err, req, res, next) => {
     });
 });
 
-// Calls a function to get all users
+// Calls a function to get all task status
 app.get("/status", requestHandlers.selectqueryStatus);
-// Calls a function to get all users
+// Calls a function to get all task categories
 app.get("/categories", requestHandlers.selectCategories);
 
 app.listen(8082, function () {

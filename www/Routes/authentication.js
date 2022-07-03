@@ -49,7 +49,7 @@ router.post('/register', registerValidation, (req, res, next) => {
                                 email: req.body.email,
                                 gender: req.body.gender
                             };
-                            requestHandlers.createUpdateUser(user, false, (err, result) => {
+                            requestHandlers.insertUser(user, (err, result) => {
                                 if (err) {
                                     //throw err;
                                     return res.status(400).send({

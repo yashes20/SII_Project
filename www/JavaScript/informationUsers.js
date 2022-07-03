@@ -28,9 +28,9 @@ class InformationUsers {
     constructor(id) {
         this.id = id;
         this.users = [];
-        this.genders = ['F','M','N'];
+        this.genders = ['F', 'M', 'N'];
     }
-    
+
     /**
      * Show the users table
      * 
@@ -41,53 +41,53 @@ class InformationUsers {
         let self = this;
 
         //document.getElementById("catalogProducts").style.display = "none";
-        
+
         // permission to see all customers
         if (acao === "select") {
-           infoUsers.getUsers();
+            infoUsers.getUsers();
         }
         /** Update the title */
-        document.getElementById("headerTitle").textContent="Users";
+        document.getElementById("headerTitle").textContent = "Users";
         document.getElementById("sectionLogin").style.display = "none";
-        document.getElementById("formLogin").style.display="none";
+        document.getElementById("formLogin").style.display = "none";
         // if (sessionStorageObter("username_login")  === null) {
         //     document.getElementById("divInformation").style.display="none";
         //     return;
         // }
         // else {
-        document.getElementById("divInformation").style.display="block";
+        document.getElementById("divInformation").style.display = "block";
         //}
         // document.getElementById("demo").style.display = "none";
-        
 
-        let cleanDiv= document.createElement("div");
-        replaceChilds("divInformation",cleanDiv);
+
+        let cleanDiv = document.createElement("div");
+        replaceChilds("divInformation", cleanDiv);
 
         let userTable = document.createElement("table");
         userTable.setAttribute("id", "userTable");
-        let th = tableLine(new User(),true);
+        let th = tableLine(new User(), true);
         userTable.appendChild(th);
-        this.users.forEach(p=>{
+        this.users.forEach(p => {
             let tr = tableLine(p);
             userTable.appendChild(tr);
         });
-        replaceChilds("divInformation",userTable);
+        replaceChilds("divInformation", userTable);
 
         var table = document.getElementById("userTable");
         var rows = table.getElementsByTagName("tr");
 
-        for(var i = 0; i < rows.length; i++){
+        for (var i = 0; i < rows.length; i++) {
             var row = rows[i];
 
-            row.addEventListener("click", function(){
-            //Add to the current
-            selLinha(this, false); //Select only one
-            //selLinha(this, true); //Select multiple
+            row.addEventListener("click", function () {
+                //Add to the current
+                selLinha(this, false); //Select only one
+                //selLinha(this, true); //Select multiple
             });
         }
-        
+
         // Show content
-        
+
         /**
          * Function to handle the delete event
          */
@@ -131,13 +131,13 @@ class InformationUsers {
         /**
          * Function to set up the client's form
          */
-        function setupForm(){
+        function setupForm() {
             document.getElementById('formUser').style.display = 'block';
             document.getElementById('formUser').reset();
             //document.getElementById('formClient').innerHTML = '';
             document.getElementById('gender').options.length = 0;
 
-            self.genders.forEach ( (e) => {
+            self.genders.forEach((e) => {
                 document.getElementById('gender').options.add(new Option(e));
             });
         }
@@ -147,25 +147,25 @@ class InformationUsers {
          * 
          * @param {*} type 
          */
-        function loadUser(type){
+        function loadUser(type) {
             document.getElementById('formUser').reset();
 
             document.getElementById('gender').options.length = 0;
-            self.genders.forEach ( (e) => {
-                 document.getElementById('gender').options.add(new Option(e));
+            self.genders.forEach((e) => {
+                document.getElementById('gender').options.add(new Option(e));
             });
 
 
-            if(type === "delete"){
+            if (type === "delete") {
                 if (selected(document.getElementById("userTable"), "users", "delete"))
-                document.getElementById('formUser').style.display = 'none';
+                    document.getElementById('formUser').style.display = 'none';
             }
-            else if(type === "update"){
+            else if (type === "update") {
                 if (selected(document.getElementById("userTable"), "users", "update"))
-                document.getElementById('formUser').style.display = 'block';
+                    document.getElementById('formUser').style.display = 'block';
             }
         }
-        
+
         var divButtons = document.createElement('div');
         divButtons.id = 'divButtons';
         document.getElementById("divInformation").appendChild(divButtons);
@@ -173,14 +173,14 @@ class InformationUsers {
         createButton("divButtons", updateUserEventHandler, 'Update User');
         createButton("divButtons", newUserEventHandler, 'New User');
         createButton("divButtons", deleteUserEventHandler, 'Delete User');
-            
-        
+
+
     }
 
     /**
      * Function that has as main goal to request to the NODE.JS server the user resource through the GET verb, using asynchronous requests and JSON
      */
-     getUsers() {
+    getUsers() {
         const self = this;
         let users = this.users;
         users.length = 0;
@@ -188,7 +188,7 @@ class InformationUsers {
         tableElement = document.createElement("table");
         tableElement.setAttribute("id", "userTable");
         var xhr = new XMLHttpRequest();
-        xhr.responseType="json";
+        xhr.responseType = "json";
         xhr.open("GET", "/users", true);
         xhr.onreadystatechange = function () {
             if (this.readyState === 4 && this.status === 200) {
@@ -200,13 +200,13 @@ class InformationUsers {
             }
         };
         xhr.send(tableElement);
-           
+
     }
 
     /**
      * Function that has as main goal to request to the NODE.JS server the resource user by id through the GET verb, using asynchronous requests and JSON
      */
-     getUserById(id) {
+    getUserById(id) {
         const self = this;
         var tableElement = document.getElementById("userTable");
         tableElement = document.createElement("table");
@@ -215,7 +215,7 @@ class InformationUsers {
         let users = this.users;
         users.length = 0;
         var xhr = new XMLHttpRequest();
-        xhr.responseType="json";
+        xhr.responseType = "json";
         xhr.open('GET', '/userById/' + id, true);
         xhr.onreadystatechange = function () {
             if (this.readyState === 4 && this.status === 200) {
@@ -227,13 +227,13 @@ class InformationUsers {
             }
         };
         xhr.send(tableElement);
-    } 
+    }
 
     /**
      * Function that inserts or updates the resource user with a request to the NODE.JS server through the POST or PUT verb, using asynchronous requests and JSON
      * @param {String} acao - controls which CRUD operation we want to do
      */
-     processingUser (acao) {
+    processingUser(acao) {
 
         const id = parseInt(document.getElementById('id').value);
         const userFullName = document.getElementById('name').value;
@@ -251,58 +251,71 @@ class InformationUsers {
         args.push(email);
         args.push(idgender);
 
-        const formUser = new FormUser(id, userFullName, password, birthDate, address, zipCode, email, idgender, phone );
+        const formUser = new FormUser(id, userFullName, password, birthDate, address, zipCode, email, idgender, phone);
         if (acao === 'create') {
             args.push(password);
-            if (validadeForm(args)){
-                this.putUser(formUser, false);
-            } 
-        } else if (acao === 'update') {
-            if (validadeForm(args)){
-                this.putUser(formUser, true);
+            if (validadeForm(args)) {
+                this.postUser(formUser);
             }
-            
+        } else if (acao === 'update') {
+            if (validadeForm(args)) {
+                this.putUser(formUser);
+            }
+
         } else if (acao === 'delete') {
             this.deleteUser(formUser);
         }
-    } 
+    }
 
     /**
-     * Function to update or insert a new user
+     * Function to insert a new user
      * 
      * @param {*} formUser - user's form with all the information
-     * @param {*} isUpdate - if the action is update or insert
      */
-    putUser(formUser, isUpdate){
+    postUser(formUser) {
         const self = this;
         const xhr = new XMLHttpRequest();
-        xhr.responseType="json";
-        xhr.open('PUT', '/users/' + formUser.id);
-        
+        xhr.responseType = "json";
+        xhr.open('POST', '/api/register/');
+
         xhr.onreadystatechange = function () {
             if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
-                if(!isUpdate){
-                    let resp = xhr.response;
-                    let id = xhr.response.user.insertId;
-                    //self.getClientById(id);
-                    self.showUsers("select");
-                }
-                else{
-                    //self.getUserById(formUser.id);
-                    self.showUsers("select");
-                }
+                let resp = xhr.response;
+                let id = xhr.response.user.insertId;
+                //self.getClientById(id);
+                self.showUsers("select");
             }
         }
         xhr.setRequestHeader('Content-Type', 'application/json');
         xhr.send(JSON.stringify(formUser));
-    } 
-    
+    }
+
+    /**
+     * Function to update user
+     * 
+     * @param {*} formUser - user's form with all the information
+     */
+    putUser(formUser) {
+        const self = this;
+        const xhr = new XMLHttpRequest();
+        xhr.responseType = "json";
+        xhr.open('PUT', '/users/' + formUser.id);
+
+        xhr.onreadystatechange = function () {
+            if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+                self.showUsers("select");
+            }
+        }
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.send(JSON.stringify(formUser));
+    }
+
     /**
      * Function to delete an existing user, only change status 
      * 
      * @param {*} formUser - users's form with all the information
      */
-     deleteUser(formUser){
+    deleteUser(formUser) {
         const self = this;
         const xhr = new XMLHttpRequest();
         xhr.open('PUT', '/users/' + formUser.id);
@@ -314,5 +327,5 @@ class InformationUsers {
         };
         xhr.setRequestHeader('Content-Type', 'application/json');
         xhr.send(JSON.stringify(formUser));
-    } 
+    }
 }
