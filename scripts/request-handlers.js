@@ -12,46 +12,46 @@ const queryStatus = "SELECT statusId, statusName from status"; // somente status
 const queryUsers = "SELECT userId, userFullName,  DATE_FORMAT(userBirthDate,'%Y-%m-%d') AS userBirthDate, userAddress, userZipCode, userEmail, userGender, userPhone  FROM users WHERE userState ='A'";
 const queryUser = "SELECT userId, userFullName,  DATE_FORMAT(userBirthDate,'%Y-%m-%d') AS userBirthDate, userAddress, userZipCode, userEmail, userGender, userPhone  FROM users WHERE userId = ?";
 
-const queryAllTasks = "SELECT taskId, taskName, taskDescription,taskDateCreation, taskStatusId,"+ 
-"taskDateStatus, taskCategoryId, taskIsEnabled, userCreation,"+
-"userAssignment, DATE_FORMAT(taskDateAssignment,'%Y-%m-%d %H:%i') as taskDateAssignment, taskAddress, taskLatitude,taskLongitude "+
-"from tasks "+
-"INNER JOIN status ON tasks.taskStatusId = status.statusId "+
-"INNER JOIN categories ON tasks.taskCategoryId = categories.categoryId "+
-"INNER JOIN users AS USERS1 ON tasks.userCreation = USERS1.userId "+
-"left JOIN users as USERS2 ON tasks.userAssignment = USERS2.userId "+
-"where tasks.taskIsEnabled = 1";
+const queryAllTasks = "SELECT taskId, taskName, taskDescription,taskDateCreation, taskStatusId," +
+    "taskDateStatus, taskCategoryId, taskIsEnabled, userCreation," +
+    "userAssignment, DATE_FORMAT(taskDateAssignment,'%Y-%m-%d %H:%i') as taskDateAssignment, taskAddress, taskLatitude,taskLongitude " +
+    "from tasks " +
+    "INNER JOIN status ON tasks.taskStatusId = status.statusId " +
+    "INNER JOIN categories ON tasks.taskCategoryId = categories.categoryId " +
+    "INNER JOIN users AS USERS1 ON tasks.userCreation = USERS1.userId " +
+    "left JOIN users as USERS2 ON tasks.userAssignment = USERS2.userId " +
+    "where tasks.taskIsEnabled = 1";
 
-const queryTaskStatus = "SELECT taskId, taskName, taskDescription,taskDateCreation, taskStatusId,"+ 
-"taskDateStatus, taskCategoryId, taskIsEnabled, userCreation,"+
-"userAssignment, DATE_FORMAT(taskDateAssignment,'%Y-%m-%d %H:%i') as taskDateAssignment,  taskAddress, taskLatitude,taskLongitude "+
-"from tasks "+
-"INNER JOIN status ON tasks.taskStatusId = status.statusId "+
-"INNER JOIN categories ON tasks.taskCategoryId = categories.categoryId "+
-"INNER JOIN users AS USERS1 ON tasks.userCreation = USERS1.userId "+
-"left JOIN users as USERS2 ON tasks.userAssignment = USERS2.userId "+
-"where tasks.taskStatusId = ? and tasks.taskIsEnabled = 1 ";
+const queryTaskStatus = "SELECT taskId, taskName, taskDescription,taskDateCreation, taskStatusId," +
+    "taskDateStatus, taskCategoryId, taskIsEnabled, userCreation," +
+    "userAssignment, DATE_FORMAT(taskDateAssignment,'%Y-%m-%d %H:%i') as taskDateAssignment,  taskAddress, taskLatitude,taskLongitude " +
+    "from tasks " +
+    "INNER JOIN status ON tasks.taskStatusId = status.statusId " +
+    "INNER JOIN categories ON tasks.taskCategoryId = categories.categoryId " +
+    "INNER JOIN users AS USERS1 ON tasks.userCreation = USERS1.userId " +
+    "left JOIN users as USERS2 ON tasks.userAssignment = USERS2.userId " +
+    "where tasks.taskStatusId = ? and tasks.taskIsEnabled = 1 ";
 
 
-const queryTaskUserId = "SELECT taskId, taskName, taskDescription,taskDateCreation, taskStatusId,"+ 
-"taskDateStatus, taskCategoryId, taskIsEnabled, userCreation,"+
-"userAssignment, DATE_FORMAT(taskDateAssignment,'%Y-%m-%d %H:%i') as taskDateAssignment, taskAddress, taskLatitude,taskLongitude "+
-"from tasks "+
-"INNER JOIN status ON tasks.taskStatusId = status.statusId "+
-"INNER JOIN categories ON tasks.taskCategoryId = categories.categoryId "+
-"INNER JOIN users AS USERS1 ON tasks.userCreation = USERS1.userId "+
-"left JOIN users as USERS2 ON tasks.userAssignment = USERS2.userId "+
-"where tasks.userCreation = ? and tasks.taskIsEnabled = 1 ";
+const queryTaskUserId = "SELECT taskId, taskName, taskDescription,taskDateCreation, taskStatusId," +
+    "taskDateStatus, taskCategoryId, taskIsEnabled, userCreation," +
+    "userAssignment, DATE_FORMAT(taskDateAssignment,'%Y-%m-%d %H:%i') as taskDateAssignment, taskAddress, taskLatitude,taskLongitude " +
+    "from tasks " +
+    "INNER JOIN status ON tasks.taskStatusId = status.statusId " +
+    "INNER JOIN categories ON tasks.taskCategoryId = categories.categoryId " +
+    "INNER JOIN users AS USERS1 ON tasks.userCreation = USERS1.userId " +
+    "left JOIN users as USERS2 ON tasks.userAssignment = USERS2.userId " +
+    "where tasks.userCreation = ? and tasks.taskIsEnabled = 1 ";
 
-const queryTaskId = "SELECT taskId, taskName, taskDescription,taskDateCreation, taskStatusId,"+ 
-"taskDateStatus, taskCategoryId, taskIsEnabled, userCreation,"+
-"userAssignment, DATE_FORMAT(taskDateAssignment,'%Y-%m-%d %H:%i') as taskDateAssignment, taskAddress, taskLatitude,taskLongitude "+
-"from tasks "+
-"INNER JOIN status ON tasks.taskStatusId = status.statusId "+
-"INNER JOIN categories ON tasks.taskCategoryId = categories.categoryId "+
-"INNER JOIN users AS USERS1 ON tasks.userCreation = USERS1.userId "+
-"left JOIN users as USERS2 ON tasks.userAssignment = USERS2.userId "+
-"where tasks.taskId = ? and tasks.taskIsEnabled = 1 ";
+const queryTaskId = "SELECT taskId, taskName, taskDescription,taskDateCreation, taskStatusId," +
+    "taskDateStatus, taskCategoryId, taskIsEnabled, userCreation," +
+    "userAssignment, DATE_FORMAT(taskDateAssignment,'%Y-%m-%d %H:%i') as taskDateAssignment, taskAddress, taskLatitude,taskLongitude " +
+    "from tasks " +
+    "INNER JOIN status ON tasks.taskStatusId = status.statusId " +
+    "INNER JOIN categories ON tasks.taskCategoryId = categories.categoryId " +
+    "INNER JOIN users AS USERS1 ON tasks.userCreation = USERS1.userId " +
+    "left JOIN users as USERS2 ON tasks.userAssignment = USERS2.userId " +
+    "where tasks.taskId = ? and tasks.taskIsEnabled = 1 ";
 
 const sqldeleteTask = "UPDATE TASKS SET taskIsEnabled = 0 WHERE taskId = ?";
 
@@ -65,14 +65,14 @@ const sqldeleteUser = "UPDATE USERS SET userState = 'I' WHERE userId = ?";
  * @param {*} res 
  */
 
- async function connect(){
-    if(global.connection && global.connection.state !== 'disconnected')
+async function connect() {
+    if (global.connection && global.connection.state !== 'disconnected')
         return global.connection;
     const connection = mysql.createConnection(options);
     console.log("Conectou no MySQL!");
     global.connection = connection;
     return connection;
- }
+}
 
 /**
 * Function to create a connection to the database based on the selected query
@@ -90,34 +90,34 @@ function getJsonMessage(err, rows, res, typeColumn) {
         res.json({ "message": "success", "category": rows });
     } else if (typeColumn === "users" || typeColumn === "user") {
         res.json({ "message": "success", "user": rows });
-    } else if (typeColumn === "tasks" || typeColumn === "task")  {
+    } else if (typeColumn === "tasks" || typeColumn === "task") {
         res.json({ "message": "success", "task": rows });
-    } else if (typeColumn === "status" ) {
+    } else if (typeColumn === "status") {
         res.json({ "message": "success", "status": rows });
-    } 
+    }
 }
 
 
 async function createConnectionToDb(req, res, query, typeColumn) {
     const connection = await connect();
-    
+
     const getData = async (cb) => {
         connection.query(query, function (err, rows) {
             res.end(cb(err, rows, res, typeColumn));
         });
     }
-    getData(getJsonMessage); 
+    getData(getJsonMessage);
 }
 
 async function createConnectionToDbP(req, res, query, typeColumn) {
     const connection = await connect();
-    
-    const getData =  (cb) => {
-        connection.query(query, req.params.id , function (err, rows) {
+
+    const getData = (cb) => {
+        connection.query(query, req.params.id, function (err, rows) {
             res.end(cb(err, rows, res, typeColumn));
         });
     }
-    getData(getJsonMessage); 
+    getData(getJsonMessage);
 }
 /**
  * Function to get all status
@@ -125,19 +125,19 @@ async function createConnectionToDbP(req, res, query, typeColumn) {
  * @param {*} req - Variable with the request body
  * @param {*} res - Variable with the response 
  */
- function selectqueryStatus(req, res){
+function selectqueryStatus(req, res) {
     createConnectionToDb(req, res, queryStatus, "status");
- }
+}
 
- /**
- * Function to get all user categories
- * 
- * @param {*} req - Variable with the request body
- * @param {*} res - Variable with the response 
- */
-  function selectCategories(req, res){
+/**
+* Function to get all user categories
+* 
+* @param {*} req - Variable with the request body
+* @param {*} res - Variable with the response 
+*/
+function selectCategories(req, res) {
     createConnectionToDb(req, res, queryCategories, "categories");
- }
+}
 
 /**
  * Function to get all users
@@ -145,13 +145,13 @@ async function createConnectionToDbP(req, res, query, typeColumn) {
  * @param {*} req - Variable with the request body
  * @param {*} res - Variable with the response 
  */
-function selectUsers(req, res){
-   createConnectionToDb(req, res, queryUsers, "user");
+function selectUsers(req, res) {
+    createConnectionToDb(req, res, queryUsers, "user");
 }
 
-function selectUser(req, res){
+function selectUser(req, res) {
     createConnectionToDbP(req, res, queryUser, "user");
- }
+}
 
 /**
  * This function is used to insert a new user
@@ -159,7 +159,7 @@ function selectUser(req, res){
  * @param {*} formUser - form with data about the user
  * @param {*} result - result from the execution of the query
  */
- async function insertUser(formUser, result) {
+async function insertUser(formUser, result) {
     // Declaration of variables
     const connection = await connect();
     let id = formUser.id;
@@ -207,7 +207,7 @@ function selectUser(req, res){
  * @param {*} formUser - form with data about the user
  * @param {*} result - result from the execution of the query
  */
- async function updateUser(formUser, result) {
+async function updateUser(formUser, result) {
     // Declaration of variables
     const connection = await connect();
     let id = formUser.id;
@@ -279,7 +279,7 @@ function selectUser(req, res){
  * @param {*} id - id
  * @param {*} result - result from the execution of the query
  */
- async function deleteUser(id, result) {
+async function deleteUser(id, result) {
     // Declaration of variables
     const connection = await connect();
 
@@ -315,46 +315,65 @@ function selectUser(req, res){
  * @param {*} req - Variable with the request body
  * @param {*} res - Variable with the response 
  */
- function selectAllTasks(req, res){
+function selectAllTasks(req, res) {
     createConnectionToDb(req, res, queryAllTasks, "task");
- }
+}
 
- /**
- * Function to get all new tasks by status
- * 
- * @param {*} req - Variable with the request body
- * @param {*} res - Variable with the response 
- */
-  function selectTasksByStatus(req, res){
+
+function selectTasksFind(req, res) {
+    let query = queryAllTasks;
+    let taskStatusId = req.body.taskStatusId;
+    let userAssignment = req.body.userAssignment;
+    let userCreation = req.body.userCreation;
+
+    if (taskStatusId) {
+        query += " and tasks.taskStatusId IN(" + taskStatusId.join(",") + ")";
+    }
+    if (userAssignment) {
+        query += " and tasks.userAssignment = " + userAssignment;
+    }
+    if (userCreation) {
+        query += " and tasks.userCreation = " + userCreation;
+    }
+    createConnectionToDb(req, res, query, "task");
+}
+
+/**
+* Function to get all new tasks by status
+* 
+* @param {*} req - Variable with the request body
+* @param {*} res - Variable with the response 
+*/
+function selectTasksByStatus(req, res) {
     createConnectionToDbP(req, res, queryTaskStatus, "task");
- }
+}
 
- /**
- * Function to get all new tasks by user creation
- * 
- * @param {*} req - Variable with the request body
- * @param {*} res - Variable with the response 
- */
-function selectTasksByUserId(req, res){
+/**
+* Function to get all new tasks by user creation
+* 
+* @param {*} req - Variable with the request body
+* @param {*} res - Variable with the response 
+*/
+function selectTasksByUserId(req, res) {
     createConnectionToDbP(req, res, queryTaskUserId, "task");
- }
+}
 
- /**
- * Function to get task by task id
- * 
- * @param {*} req - Variable with the request body
- * @param {*} res - Variable with the response 
- */
-function selectTasksById(req, res){
+/**
+* Function to get task by task id
+* 
+* @param {*} req - Variable with the request body
+* @param {*} res - Variable with the response 
+*/
+function selectTasksById(req, res) {
     createConnectionToDbP(req, res, queryTaskId, "task");
- }
+}
 
- /**
- * This function is used to create a new task
- * @param {*} task - variable with all the data related to the task
- * @param {*} result - result from the execution of the query
- */
-  async function createTask(postTask, result) {
+/**
+* This function is used to create a new task
+* @param {*} task - variable with all the data related to the task
+* @param {*} result - result from the execution of the query
+*/
+async function createTask(postTask, result) {
     // Declaration of variables
     const connection = await connect();
     let name = postTask.name;
@@ -366,9 +385,9 @@ function selectTasksById(req, res){
     let latitude = postTask.latitude;
     let longitude = postTask.longitude;
 
-    
+
     // insert
-    let sql ="INSERT INTO tasks(taskName, taskDescription, taskDateCreation, taskStatusId, taskDateStatus, taskCategoryId,taskIsEnabled,userCreation, taskDateAssignment, taskAddress,taskLatitude,taskLongitude) VALUES (?,?,NOW(),1,NOW(),?,1,?,?,?,?,?)";
+    let sql = "INSERT INTO tasks(taskName, taskDescription, taskDateCreation, taskStatusId, taskDateStatus, taskCategoryId,taskIsEnabled,userCreation, taskDateAssignment, taskAddress,taskLatitude,taskLongitude) VALUES (?,?,NOW(),1,NOW(),?,1,?,?,?,?,?)";
     connection.connect(function (err) {
         if (err) {
             if (result != null) {
@@ -404,7 +423,7 @@ function selectTasksById(req, res){
  * @param {*} task - variable with all the data related to the task
  * @param {*} result - result from the execution of the query
  */
- async function updateTask(putTask, result) {
+async function updateTask(putTask, result) {
     // Declaration of variables
     const connection = await connect();
     let id = putTask.id;
@@ -419,9 +438,9 @@ function selectTasksById(req, res){
     let latitude = putTask.latitude;
     let longitude = putTask.longitude;
 
-    
+
     // UPDATE
-    let sql ="UPDATE tasks SET taskName = ?, taskDescription = ?, taskStatusId = ?, taskDateStatus = NOW(), taskCategoryId = ?, userCreation = ?, userAssignment = ?, taskDateAssignment = ?, taskAddress = ?, taskLatitude = ?, taskLongitude = ? WHERE taskId = ? ";
+    let sql = "UPDATE tasks SET taskName = ?, taskDescription = ?, taskStatusId = ?, taskDateStatus = NOW(), taskCategoryId = ?, userCreation = ?, userAssignment = ?, taskDateAssignment = ?, taskAddress = ?, taskLatitude = ?, taskLongitude = ? WHERE taskId = ? ";
     connection.connect(function (err) {
         if (err) {
             if (result != null) {
@@ -458,7 +477,7 @@ function selectTasksById(req, res){
  * @param {*} id - id 
  * @param {*} result - result from the execution of the query
  */
- async function deleteTask(id, result) {
+async function deleteTask(id, result) {
     // Declaration of variables
     const connection = await connect();
 
@@ -491,17 +510,20 @@ function selectTasksById(req, res){
 
 
 module.exports =
- {selectqueryStatus,
- selectCategories,
- selectUsers,
- selectUser,
- insertUser,
- updateUser,
- deleteUser, 
- selectAllTasks, 
- selectTasksByStatus,
- selectTasksByUserId,
- selectTasksById,
- createTask,
- updateTask,
- deleteTask}
+{
+    selectqueryStatus,
+    selectCategories,
+    selectUsers,
+    selectUser,
+    insertUser,
+    updateUser,
+    deleteUser,
+    selectAllTasks,
+    selectTasksFind,
+    selectTasksByStatus,
+    selectTasksByUserId,
+    selectTasksById,
+    createTask,
+    updateTask,
+    deleteTask
+}

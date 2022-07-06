@@ -17,6 +17,8 @@ router.get("/:id", requestHandlers.selectTasksById);
 // Calls a function to get all tasks
 router.get("/", requestHandlers.selectAllTasks);
 
+router.post("/find", requestHandlers.selectTasksFind);
+
 // Calls a function to get all tasks by status
 router.get("/status/:id", requestHandlers.selectTasksByStatus);
 
