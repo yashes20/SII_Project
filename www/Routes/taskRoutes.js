@@ -25,9 +25,12 @@ router.get("/status/:id", requestHandlers.selectTasksByStatus);
 // Calls a function to get all tasks by user id creation
 router.get("/users/:id", requestHandlers.selectTasksByUserId);
 
+// Calls a function to get all tasks by coordenates
+router.get("/tasks/:latitude/:longitude", requestHandlers.selectTasksByCoord);
+
 //create a new task
 // Calls a function create a new task
-router.post("/", newTaskValidation, (req, res) => {
+router.post("/", verifyToken, newTaskValidation, (req, res) => {
 
     let task = req.body;
 

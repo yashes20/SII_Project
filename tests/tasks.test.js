@@ -5,6 +5,7 @@ const express = require("express");
 const app = express(); //an instance of an express app, a 'fake' express app
 const bodyParser = require("body-parser");
 var path = require('path');
+var token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjU2ODgwNDkxLCJleHAiOjE2NTY4ODQwOTF9.JJndkqPri27iLrtZT8SvnfN9rieCaeLIXgSqgjYgQxM';
 
 //const taskRouter = require('./www/Routes/taskRoutes.js');
 app.use(bodyParser.json());
@@ -84,6 +85,7 @@ describe("POST request", () => {
                 await request(app).post('/tasks')
                     .send(postTask)
                     .set('Accept', /json/)
+                    .set('Authorization', 'Bearer ' + token) // Works.
                     .expect(200).expect('Content-type', /json/)
                     
                     .then((response) => {
@@ -139,7 +141,7 @@ describe("PUT request", () => {
                     .expect(200).expect('Content-type', /json/)
                     
                     .then((response) => {
-                        console.log(response);
+                        //console.log(response);
                         // Check data
                         expect(response.body.message).toEqual("success");
                         expect(response.body.task.affectedRows).toEqual(1);
@@ -170,7 +172,7 @@ describe("DELETE request", () => {
                     .expect(200).expect('Content-type', /json/)
                     
                     .then((response) => {
-                        console.log(response);
+                        //console.log(response);
                         // Check data
                         expect(response.body.message).toEqual("success");
 

@@ -55,18 +55,43 @@ const queryTaskId = "SELECT taskId, taskName, taskDescription,taskDateCreation, 
 
 const sqldeleteTask = "UPDATE TASKS SET taskIsEnabled = 0 WHERE taskId = ?";
 
+const sqlTaskLatLong ="SELECT *, (6371 *"+
+    "acos("
+        "cos(radians(?)) * " +
+        "cos(radians(userLatitude)) * " +
+        "cos(radians(?) - radians(taskLongitude)) +" +
+        "sin(radians(?)) * " +                                                             
+        "sin(radians(userLatitude))" +
+    ")) AS distance" +
+"FROM tasks HAVING distance <= 5 AND tasks.taskStatusId =?";
+
+/* SELECT *, (6371 *
+    acos(
+        cos(radians(-19.83996)) *
+        cos(radians(taskLatitude)) *
+        cos(radians(-43.94910) - radians(taskLongitude)) +
+        sin(radians(-19.83996)) *
+        sin(radians(taskLatitude))
+    )) AS distance
+FROM tasks HAVING distance <= 5"
+ */
 const sqlUpdateUser = "UPDATE USERS SET userFullName = ?, userGender = ? ";
 const sqlInsertUser = "INSERT INTO USERS (userFullName , userPassword, userGender, userEmail, userState, userType) VALUES (?,?,?,?,'A','User')";
 const sqlWhereUpdateUser = " WHERE userId = ?";
 const sqldeleteUser = "UPDATE USERS SET userState = 'I' WHERE userId = ?";
-/**
- * Function to return the json message obtained from the connection to the database
- * @param {*} req 
- * @param {*} res 
- */
 
+<<<<<<< Updated upstream
 async function connect() {
     if (global.connection && global.connection.state !== 'disconnected')
+=======
+/**
+ * 
+* Function to create a connection to the database based on the selected query
+* 
+*/
+ async function connect(){
+    if(global.connection && global.connection.state !== 'disconnected')
+>>>>>>> Stashed changes
         return global.connection;
     const connection = mysql.createConnection(options);
     console.log("Conectou no MySQL!");
@@ -75,7 +100,8 @@ async function connect() {
 }
 
 /**
-* Function to create a connection to the database based on the selected query
+ * 
+* Function return a object json from database
 * 
 * @param {*} req - Variable with the request body
 * @param {*} res - Variable with the response
@@ -119,6 +145,17 @@ async function createConnectionToDbP(req, res, query, typeColumn) {
     }
     getData(getJsonMessage);
 }
+
+async function createConnectionCoord(req, res, query, typeColumn) {
+    const connection = await connect();
+    
+    const getData =  (cb) => {
+        connection.query(query, [req.params.latitude , req.params.longitude, req.params.latitude], function (err, rows) {
+            res.end(cb(err, rows, res, typeColumn));
+        });
+    }
+    getData(getJsonMessage); 
+}
 /**
  * Function to get all status
  * 
@@ -149,7 +186,18 @@ function selectUsers(req, res) {
     createConnectionToDb(req, res, queryUsers, "user");
 }
 
+<<<<<<< Updated upstream
 function selectUser(req, res) {
+=======
+/**
+ * Function to get user by id
+ * 
+ * @param {*} req - Variable with the request body
+ * @param {*} res - Variable with the response 
+ */
+
+function selectUser(req, res){
+>>>>>>> Stashed changes
     createConnectionToDbP(req, res, queryUser, "user");
 }
 
@@ -368,12 +416,32 @@ function selectTasksById(req, res) {
     createConnectionToDbP(req, res, queryTaskId, "task");
 }
 
+<<<<<<< Updated upstream
 /**
 * This function is used to create a new task
 * @param {*} task - variable with all the data related to the task
 * @param {*} result - result from the execution of the query
 */
 async function createTask(postTask, result) {
+=======
+ /**
+ * Function get tasks by coordenates
+ * 
+ * @param {*} req - Variable with the request body
+ * @param {*} res - Variable with the response 
+ */
+
+function selectTasksByCoord(req, res){
+    createConnectionCoord(req, res, sqlTaskLatLong, "task");
+}
+
+ /**
+ * This function is used to create a new task
+ * @param {*} task - variable with all the data related to the task
+ * @param {*} result - result from the execution of the query
+ */
+  async function createTask(postTask, result) {
+>>>>>>> Stashed changes
     // Declaration of variables
     const connection = await connect();
     let name = postTask.name;
@@ -510,6 +578,7 @@ async function deleteTask(id, result) {
 
 
 module.exports =
+<<<<<<< Updated upstream
 {
     selectqueryStatus,
     selectCategories,
@@ -527,3 +596,20 @@ module.exports =
     updateTask,
     deleteTask
 }
+=======
+ {selectqueryStatus,
+ selectCategories,
+ selectUsers,
+ selectUser,
+ insertUser,
+ updateUser,
+ deleteUser, 
+ selectAllTasks, 
+ selectTasksByStatus,
+ selectTasksByUserId,
+ selectTasksById,
+ selectTasksByCoord,
+ createTask,
+ updateTask,
+ deleteTask}
+>>>>>>> Stashed changes
