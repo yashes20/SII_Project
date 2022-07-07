@@ -44,8 +44,8 @@ exports.newTaskValidation = [
 exports.updateTaskValidation = [
     check('latitude')
     // if the latitude is provided...
-    .if(check('latitude', 'Latitude is invalid').not().isLatLong())/* 
-    .check('longitude')
+    .if(check('latitude', 'Latitude is invalid').not().isLatLong()), 
+    check('longitude')
     // if the latitude is provided...
-    .if(check('longitude', 'longitude is invalid').not().isLatLong()) */
+    .if(check('longitude', 'longitude is invalid').not().isLatLong())
 ]

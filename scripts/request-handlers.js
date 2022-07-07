@@ -55,15 +55,15 @@ const queryTaskId = "SELECT taskId, taskName, taskDescription,taskDateCreation, 
 
 const sqldeleteTask = "UPDATE TASKS SET taskIsEnabled = 0 WHERE taskId = ?";
 
-const sqlTaskLatLong ="SELECT *, (6371 *"+
+const sqlTaskLatLong = "SELECT *, (6371 *" +
     "acos("
-        "cos(radians(?)) * " +
-        "cos(radians(userLatitude)) * " +
-        "cos(radians(?) - radians(taskLongitude)) +" +
-        "sin(radians(?)) * " +                                                             
-        "sin(radians(userLatitude))" +
+"cos(radians(?)) * " +
+    "cos(radians(userLatitude)) * " +
+    "cos(radians(?) - radians(taskLongitude)) +" +
+    "sin(radians(?)) * " +
+    "sin(radians(userLatitude))" +
     ")) AS distance" +
-"FROM tasks HAVING distance <= 5 AND tasks.taskStatusId =?";
+    "FROM tasks HAVING distance <= 5 AND tasks.taskStatusId =?";
 
 /* SELECT *, (6371 *
     acos(
@@ -138,13 +138,13 @@ async function createConnectionToDbP(req, res, query, typeColumn) {
 
 async function createConnectionCoord(req, res, query, typeColumn) {
     const connection = await connect();
-    
-    const getData =  (cb) => {
-        connection.query(query, [req.params.latitude , req.params.longitude, req.params.latitude], function (err, rows) {
+
+    const getData = (cb) => {
+        connection.query(query, [req.params.latitude, req.params.longitude, req.params.latitude], function (err, rows) {
             res.end(cb(err, rows, res, typeColumn));
         });
     }
-    getData(getJsonMessage); 
+    getData(getJsonMessage);
 }
 /**
  * Function to get all status
@@ -183,7 +183,7 @@ function selectUsers(req, res) {
  * @param {*} res - Variable with the response 
  */
 
-function selectUser(req, res){
+function selectUser(req, res) {
     createConnectionToDbP(req, res, queryUser, "user");
 }
 
@@ -254,7 +254,7 @@ async function updateUser(formUser, result) {
     let password = formUser.password;
 
     let sql = sqlUpdateUser;
-    let params =[];
+    let params = [];
     // Check if optionals fields are filled
 
     if (fullName != undefined && fullName.trim().length != 0) {
@@ -264,7 +264,7 @@ async function updateUser(formUser, result) {
 
     if (gender != undefined && gender.trim().length != 0) {
 
-        if(params.length > 0){
+        if (params.length > 0) {
             sql = sql + ",";
         }
 
@@ -274,7 +274,7 @@ async function updateUser(formUser, result) {
 
     if (password != undefined && password.trim().length != 0) {
 
-        if(params.length > 0){
+        if (params.length > 0) {
             sql = sql + ",";
         }
         sql = sql + " userPassword = ? ";
@@ -282,7 +282,7 @@ async function updateUser(formUser, result) {
     }
     if (address != undefined && address.trim().length != 0) {
 
-        if(params.length > 0){
+        if (params.length > 0) {
             sql = sql + ",";
         }
 
@@ -290,7 +290,7 @@ async function updateUser(formUser, result) {
         params.push(address);
     }
     if (zipCode != undefined && zipCode.trim().length != 0) {
-        if(params.length > 0){
+        if (params.length > 0) {
             sql = sql + ",";
         }
 
@@ -299,7 +299,7 @@ async function updateUser(formUser, result) {
     }
     if (birthdate != undefined && birthdate.trim().length != 0) {
 
-        if(params.length > 0){
+        if (params.length > 0) {
             sql = sql + ",";
         }
 
@@ -307,8 +307,8 @@ async function updateUser(formUser, result) {
         params.push(birthdate);
     }
     if (phone != undefined && phone.trim().length != 0) {
-        
-        if(params.length > 0){
+
+        if (params.length > 0) {
             sql = sql + ",";
         }
 
@@ -319,30 +319,32 @@ async function updateUser(formUser, result) {
     sql = sql + sqlWhereUpdateUser;
     params.push(id);
 
-    connection.connect(function (err) {
-        if (err) {
-            if (result != null) {
-                result(err, null, null);
+    if (params.length > 1) {
+        connection.connect(function (err) {
+            if (err) {
+                if (result != null) {
+                    result(err, null, null);
+                }
+                else {
+                    throw err;
+                }
             }
             else {
-                throw err;
+                connection.query(sql, params, function (err, rows, results) {
+                    if (err) {
+                        if (result != null) {
+                            result(err, null, null);
+                        }
+                        else {
+                            throw err;
+                        }
+                    } else {
+                        result(err, rows, results);
+                    }
+                });
             }
-        }
-        else {
-            connection.query(sql, params, function (err, rows, results) {
-                if (err) {
-                    if (result != null) {
-                        result(err, null, null);
-                    }
-                    else {
-                        throw err;
-                    }
-                } else {
-                    result(err, rows, results);
-                }
-            });
-        }
-    });
+        });
+    }
 }
 
 /**
@@ -440,23 +442,23 @@ function selectTasksById(req, res) {
     createConnectionToDbP(req, res, queryTaskId, "task");
 }
 
- /**
- * Function get tasks by coordenates
- * 
- * @param {*} req - Variable with the request body
- * @param {*} res - Variable with the response 
- */
+/**
+* Function get tasks by coordenates
+* 
+* @param {*} req - Variable with the request body
+* @param {*} res - Variable with the response 
+*/
 
-function selectTasksByCoord(req, res){
+function selectTasksByCoord(req, res) {
     createConnectionCoord(req, res, sqlTaskLatLong, "task");
 }
 
- /**
- * This function is used to create a new task
- * @param {*} task - variable with all the data related to the task
- * @param {*} result - result from the execution of the query
- */
-  async function createTask(postTask, result) {
+/**
+* This function is used to create a new task
+* @param {*} task - variable with all the data related to the task
+* @param {*} result - result from the execution of the query
+*/
+async function createTask(postTask, result) {
     // Declaration of variables
     const connection = await connect();
     let name = postTask.name;
@@ -593,19 +595,21 @@ async function deleteTask(id, result) {
 
 
 module.exports =
- {selectqueryStatus,
- selectCategories,
- selectUsers,
- selectUser,
- insertUser,
- updateUser,
- deleteUser, 
- selectAllTasks, 
- selectTasksFind,
- selectTasksByStatus,
- selectTasksByUserId,
- selectTasksById,
- selectTasksByCoord,
- createTask,
- updateTask,
- deleteTask}
+{
+    selectqueryStatus,
+    selectCategories,
+    selectUsers,
+    selectUser,
+    insertUser,
+    updateUser,
+    deleteUser,
+    selectAllTasks,
+    selectTasksFind,
+    selectTasksByStatus,
+    selectTasksByUserId,
+    selectTasksById,
+    selectTasksByCoord,
+    createTask,
+    updateTask,
+    deleteTask
+}

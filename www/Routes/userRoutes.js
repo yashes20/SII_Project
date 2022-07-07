@@ -43,17 +43,9 @@ router.put("/:id", userValidation, (req, res) => {
         user.id = req.params.id;
 
         if (password != undefined) {
-            bcrypt.hash(password, 10, (err, hash) => {
-                if (err) {
-                    return res.status(500).send({
-                        msg: err
-                    });
-                } else {
-                    if (password.trim().length != 0) {
-                        user.password = hash;
-                    }
-                }
-            });
+            let t;
+            user.password = bcrypt.hashSync(password, 10);
+
         }
 
         if (user != undefined) {
