@@ -75,23 +75,13 @@ const sqlTaskLatLong ="SELECT *, (6371 *"+
     )) AS distance
 FROM tasks HAVING distance <= 5"
  */
-const sqlUpdateUser = "UPDATE USERS SET userFullName = ?, userGender = ? ";
+const sqlUpdateUser = "UPDATE USERS SET ";
 const sqlInsertUser = "INSERT INTO USERS (userFullName , userPassword, userGender, userEmail, userState, userType) VALUES (?,?,?,?,'A','User')";
 const sqlWhereUpdateUser = " WHERE userId = ?";
 const sqldeleteUser = "UPDATE USERS SET userState = 'I' WHERE userId = ?";
 
-<<<<<<< Updated upstream
 async function connect() {
     if (global.connection && global.connection.state !== 'disconnected')
-=======
-/**
- * 
-* Function to create a connection to the database based on the selected query
-* 
-*/
- async function connect(){
-    if(global.connection && global.connection.state !== 'disconnected')
->>>>>>> Stashed changes
         return global.connection;
     const connection = mysql.createConnection(options);
     console.log("Conectou no MySQL!");
@@ -186,9 +176,6 @@ function selectUsers(req, res) {
     createConnectionToDb(req, res, queryUsers, "user");
 }
 
-<<<<<<< Updated upstream
-function selectUser(req, res) {
-=======
 /**
  * Function to get user by id
  * 
@@ -197,7 +184,6 @@ function selectUser(req, res) {
  */
 
 function selectUser(req, res){
->>>>>>> Stashed changes
     createConnectionToDbP(req, res, queryUser, "user");
 }
 
@@ -262,33 +248,71 @@ async function updateUser(formUser, result) {
     let fullName = formUser.fullName;
     let address = formUser.address;
     let zipCode = formUser.zipCode;
-    let email = formUser.email;
     let gender = formUser.gender;
     let phone = formUser.phone;
     let birthdate = formUser.birthDate;
     let password = formUser.password;
 
     let sql = sqlUpdateUser;
-    let params = [fullName, gender];
+    let params =[];
     // Check if optionals fields are filled
-    if (password.trim().length != 0) {
-        sql = sql + ", userPassword = ? ";
+
+    if (fullName != undefined && fullName.trim().length != 0) {
+        sql = sql + " userfullName = ? ";
+        params.push(fullName);
+    }
+
+    if (gender != undefined && gender.trim().length != 0) {
+
+        if(params.length > 0){
+            sql = sql + ",";
+        }
+
+        sql = sql + " userGender = ? ";
+        params.push(gender);
+    }
+
+    if (password != undefined && password.trim().length != 0) {
+
+        if(params.length > 0){
+            sql = sql + ",";
+        }
+        sql = sql + " userPassword = ? ";
         params.push(password);
     }
-    if (address.trim().length != 0) {
-        sql = sql + ", userAddress = ? ";
+    if (address != undefined && address.trim().length != 0) {
+
+        if(params.length > 0){
+            sql = sql + ",";
+        }
+
+        sql = sql + " userAddress = ? ";
         params.push(address);
     }
-    if (zipCode.trim().length != 0) {
-        sql = sql + ", userZipCode = ? ";
+    if (zipCode != undefined && zipCode.trim().length != 0) {
+        if(params.length > 0){
+            sql = sql + ",";
+        }
+
+        sql = sql + " userZipCode = ? ";
         params.push(zipCode);
     }
-    if (birthdate.trim().length != 0) {
-        sql = sql + ", userBirthDate = ? ";
+    if (birthdate != undefined && birthdate.trim().length != 0) {
+
+        if(params.length > 0){
+            sql = sql + ",";
+        }
+
+        sql = sql + " userBirthDate = ? ";
         params.push(birthdate);
     }
-    if (phone.trim().length != 0) {
-        sql = sql + ", userPhone = ? ";
+    if (phone != undefined && phone.trim().length != 0) {
+        
+        if(params.length > 0){
+            sql = sql + ",";
+        }
+
+        sql = sql + " userPhone = ? ";
         params.push(phone);
     }
     // update query
@@ -416,14 +440,6 @@ function selectTasksById(req, res) {
     createConnectionToDbP(req, res, queryTaskId, "task");
 }
 
-<<<<<<< Updated upstream
-/**
-* This function is used to create a new task
-* @param {*} task - variable with all the data related to the task
-* @param {*} result - result from the execution of the query
-*/
-async function createTask(postTask, result) {
-=======
  /**
  * Function get tasks by coordenates
  * 
@@ -441,7 +457,6 @@ function selectTasksByCoord(req, res){
  * @param {*} result - result from the execution of the query
  */
   async function createTask(postTask, result) {
->>>>>>> Stashed changes
     // Declaration of variables
     const connection = await connect();
     let name = postTask.name;
@@ -578,25 +593,6 @@ async function deleteTask(id, result) {
 
 
 module.exports =
-<<<<<<< Updated upstream
-{
-    selectqueryStatus,
-    selectCategories,
-    selectUsers,
-    selectUser,
-    insertUser,
-    updateUser,
-    deleteUser,
-    selectAllTasks,
-    selectTasksFind,
-    selectTasksByStatus,
-    selectTasksByUserId,
-    selectTasksById,
-    createTask,
-    updateTask,
-    deleteTask
-}
-=======
  {selectqueryStatus,
  selectCategories,
  selectUsers,
@@ -605,6 +601,7 @@ module.exports =
  updateUser,
  deleteUser, 
  selectAllTasks, 
+ selectTasksFind,
  selectTasksByStatus,
  selectTasksByUserId,
  selectTasksById,
@@ -612,4 +609,3 @@ module.exports =
  createTask,
  updateTask,
  deleteTask}
->>>>>>> Stashed changes

@@ -22,7 +22,7 @@ router.get("/", requestHandlers.selectUsers);
 router.get("/:id", requestHandlers.selectUser);
 
 // Calls a function update or insert user
-router.put("/:id", userValidation, upload.any(), (req, res) => {
+router.put("/:id", userValidation, (req, res) => {
 
     const errors = validationResult(req);
 
@@ -42,27 +42,33 @@ router.put("/:id", userValidation, upload.any(), (req, res) => {
         let password = user.password;
         user.id = req.params.id;
 
-        bcrypt.hash(password, 10, (err, hash) => {
-            if (err) {
-                return res.status(500).send({
-                    msg: err
-                });
-            } else {
-                if (password.trim().length != 0) {
-                    user.password = hash;
-                }
-                requestHandlers.updateUser(user, (err, rows, results) => {
-                    if (err) {
-                        console.log(err);
-
-                        res.status(500).json({ "message": "error" });
-                    } else {
-                        res.status(200).json({ "message": "success", "user": rows, "results": results });
+        if (password != undefined) {
+            bcrypt.hash(password, 10, (err, hash) => {
+                if (err) {
+                    return res.status(500).send({
+                        msg: err
+                    });
+                } else {
+                    if (password.trim().length != 0) {
+                        user.password = hash;
                     }
+                }
+            });
+        }
 
-                })
-            }
-        });
+        if (user != undefined) {
+            requestHandlers.updateUser(user, (err, rows, results) => {
+                if (err) {
+                    console.log(err);
+
+                    res.status(500).json({ "message": "error" });
+                } else {
+                    res.status(200).json({ "message": "success", "user": rows, "results": results });
+                }
+
+            });
+        }
+
     }
 });
 

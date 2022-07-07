@@ -42,13 +42,10 @@ exports.newTaskValidation = [
 ]
 
 exports.updateTaskValidation = [
-    check('name', 'Name is required').not().isEmpty(),
-    check('description', 'description is required').not().isEmpty(),
-    check('category', 'category is required').not().isEmpty(),
-    check('userCreation', 'userCreation is required').not().isEmpty(),
-    check('dateAssignment', 'DateAssignment is required').not().isEmpty(),
-    check('status', 'Status is required').not().isEmpty(),
     check('latitude')
     // if the latitude is provided...
-    .if(check('latitude', 'Latitude is invalid').not().isLatLong())
+    .if(check('latitude', 'Latitude is invalid').not().isLatLong())/* 
+    .check('longitude')
+    // if the latitude is provided...
+    .if(check('longitude', 'longitude is invalid').not().isLatLong()) */
 ]
