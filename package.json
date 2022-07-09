@@ -21,7 +21,7 @@
     "sequelize": "^6.21.2"
   },
   "scripts": {
-    "test": "NODE_ENV=test jest --runInBand"
+    "test": "NODE_ENV=test jest --testTimeout=10000"
   },
   "keywords": [],
   "author": "",
@@ -34,3 +34,4 @@
     "supertest": "^6.2.3"
   }
 }
+

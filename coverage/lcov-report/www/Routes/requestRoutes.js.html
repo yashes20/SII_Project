@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for www/Utils/validation.js</title>
+    <title>Code coverage report for www/Routes/requestRoutes.js</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../../prettify.css" />
     <link rel="stylesheet" href="../../base.css" />
@@ -19,20 +19,20 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="../../index.html">All files</a> / <a href="index.html">www/Utils</a> validation.js</h1>
+        <h1><a href="../../index.html">All files</a> / <a href="index.html">www/Routes</a> requestRoutes.js</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">88.23% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>51/51</span>
+                <span class='fraction'>45/51</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">66.66% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/0</span>
+                <span class='fraction'>4/6</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">88.23% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>51/51</span>
+                <span class='fraction'>45/51</span>
             </div>
         
             
@@ -113,7 +113,8 @@
 <a name='L48'></a><a href='#L48'>48</a>
 <a name='L49'></a><a href='#L49'>49</a>
 <a name='L50'></a><a href='#L50'>50</a>
-<a name='L51'></a><a href='#L51'>51</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L51'></a><a href='#L51'>51</a>
+<a name='L52'></a><a href='#L52'>52</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -135,6 +136,9 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -150,6 +154,9 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -158,69 +165,65 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span></td><td class="text"><pre class="prettyprint lang-js">const { check } = require('express-validator');
- 
-exports.signupValidation = [
-    check('name', 'Name is required').not().isEmpty(),
-    check('email', 'Please include a valid email').isEmail().normalizeEmail({ gmail_remove_dots: true }),
-    check('password', 'Password must be between 6 and 10 characters').isLength({ min: 6 , max: 10})
-]
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// Use express
+const express = require("express");
+const router = express.Router();
 &nbsp;
-exports.registerValidation = [
-    check('fullName', 'Name is required').not().isEmpty(),
-    check('email', 'Please include a valid email').isEmail().normalizeEmail({ gmail_remove_dots: true }),
-    check('password', 'Password must be between 6 and 10 characters').isLength({ min: 6 , max: 10}),
-    check('gender', 'Gender is required').not().isEmpty()
-]
- 
-exports.loginValidation = [
-     check('email', 'Please include a valid email').isEmail().normalizeEmail({ gmail_remove_dots: true }),
-     check('password', 'Password must be between 6 and 10 characters').isLength({ min: 6, max: 10})
- 
-]
+// Use request handles
+const requestHandlers = require("../../scripts/request-handlers.js");
 &nbsp;
-exports.userValidation = [
-    check('fullName')
-    .if(check('fullName', 'Name is required').not().isEmpty()),
-    check('gender')
-    .if(check('gender', 'gender is required').not().isEmpty()),
-    check('password')
-    // if the new password is provided...
-    .if(check('password', 'Password must be between 6 and 10 characters').exists({checkFalsy: true}))
-    .isLength({ min: 6 , max: 10})
-]
+// Authorization
+var verifyToken = require('./verifyToken');
 &nbsp;
-exports.newTaskValidation = [
-    check('name', 'Name is required').not().isEmpty(),
-    check('description', 'description is required').not().isEmpty(),
-    check('category', 'category is required').not().isEmpty(),
-    check('userCreation', 'userCreation is required').not().isEmpty(),
-    check('dateAssignment', 'DateAssignment is required').not().isEmpty(),
-    check('latitude')
-    // if the latitude is provided...
-    .if(check('latitude', 'Latitude is invalid').not().isLatLong())
-]
+// Calls a function to get all requests
+router.get("/", requestHandlers.selectAllRequests);
 &nbsp;
-exports.updateTaskValidation = [
-    check('latitude')
-    // if the latitude is provided...
-    .if(check('latitude', 'Latitude is invalid').not().isLatLong()), 
-    check('longitude')
-    // if the latitude is provided...
-    .if(check('longitude', 'longitude is invalid').not().isLatLong())
-]</pre></td></tr></table></pre>
+// Calls a function to get all requests by task
+router.get("/:id", requestHandlers.selectAllRequestsByTask);
+&nbsp;
+router.post("/", (req, res) =&gt; {
+&nbsp;
+    let request = req.body;
+&nbsp;
+    requestHandlers.createRequest(request, (err, rows, results) =&gt; {
+        if (err) <span class="branch-0 cbranch-no" title="branch not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >            console.log(err);</span>
+<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >            res.status(500).json({ "message": "error" });</span>
+        } else {
+            res.status(200).json({ "message": "success", "request": rows, "results": results });
+        }
+&nbsp;
+    });
+});
+&nbsp;
+// Calls a function update a request 
+router.put("/:id", (req, res) =&gt; {
+    let request = req.body;
+    let id = req.params.id;
+    request.id = id;
+    
+    requestHandlers.updateRequest(request, (err, rows, results) =&gt; {
+        if (err) <span class="branch-0 cbranch-no" title="branch not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >            console.log(err);</span>
+<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >            res.status(500).json({ "message": "error" });</span>
+        } else {
+            res.status(200).json({ "message": "success", "request": rows, "results": results });
+        }
+&nbsp;
+    })
+});
+&nbsp;
+module.exports = router;
+&nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
             </div><!-- /wrapper -->
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at Sun Jul 10 2022 00:38:25 GMT+0100 (Western European Summer Time)
+                at Sun Jul 10 2022 00:32:52 GMT+0100 (Western European Summer Time)
             </div>
         <script src="../../prettify.js"></script>
         <script>

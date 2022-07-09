@@ -22,7 +22,13 @@ const queryAllTasks = "SELECT taskId, taskName, taskDescription,taskDateCreation
     "left JOIN users as USERS2 ON tasks.userAssignment = USERS2.userId " +
     "where tasks.taskIsEnabled = 1";
 
-const queryAllRequests = "SELECT * FROM requests";
+const queryAllRequests = "SELECT requestId, requestIdVoluntary, requestIdTask, requestStatus FROM requests";
+
+const queryAllRequestsByTaskId ="SELECT req.requestId, tasks.taskId, tasks.taskName,  users.userId, users.userFullName, req.requestStatus " +
+"from requests req " +
+"INNER JOIN tasks ON tasks.taskId = req.requestIdTask " +
+"INNER JOIN users ON users.userId = req.requestIdVoluntary "+ 
+"where tasks.taskId = ? and tasks.userAssignment is null";
 
 const queryTaskStatus = "SELECT taskId, taskName, taskDescription,taskDateCreation, taskStatusId," +
     "taskDateStatus, taskCategoryId, taskIsEnabled, userCreation," +
@@ -201,14 +207,9 @@ function selectUser(req, res) {
 async function insertUser(formUser, result) {
     // Declaration of variables
     const connection = await connect();
-    let id = formUser.id;
     let fullName = formUser.fullName;
-    let address = formUser.address;
-    let zipCode = formUser.zipCode;
     let email = formUser.email;
     let gender = formUser.gender;
-    let phone = formUser.phone;
-    let birthdate = formUser.birthDate;
     let password = formUser.password;
 
     let sql = sqlInsertUser;
@@ -603,6 +604,10 @@ function selectAllRequests(req, res) {
     createConnectionToDb(req, res, queryAllRequests, "request");
 }
 
+function selectAllRequestsByTask(req, res) {
+    createConnectionToDbP(req, res, queryAllRequestsByTaskId, "request");
+}
+
 
 async function createRequest(request, result) {
     // Declaration of variables
@@ -612,7 +617,7 @@ async function createRequest(request, result) {
     let status = request.idStatus;
 
     // insert
-    let sql = "INSERT INTO requests(requestIdVoluntary, requestIdTask, requestStatus) VALUES (?,?,?)";
+    let sql = "INSERT INTO requests (requestIdVoluntary, requestIdTask, requestStatus) VALUES (?,?,?)";
     connection.connect(function (err) {
         if (err) {
             if (result != null) {
@@ -643,6 +648,112 @@ async function createRequest(request, result) {
     });
 }
 
+/**
+ * This function is used to update request with user assigment and task with the same user assigment
+ * @param {*} request - variable with all the data related to the request
+ * @param {*} result - result from the execution of the query
+ */
+ async function updateRequest(putRequest, result) {
+    // Declaration of variables
+    const connection = await connect();
+    let id = putRequest.id;
+    let taskId = putRequest.idTask;
+    let userId = putRequest.idVoluntary;
+
+    // UPDATE
+    let sql = "UPDATE requests SET requestStatus = 1 WHERE requestId = ? ";
+    let sql2 = "UPDATE tasks SET taskStatusId = 2, taskDateStatus = NOW(), userAssignment = ? WHERE taskId = ? ";
+
+    connection.connect(function (err) {
+        if (err) {
+            if (result != null) {
+                result(err, null, null);
+            }
+            else {
+                throw err;
+            }
+        }
+        else {
+            // Insertion of the data in the following params
+            connection.query(sql, id, function (err, rows, results) {
+                if (err) {
+                    if (result != null) {
+                        result(err, null, null);
+                        console.log("erro request update");
+                    }
+                    else {
+                        console.log("erro request update 2");
+                        throw err;
+                    }
+                } else {
+                    console.log("sucesso request update 3");
+                    result(err, rows, results);
+                }
+            });
+
+            /* connection.query(sql2, [taskId,userId], function (err, rows, results) {
+                if (err) {
+                    if (result != null) {
+                        result(err, null, null);
+                        console.log("erro assigm task 1");
+                    }
+                    else {
+                        console.log("erro assigm task 2");
+                        throw err;
+                    }
+                } else {
+                    console.log("sucesso assigm task 3");
+                    result(err, rows, results);
+                }
+            }); */
+           
+        }
+    });
+}
+
+/**
+ * This function is used to assignmentTask
+ * @param {*} task - variable with all the data related to the task
+ * @param {*} result - result from the execution of the query
+ */
+ async function assignmentTask(assTask, result) {
+    // Declaration of variables
+    const connection = await connect();
+    let id = assTask.idTask;
+    let userAssignment = assTask.userAssignment;
+
+
+    // UPDATE
+    let sql = "UPDATE tasks SET taskStatusId = 2, taskDateStatus = NOW(), userAssignment = ? WHERE taskId = ? ";
+    connection.connect(function (err) {
+        if (err) {
+            if (result != null) {
+                result(err, null, null);
+            }
+            else {
+                throw err;
+            }
+        }
+        else {
+            // Insertion of the data in the following params
+            connection.query(sql, [userAssignment, id], function (err, rows, results) {
+                if (err) {
+                    if (result != null) {
+                        result(err, null, null);
+                        console.log("erro aqui");
+                    }
+                    else {
+                        console.log("erro aqui2");
+                        throw err;
+                    }
+                } else {
+                    console.log("sucesso aqui3");
+                    result(err, rows, results);
+                }
+            });
+        }
+    });
+}
 
 module.exports =
 {
@@ -662,6 +773,9 @@ module.exports =
     createTask,
     updateTask,
     deleteTask,
+    assignmentTask,
     selectAllRequests,
-    createRequest
+    createRequest,
+    updateRequest,
+    selectAllRequestsByTask
 }

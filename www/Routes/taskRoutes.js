@@ -96,6 +96,25 @@ router.put("/:id", updateTaskValidation, (req, res) => {
     }
 });
 
+// Calls a function update a task
+router.put("/assignment/:id", (req, res) => {
+    let task = req.body;
+    let id = req.params.id;
+    task.idTask = id;
+    
+    requestHandlers.assignmentTask(task, (err, rows, results) => {
+        if (err) {
+            console.log(err);
+
+            res.status(500).json({ "message": "error" });
+        } else {
+            res.status(200).json({ "message": "success", "task": rows, "results": results });
+        }
+
+    })
+    
+});
+
 // Calls delete task
 router.delete("/:id", (req, res) => {
     requestHandlers.deleteTask(req.params.id, (err, rows, results) => {

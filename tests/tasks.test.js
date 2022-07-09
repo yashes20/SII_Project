@@ -109,23 +109,14 @@ describe("POST request", () => {
     }
 });
 
-describe("PUT request", () => {
+describe("PUT request assignment", () => {
 
     try {
         let putTask;
         beforeEach(function () {
             console.log("Input PUT a task");
             putTask = {
-                name: "Task test",
-                description: "description",
-                status: 1,
-                category: 1,
-                userCreation: 1,
-                userAssignment: 2,
-                dateAssignment: "2022-06-25 15:40",
-                address: "address task",
-                latitude: "-30.027668",
-                longitude: "-51.163269"
+                userAssignment: 2
             }; // task to update
 
         });
@@ -135,7 +126,7 @@ describe("PUT request", () => {
 
         it('should put task', async () => {
             try {
-                await request(app).put('/tasks/' + 2)
+                await request(app).put('/tasks/assignment/' + 1)
                     .send(putTask)
                     .set('Accept', /json/)
                     .expect(200).expect('Content-type', /json/)

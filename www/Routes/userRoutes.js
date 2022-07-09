@@ -4,7 +4,6 @@ const express = require("express");
 const router = express.Router();
 // Use request handles
 const requestHandlers = require("../../scripts/request-handlers.js");
-const db = require('../../scripts/dbConnection');
 
 // Use multer
 const multer = require('multer');
