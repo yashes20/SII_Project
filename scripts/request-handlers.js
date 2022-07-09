@@ -22,6 +22,8 @@ const queryAllTasks = "SELECT taskId, taskName, taskDescription,taskDateCreation
     "left JOIN users as USERS2 ON tasks.userAssignment = USERS2.userId " +
     "where tasks.taskIsEnabled = 1";
 
+const queryAllRequests = "SELECT * FROM requests";
+
 const queryTaskStatus = "SELECT taskId, taskName, taskDescription,taskDateCreation, taskStatusId," +
     "taskDateStatus, taskCategoryId, taskIsEnabled, userCreation," +
     "userAssignment, DATE_FORMAT(taskDateAssignment,'%Y-%m-%d %H:%i') as taskDateAssignment,  taskAddress, taskLatitude,taskLongitude " +
@@ -110,6 +112,8 @@ function getJsonMessage(err, rows, res, typeColumn) {
         res.json({ "message": "success", "task": rows });
     } else if (typeColumn === "status") {
         res.json({ "message": "success", "status": rows });
+    } else if (typeColumn === "request") {
+        res.json({ "message": "success", "request": rows });
     }
 }
 
@@ -122,6 +126,7 @@ async function createConnectionToDb(req, res, query, typeColumn) {
             res.end(cb(err, rows, res, typeColumn));
         });
     }
+
     getData(getJsonMessage);
 }
 
@@ -594,6 +599,51 @@ async function deleteTask(id, result) {
 }
 
 
+function selectAllRequests(req, res) {
+    createConnectionToDb(req, res, queryAllRequests, "request");
+}
+
+
+async function createRequest(request, result) {
+    // Declaration of variables
+    const connection = await connect();
+    let idVoluntary = request.idVoluntary;
+    let idTask = request.idTask;
+    let status = request.idStatus;
+
+    // insert
+    let sql = "INSERT INTO requests(requestIdVoluntary, requestIdTask, requestStatus) VALUES (?,?,?)";
+    connection.connect(function (err) {
+        if (err) {
+            if (result != null) {
+                result(err, null, null);
+            }
+            else {
+                throw err;
+            }
+        }
+        else {
+            // Insertion of the data in the following params
+            connection.query(sql, [idVoluntary, idTask, status], function (err, rows, results) {
+                if (err) {
+                    if (result != null) {
+                        result(err, null, null);
+                        console.log("erro aqui");
+                    }
+                    else {
+                        console.log("erro aqui2");
+                        throw err;
+                    }
+                } else {
+                    console.log("sucesso aqui3");
+                    result(err, rows, results);
+                }
+            });
+        }
+    });
+}
+
+
 module.exports =
 {
     selectqueryStatus,
@@ -611,5 +661,7 @@ module.exports =
     selectTasksByCoord,
     createTask,
     updateTask,
-    deleteTask
+    deleteTask,
+    selectAllRequests,
+    createRequest
 }

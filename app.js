@@ -22,16 +22,16 @@ const requestHandlers = require("./scripts/request-handlers.js");
 const bodyParser = require("body-parser");
 // messages flash
 var flash = require('flash-express'),
-      express = require('express'),
-      app = express();
-      
+  express = require('express'),
+  app = express();
+
 app.use(flash());
 
 //const app = express();
 
 app.use(express.json());
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: true }));
+app.use(bodyParser.urlencoded({ extended: true }));
 /* app.use( bodyParser.json({limit: '50mb'}) );
 app.use(bodyParser.urlencoded({
     limit: '50mb',
@@ -53,21 +53,24 @@ app.use(cors());
 const loginRouter = require('./www/Routes/authentication.js');
 const userRouter = require('./www/Routes/userRoutes.js');
 const taskRouter = require('./www/Routes/taskRoutes.js');
+const requestRouter = require('./www/Routes/requestRoutes.js');
 
 app.use('/api', loginRouter);
 
 app.use('/users', userRouter);
 
 app.use('/tasks', taskRouter);
- 
+
+app.use('/requests', requestRouter);
+
 // Handling Errors
 app.use((err, req, res, next) => {
-    // console.log(err);
-    err.statusCode = err.statusCode || 500;
-    err.message = err.message || "Internal Server Error";
-    res.status(err.statusCode).json({
-      message: err.message,
-    });
+  // console.log(err);
+  err.statusCode = err.statusCode || 500;
+  err.message = err.message || "Internal Server Error";
+  res.status(err.statusCode).json({
+    message: err.message,
+  });
 });
 
 // Calls a function to get all task status

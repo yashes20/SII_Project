@@ -129,6 +129,17 @@ INSERT INTO `tasks` (`taskName`, `taskDescription`,
 1, 1, 1, '2022-06-21 15:40:00',
 'Av. João Wallig, 1800 - Passo da Areia, Porto Alegre - RS','-30.027668', '-51.163269');
 
+-- Create table for requests
+DROP TABLE IF EXISTS `requests`;
+CREATE TABLE `requests`(
+    `requestId` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    `requestIdVoluntary` int(11) NOT NULL,
+    `requestIdTask` int(11) NOT NULL,
+    `requestStatus` bit,
+    FOREIGN KEY requestIdVoluntary(requestIdVoluntary) REFERENCES users(userId),
+    FOREIGN KEY requestIdTask(requestIdTask) REFERENCES tasks(taskId)
+) ENGINE=InnoDB DEFAULT CHARSET=utf16;
+
 -- Create database
 DROP DATABASE IF EXISTS `sii_project_test`;
 CREATE DATABASE `sii_project_test`;
