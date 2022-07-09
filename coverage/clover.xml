@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1657409905042" clover="3.2.0">
-  <project timestamp="1657409905043" name="All files">
-    <metrics statements="1005" coveredstatements="483" conditionals="41" coveredconditionals="27" methods="29" coveredmethods="13" elements="1075" coveredelements="523" complexity="0" loc="1005" ncloc="1005" packages="3" files="5" classes="5"/>
+<coverage generated="1657410574406" clover="3.2.0">
+  <project timestamp="1657410574407" name="All files">
+    <metrics statements="1005" coveredstatements="533" conditionals="50" coveredconditionals="32" methods="29" coveredmethods="14" elements="1084" coveredelements="579" complexity="0" loc="1005" ncloc="1005" packages="3" files="5" classes="5"/>
     <package name="scripts">
-      <metrics statements="793" coveredstatements="352" conditionals="33" coveredconditionals="22" methods="28" coveredmethods="12"/>
+      <metrics statements="793" coveredstatements="384" conditionals="38" coveredconditionals="25" methods="28" coveredmethods="13"/>
       <file name="dbConnection.js" path="C:\Users\Yasmin\Documents\GitHub\SII_Project\scripts\dbConnection.js">
         <metrics statements="12" coveredstatements="12" conditionals="3" coveredconditionals="1" methods="0" coveredmethods="0"/>
         <line num="1" count="1" type="stmt"/>
@@ -20,7 +20,7 @@
         <line num="12" count="1" type="stmt"/>
       </file>
       <file name="request-handlers.js" path="C:\Users\Yasmin\Documents\GitHub\SII_Project\scripts\request-handlers.js">
-        <metrics statements="781" coveredstatements="340" conditionals="30" coveredconditionals="21" methods="28" coveredmethods="12"/>
+        <metrics statements="781" coveredstatements="372" conditionals="35" coveredconditionals="24" methods="28" coveredmethods="13"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
         <line num="3" count="1" type="stmt"/>
@@ -111,9 +111,9 @@
         <line num="88" count="1" type="stmt"/>
         <line num="89" count="1" type="stmt"/>
         <line num="90" count="1" type="stmt"/>
-        <line num="91" count="6" type="cond" truecount="1" falsecount="0"/>
-        <line num="92" count="6" type="cond" truecount="1" falsecount="0"/>
-        <line num="93" count="6" type="cond" truecount="2" falsecount="0"/>
+        <line num="91" count="7" type="cond" truecount="1" falsecount="0"/>
+        <line num="92" count="7" type="cond" truecount="1" falsecount="0"/>
+        <line num="93" count="7" type="cond" truecount="2" falsecount="0"/>
         <line num="94" count="1" type="stmt"/>
         <line num="95" count="1" type="stmt"/>
         <line num="96" count="1" type="stmt"/>
@@ -537,26 +537,26 @@
         <line num="514" count="1" type="stmt"/>
         <line num="515" count="1" type="stmt"/>
         <line num="516" count="1" type="stmt"/>
-        <line num="517" count="0" type="stmt"/>
-        <line num="518" count="0" type="stmt"/>
-        <line num="519" count="0" type="stmt"/>
-        <line num="520" count="0" type="stmt"/>
-        <line num="521" count="0" type="stmt"/>
-        <line num="522" count="0" type="stmt"/>
-        <line num="523" count="0" type="stmt"/>
-        <line num="524" count="0" type="stmt"/>
-        <line num="525" count="0" type="stmt"/>
-        <line num="526" count="0" type="stmt"/>
-        <line num="527" count="0" type="stmt"/>
-        <line num="528" count="0" type="stmt"/>
-        <line num="529" count="0" type="stmt"/>
-        <line num="530" count="0" type="stmt"/>
-        <line num="531" count="0" type="stmt"/>
-        <line num="532" count="0" type="stmt"/>
-        <line num="533" count="0" type="stmt"/>
-        <line num="534" count="0" type="stmt"/>
-        <line num="535" count="0" type="stmt"/>
-        <line num="536" count="0" type="stmt"/>
+        <line num="517" count="1" type="cond" truecount="1" falsecount="0"/>
+        <line num="518" count="1" type="stmt"/>
+        <line num="519" count="1" type="stmt"/>
+        <line num="520" count="1" type="stmt"/>
+        <line num="521" count="1" type="stmt"/>
+        <line num="522" count="1" type="stmt"/>
+        <line num="523" count="1" type="stmt"/>
+        <line num="524" count="1" type="stmt"/>
+        <line num="525" count="1" type="stmt"/>
+        <line num="526" count="1" type="stmt"/>
+        <line num="527" count="1" type="stmt"/>
+        <line num="528" count="1" type="stmt"/>
+        <line num="529" count="1" type="stmt"/>
+        <line num="530" count="1" type="stmt"/>
+        <line num="531" count="1" type="stmt"/>
+        <line num="532" count="1" type="stmt"/>
+        <line num="533" count="1" type="stmt"/>
+        <line num="534" count="1" type="stmt"/>
+        <line num="535" count="1" type="cond" truecount="1" falsecount="0"/>
+        <line num="536" count="1" type="cond" truecount="0" falsecount="1"/>
         <line num="537" count="0" type="stmt"/>
         <line num="538" count="0" type="stmt"/>
         <line num="539" count="0" type="stmt"/>
@@ -564,10 +564,10 @@
         <line num="541" count="0" type="stmt"/>
         <line num="542" count="0" type="stmt"/>
         <line num="543" count="0" type="stmt"/>
-        <line num="544" count="0" type="stmt"/>
-        <line num="545" count="0" type="stmt"/>
-        <line num="546" count="0" type="stmt"/>
-        <line num="547" count="0" type="stmt"/>
+        <line num="544" count="1" type="stmt"/>
+        <line num="545" count="1" type="stmt"/>
+        <line num="546" count="1" type="cond" truecount="1" falsecount="0"/>
+        <line num="547" count="1" type="cond" truecount="0" falsecount="1"/>
         <line num="548" count="0" type="stmt"/>
         <line num="549" count="0" type="stmt"/>
         <line num="550" count="0" type="stmt"/>
@@ -576,14 +576,14 @@
         <line num="553" count="0" type="stmt"/>
         <line num="554" count="0" type="stmt"/>
         <line num="555" count="0" type="stmt"/>
-        <line num="556" count="0" type="stmt"/>
-        <line num="557" count="0" type="stmt"/>
-        <line num="558" count="0" type="stmt"/>
-        <line num="559" count="0" type="stmt"/>
-        <line num="560" count="0" type="stmt"/>
-        <line num="561" count="0" type="stmt"/>
-        <line num="562" count="0" type="stmt"/>
-        <line num="563" count="0" type="stmt"/>
+        <line num="556" count="1" type="stmt"/>
+        <line num="557" count="1" type="stmt"/>
+        <line num="558" count="1" type="stmt"/>
+        <line num="559" count="1" type="stmt"/>
+        <line num="560" count="1" type="stmt"/>
+        <line num="561" count="1" type="stmt"/>
+        <line num="562" count="1" type="stmt"/>
+        <line num="563" count="1" type="stmt"/>
         <line num="564" count="1" type="stmt"/>
         <line num="565" count="1" type="stmt"/>
         <line num="566" count="1" type="stmt"/>
@@ -805,9 +805,9 @@
       </file>
     </package>
     <package name="www.Routes">
-      <metrics statements="161" coveredstatements="80" conditionals="8" coveredconditionals="5" methods="1" coveredmethods="1"/>
+      <metrics statements="161" coveredstatements="98" conditionals="12" coveredconditionals="7" methods="1" coveredmethods="1"/>
       <file name="taskRoutes.js" path="C:\Users\Yasmin\Documents\GitHub\SII_Project\www\Routes\taskRoutes.js">
-        <metrics statements="132" coveredstatements="65" conditionals="6" coveredconditionals="4" methods="0" coveredmethods="0"/>
+        <metrics statements="132" coveredstatements="83" conditionals="10" coveredconditionals="6" methods="0" coveredmethods="0"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
         <line num="3" count="1" type="stmt"/>
@@ -873,15 +873,15 @@
         <line num="63" count="0" type="stmt"/>
         <line num="64" count="1" type="stmt"/>
         <line num="65" count="1" type="stmt"/>
-        <line num="66" count="1" type="stmt"/>
-        <line num="67" count="0" type="stmt"/>
-        <line num="68" count="0" type="stmt"/>
-        <line num="69" count="0" type="stmt"/>
-        <line num="70" count="0" type="stmt"/>
-        <line num="71" count="0" type="stmt"/>
-        <line num="72" count="0" type="stmt"/>
-        <line num="73" count="0" type="stmt"/>
-        <line num="74" count="0" type="stmt"/>
+        <line num="66" count="1" type="cond" truecount="1" falsecount="0"/>
+        <line num="67" count="1" type="stmt"/>
+        <line num="68" count="1" type="stmt"/>
+        <line num="69" count="1" type="stmt"/>
+        <line num="70" count="1" type="stmt"/>
+        <line num="71" count="1" type="stmt"/>
+        <line num="72" count="1" type="stmt"/>
+        <line num="73" count="1" type="stmt"/>
+        <line num="74" count="1" type="cond" truecount="0" falsecount="1"/>
         <line num="75" count="0" type="stmt"/>
         <line num="76" count="0" type="stmt"/>
         <line num="77" count="0" type="stmt"/>
@@ -892,19 +892,19 @@
         <line num="82" count="0" type="stmt"/>
         <line num="83" count="0" type="stmt"/>
         <line num="84" count="0" type="stmt"/>
-        <line num="85" count="0" type="stmt"/>
-        <line num="86" count="0" type="stmt"/>
-        <line num="87" count="0" type="stmt"/>
+        <line num="85" count="1" type="stmt"/>
+        <line num="86" count="1" type="cond" truecount="1" falsecount="0"/>
+        <line num="87" count="1" type="cond" truecount="0" falsecount="1"/>
         <line num="88" count="0" type="stmt"/>
         <line num="89" count="0" type="stmt"/>
         <line num="90" count="0" type="stmt"/>
-        <line num="91" count="0" type="stmt"/>
-        <line num="92" count="0" type="stmt"/>
-        <line num="93" count="0" type="stmt"/>
-        <line num="94" count="0" type="stmt"/>
-        <line num="95" count="0" type="stmt"/>
-        <line num="96" count="0" type="stmt"/>
-        <line num="97" count="0" type="stmt"/>
+        <line num="91" count="1" type="stmt"/>
+        <line num="92" count="1" type="stmt"/>
+        <line num="93" count="1" type="stmt"/>
+        <line num="94" count="1" type="stmt"/>
+        <line num="95" count="1" type="stmt"/>
+        <line num="96" count="1" type="stmt"/>
+        <line num="97" count="1" type="stmt"/>
         <line num="98" count="1" type="stmt"/>
         <line num="99" count="1" type="stmt"/>
         <line num="100" count="1" type="cond" truecount="1" falsecount="0"/>

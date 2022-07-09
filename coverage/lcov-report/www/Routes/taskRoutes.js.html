@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">49.24% </span>
+                <span class="strong">62.87% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>65/132</span>
+                <span class='fraction'>83/132</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">66.66% </span>
+                <span class="strong">60% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>4/6</span>
+                <span class='fraction'>6/10</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">49.24% </span>
+                <span class="strong">62.87% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>65/132</span>
+                <span class='fraction'>83/132</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line medium'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -261,6 +261,14 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -271,27 +279,19 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -393,14 +393,14 @@ router.post("/", verifyToken, newTaskValidation, (req, res) =&gt; {
 &nbsp;
 // Calls a function update a task
 router.put("/:id", updateTaskValidation, (req, res) =&gt; {
-<span class="cstat-no" title="statement not covered" >    let task = req.body;</span>
-<span class="cstat-no" title="statement not covered" >    let id = req.params.id;</span>
-<span class="cstat-no" title="statement not covered" >    task.id = id;</span>
-<span class="cstat-no" title="statement not covered" >    //task.dateAssignment = dateA;</span>
-<span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >    const errors = validationResult(req);</span>
-<span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >    if (!errors.isEmpty()) {   //Mostra os erros ao utilizador</span>
+    let task = req.body;
+    let id = req.params.id;
+    task.id = id;
+    //task.dateAssignment = dateA;
+&nbsp;
+    const errors = validationResult(req);
+&nbsp;
+    if (!errors.isEmpty()) <span class="branch-0 cbranch-no" title="branch not covered" >{   //Mostra os erros ao utilizador</span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >        var error_msg = ''</span>
 <span class="cstat-no" title="statement not covered" >        errors.array().forEach(function (error) {</span>
@@ -411,19 +411,19 @@ router.put("/:id", updateTaskValidation, (req, res) =&gt; {
 <span class="cstat-no" title="statement not covered" >            msg: error_msg</span>
 <span class="cstat-no" title="statement not covered" >        });</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >    } else {</span>
-<span class="cstat-no" title="statement not covered" >        requestHandlers.updateTask(task, (err, rows, results) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >            if (err) {</span>
+    } else {
+        requestHandlers.updateTask(task, (err, rows, results) =&gt; {
+            if (err) <span class="branch-0 cbranch-no" title="branch not covered" >{</span>
 <span class="cstat-no" title="statement not covered" >                console.log(err);</span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >                res.status(500).json({ "message": "error" });</span>
-<span class="cstat-no" title="statement not covered" >            } else {</span>
-<span class="cstat-no" title="statement not covered" >                res.status(200).json({ "message": "success", "task": rows, "results": results });</span>
-<span class="cstat-no" title="statement not covered" >            }</span>
-<span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >        })</span>
-<span class="cstat-no" title="statement not covered" >    }</span>
-<span class="cstat-no" title="statement not covered" >});</span>
+            } else {
+                res.status(200).json({ "message": "success", "task": rows, "results": results });
+            }
+&nbsp;
+        })
+    }
+});
 &nbsp;
 // Calls a function update a task
 router.put("/assignment/:id", (req, res) =&gt; {
@@ -466,7 +466,7 @@ module.exports = router;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at Sun Jul 10 2022 00:38:25 GMT+0100 (Western European Summer Time)
+                at Sun Jul 10 2022 00:49:34 GMT+0100 (Western European Summer Time)
             </div>
         <script src="../../prettify.js"></script>
         <script>

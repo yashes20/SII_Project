@@ -109,6 +109,58 @@ describe("POST request", () => {
     }
 });
 
+describe("PUT request ", () => {
+
+    try {
+        let putTask;
+        beforeEach(function () {
+            console.log("Input PUT a task");
+            putTask = {
+                name: "Task test",
+                description: "description",
+                status: 1,
+                category: 1,
+                userCreation: 1,
+                userAssignment: 2,
+                dateAssignment: "2022-06-25 15:40",
+                address: "address task",
+                latitude: "-30.027668",
+                longitude: "-51.163269"
+            }; // task to update
+
+        });
+        afterEach(function () {
+            console.log("task are updated");
+        });
+
+        it('should put task', async () => {
+            try {
+                await request(app).put('/tasks/' + 2)
+                    .send(putTask)
+                    .set('Accept', /json/)
+                    .expect(200).expect('Content-type', /json/)
+                    
+                    .then((response) => {
+                        //console.log(response);
+                        // Check data
+                        expect(response.body.message).toEqual("success");
+                        expect(response.body.task.affectedRows).toEqual(1);
+
+                        
+                    });
+            } catch (err) {
+                // write test for failure here
+                console.log(`Error ${err}`)
+            }
+
+        })
+
+    }
+    catch (err) {
+        console.log("ERROR : ", err)
+    }
+});
+
 describe("PUT request assignment", () => {
 
     try {
