@@ -63,15 +63,7 @@ const queryTaskId = "SELECT taskId, taskName, taskDescription,taskDateCreation, 
 
 const sqldeleteTask = "UPDATE TASKS SET taskIsEnabled = 0 WHERE taskId = ?";
 
-const sqlTaskLatLong = "SELECT *, (6371 *" +
-    "acos("
-    "cos(radians(?)) * " +
-    "cos(radians(taskLatitude)) * " +
-    "cos(radians(?) - radians(taskLongitude)) +" +
-    "sin(radians(?)) * " +
-    "sin(radians(taskLatitude))" +
-    ")) AS distance" +
-    "FROM tasks HAVING distance <= 5 AND tasks.taskStatusId =?";
+const sqlTaskLatLong = "SELECT *, (6371 * acos(cos(radians(?)) * cos(radians(taskLatitude)) * cos(radians(?) - radians(taskLongitude)) + sin(radians(?)) * sin(radians(taskLatitude)))) AS distance FROM tasks HAVING distance <=  5 AND tasks.taskStatusId = 1";
 
 /* SELECT *, (6371 *
     acos(

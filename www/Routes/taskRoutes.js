@@ -26,7 +26,7 @@ router.get("/status/:id",  verifyToken, requestHandlers.selectTasksByStatus);
 router.get("/users/:id",  verifyToken, requestHandlers.selectTasksByUserId);
 
 // Calls a function to get all tasks by coordenates
-router.get("/tasks/:latitude/:longitude", verifyToken, requestHandlers.selectTasksByCoord);
+router.get("/:latitude/:longitude", verifyToken, requestHandlers.selectTasksByCoord);
 
 //create a new task
 // Calls a function create a new task
