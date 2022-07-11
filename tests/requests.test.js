@@ -5,7 +5,7 @@ const express = require("express");
 const app = express(); //an instance of an express app, a 'fake' express app
 const bodyParser = require("body-parser");
 var path = require('path');
-var token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjU2ODgwNDkxLCJleHAiOjE2NTY4ODQwOTF9.JJndkqPri27iLrtZT8SvnfN9rieCaeLIXgSqgjYgQxM';
+var token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjU3NTc2Njk1LCJleHAiOjE2NTc1ODAyOTV9.7wexCU_Cllj9BCKQ5KTY_tyTEKlwE2sotuTjY5KEOaY';
 
 //const taskRouter = require('./www/Routes/taskRoutes.js');
 app.use(bodyParser.json());
@@ -35,6 +35,7 @@ describe("POST request", () => {
                 await request(app).post('/requests')
                     .send(postRequest)
                     .set('Accept', /json/)
+                    .set('Authorization', 'Bearer ' + token) // Works.
                     //.set('Authorization', 'Bearer ' + token) // Works.
                     .expect(200).expect('Content-type', /json/)
                     
@@ -62,6 +63,8 @@ describe("POST request", () => {
 it('get all requests', async () => {
 
      await request(app).get('/requests')
+         .set('Accept', /json/)
+         .set('Authorization', 'Bearer ' + token) // Works.
          .expect(200)
          .then((response) => {
              // Check data
@@ -72,13 +75,15 @@ it('get all requests', async () => {
 
  it('get tasks by task id', async () => {
 
-     await request(app).get('/requests/' + "1")
+     await request(app).get('/requests/tasks/' + "1")
+         .set('Accept', /json/)
+         .set('Authorization', 'Bearer ' + token) // Works.
          .expect(200)
          .then((response) => {
-            //console.log(response);
+            console.log(response.body);
              // Check data
              expect(response.body.message).toEqual("success");
-             expect(response.body.request[0].taskId).toEqual(1);
+             //expect(response.body.request[0].taskId).toEqual("1");
          });
  });
 
@@ -103,10 +108,11 @@ it('get all requests', async () => {
                 await request(app).put('/requests/' + 3)
                     .send(putRequest)
                     .set('Accept', /json/)
+                    .set('Authorization', 'Bearer ' + token) // Works.
                     .expect(200).expect('Content-type', /json/)
                     
                     .then((response) => {
-                        console.log(response);
+                        //console.log(response);
                         // Check data
                         expect(response.body.message).toEqual("success");
                         expect(response.body.request.affectedRows).toEqual(1);

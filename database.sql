@@ -173,7 +173,7 @@ SET GLOBAL log_bin_trust_function_creators = 1;
 -- Insert default users
 INSERT INTO `users` 
 ( `userFullName`, `userPassword`, `userAddress`, `userZipCode`,  `userEmail`, `userGender`, `userPhone`, `userBirthDate`,`userState`,`userType`) VALUES
-('Yasmin', '1234', 'rua','8888','yashes20@yahoo.com.br','F','89898','1981-06-22','A','Admin');
+('Yasmin', '$2a$10$MYRm/aUnz503FSklnhwnYOwPIk4EY0U52V08PKZr9ipS6.LhlmEDm', 'rua','8888','yashes20@yahoo.com.br','F','89898','1981-06-22','A','Admin');
 
 INSERT INTO `users` 
 ( `userFullName`, `userPassword`, `userAddress`, `userZipCode`,  `userEmail`, `userGender`, `userPhone`, `userBirthDate`,`userState`,`userType`) VALUES

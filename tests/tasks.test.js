@@ -5,7 +5,7 @@ const express = require("express");
 const app = express(); //an instance of an express app, a 'fake' express app
 const bodyParser = require("body-parser");
 var path = require('path');
-var token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjU2ODgwNDkxLCJleHAiOjE2NTY4ODQwOTF9.JJndkqPri27iLrtZT8SvnfN9rieCaeLIXgSqgjYgQxM';
+var token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjU3NTc2Njk1LCJleHAiOjE2NTc1ODAyOTV9.7wexCU_Cllj9BCKQ5KTY_tyTEKlwE2sotuTjY5KEOaY';
 
 //const taskRouter = require('./www/Routes/taskRoutes.js');
 app.use(bodyParser.json());
@@ -17,7 +17,9 @@ app.use('/tasks', taskRouter);
 it('get tasks', async () => {
 
     await request(app).get('/tasks')
-        .expect(200)
+        .set('Accept', /json/)
+        .set('Authorization', 'Bearer ' + token) // Works.
+        .expect(200).expect('Content-type', /json/)
         .then((response) => {
             // Check data
             expect(response.body.message).toEqual("success");
@@ -28,18 +30,22 @@ it('get tasks', async () => {
 it('get tasks status', async () => {
 
     await request(app).get('/tasks/status/' + "1")
-        .expect(200)
+        .set('Accept', /json/)
+        .set('Authorization', 'Bearer ' + token) // Works.
+        .expect(200).expect('Content-type', /json/)
         .then((response) => {
             // Check data
             expect(response.body.message).toEqual("success");
             //expect(response.body.task[0]).toEqual("1");
         });
 });
-
+ 
 it('get tasks by user', async () => {
 
     await request(app).get('/tasks/users/' + "1")
-        .expect(200)
+    .set('Accept', /json/)
+    .set('Authorization', 'Bearer ' + token) // Works.
+    .expect(200).expect('Content-type', /json/)
         .then((response) => {
             // Check data
             expect(response.body.message).toEqual("success");
@@ -50,9 +56,14 @@ it('get tasks by user', async () => {
 it('get tasks by id', async () => {
 
     await request(app).get('/tasks/' + "1")
-        .expect(200)
+        //.expect(200)
+        //.set('Accept', /json/)
+        .set('Accept', /json/)
+        .set('Authorization', 'Bearer ' + token) // Works.
+        .expect(200).expect('Content-type', /json/)
         .then((response) => {
             // Check data
+            //console.log(response);
             expect(response.body.message).toEqual("success");
             expect(response.body.task[0].taskId).toEqual(1);
         });
@@ -83,6 +94,7 @@ describe("POST request", () => {
         it('should create a new task', async () => {
             try {
                 await request(app).post('/tasks')
+                
                     .send(postTask)
                     .set('Accept', /json/)
                     .set('Authorization', 'Bearer ' + token) // Works.
@@ -107,7 +119,7 @@ describe("POST request", () => {
     catch (err) {
         console.log("ERROR : ", err)
     }
-});
+}); 
 
 describe("PUT request ", () => {
 
@@ -138,8 +150,8 @@ describe("PUT request ", () => {
                 await request(app).put('/tasks/' + 2)
                     .send(putTask)
                     .set('Accept', /json/)
+                    .set('Authorization', 'Bearer ' + token) // Works.
                     .expect(200).expect('Content-type', /json/)
-                    
                     .then((response) => {
                         //console.log(response);
                         // Check data
@@ -159,14 +171,14 @@ describe("PUT request ", () => {
     catch (err) {
         console.log("ERROR : ", err)
     }
-});
+}); 
 
 describe("PUT request assignment", () => {
 
     try {
         let putTask;
         beforeEach(function () {
-            console.log("Input PUT a task");
+            console.log("Input PUT a task assignment");
             putTask = {
                 userAssignment: 2
             }; // task to update
@@ -181,6 +193,7 @@ describe("PUT request assignment", () => {
                 await request(app).put('/tasks/assignment/' + 1)
                     .send(putTask)
                     .set('Accept', /json/)
+                    .set('Authorization', 'Bearer ' + token) // Works.
                     .expect(200).expect('Content-type', /json/)
                     
                     .then((response) => {
@@ -212,6 +225,7 @@ describe("DELETE request", () => {
             try {
                 await request(app).delete('/tasks/' + 2)
                     .set('Accept', /json/)
+                    .set('Authorization', 'Bearer ' + token) // Works.
                     .expect(200).expect('Content-type', /json/)
                     
                     .then((response) => {
@@ -232,4 +246,4 @@ describe("DELETE request", () => {
     catch (err) {
         console.log("ERROR : ", err)
     }
-});
+});  

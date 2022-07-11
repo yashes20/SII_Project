@@ -12,21 +12,21 @@ const { newTaskValidation, updateTaskValidation } = require('../Utils/validation
 const { validationResult } = require('express-validator');
 
 // Calls a function to get a task by id
-router.get("/:id", requestHandlers.selectTasksById);
+router.get("/:id", verifyToken, requestHandlers.selectTasksById);
 
 // Calls a function to get all tasks
-router.get("/", requestHandlers.selectAllTasks);
+router.get("/",  verifyToken, requestHandlers.selectAllTasks);
 
-router.post("/find", requestHandlers.selectTasksFind);
+router.post("/find",  verifyToken, requestHandlers.selectTasksFind);
 
 // Calls a function to get all tasks by status
-router.get("/status/:id", requestHandlers.selectTasksByStatus);
+router.get("/status/:id",  verifyToken, requestHandlers.selectTasksByStatus);
 
 // Calls a function to get all tasks by user id creation
-router.get("/users/:id", requestHandlers.selectTasksByUserId);
+router.get("/users/:id",  verifyToken, requestHandlers.selectTasksByUserId);
 
 // Calls a function to get all tasks by coordenates
-router.get("/tasks/:latitude/:longitude", requestHandlers.selectTasksByCoord);
+router.get("/tasks/:latitude/:longitude", verifyToken, requestHandlers.selectTasksByCoord);
 
 //create a new task
 // Calls a function create a new task
@@ -63,7 +63,7 @@ router.post("/", verifyToken, newTaskValidation, (req, res) => {
 });
 
 // Calls a function update a task
-router.put("/:id", updateTaskValidation, (req, res) => {
+router.put("/:id", verifyToken, updateTaskValidation, (req, res) => {
     let task = req.body;
     let id = req.params.id;
     task.id = id;
@@ -97,7 +97,8 @@ router.put("/:id", updateTaskValidation, (req, res) => {
 });
 
 // Calls a function update a task
-router.put("/assignment/:id", (req, res) => {
+router.put("/assignment/:id", verifyToken, (req, res) => {
+
     let task = req.body;
     let id = req.params.id;
     task.idTask = id;
@@ -116,7 +117,7 @@ router.put("/assignment/:id", (req, res) => {
 });
 
 // Calls delete task
-router.delete("/:id", (req, res) => {
+router.delete("/:id", verifyToken, (req, res) => {
     requestHandlers.deleteTask(req.params.id, (err, rows, results) => {
         if (err) {
             console.log(err);

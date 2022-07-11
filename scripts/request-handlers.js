@@ -65,11 +65,11 @@ const sqldeleteTask = "UPDATE TASKS SET taskIsEnabled = 0 WHERE taskId = ?";
 
 const sqlTaskLatLong = "SELECT *, (6371 *" +
     "acos("
-"cos(radians(?)) * " +
-    "cos(radians(userLatitude)) * " +
+    "cos(radians(?)) * " +
+    "cos(radians(taskLatitude)) * " +
     "cos(radians(?) - radians(taskLongitude)) +" +
     "sin(radians(?)) * " +
-    "sin(radians(userLatitude))" +
+    "sin(radians(taskLatitude))" +
     ")) AS distance" +
     "FROM tasks HAVING distance <= 5 AND tasks.taskStatusId =?";
 
@@ -657,12 +657,9 @@ async function createRequest(request, result) {
     // Declaration of variables
     const connection = await connect();
     let id = putRequest.id;
-    let taskId = putRequest.idTask;
-    let userId = putRequest.idVoluntary;
 
     // UPDATE
     let sql = "UPDATE requests SET requestStatus = 1 WHERE requestId = ? ";
-    let sql2 = "UPDATE tasks SET taskStatusId = 2, taskDateStatus = NOW(), userAssignment = ? WHERE taskId = ? ";
 
     connection.connect(function (err) {
         if (err) {
@@ -691,22 +688,7 @@ async function createRequest(request, result) {
                 }
             });
 
-            /* connection.query(sql2, [taskId,userId], function (err, rows, results) {
-                if (err) {
-                    if (result != null) {
-                        result(err, null, null);
-                        console.log("erro assigm task 1");
-                    }
-                    else {
-                        console.log("erro assigm task 2");
-                        throw err;
-                    }
-                } else {
-                    console.log("sucesso assigm task 3");
-                    result(err, rows, results);
-                }
-            }); */
-           
+         
         }
     });
 }

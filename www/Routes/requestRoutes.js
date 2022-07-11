@@ -9,12 +9,12 @@ const requestHandlers = require("../../scripts/request-handlers.js");
 var verifyToken = require('./verifyToken');
 
 // Calls a function to get all requests
-router.get("/", requestHandlers.selectAllRequests);
+router.get("/", verifyToken, requestHandlers.selectAllRequests);
 
 // Calls a function to get all requests by task
-router.get("/:id", requestHandlers.selectAllRequestsByTask);
+router.get("/tasks/:id", verifyToken, requestHandlers.selectAllRequestsByTask);
 
-router.post("/", (req, res) => {
+router.post("/", verifyToken, (req, res) => {
 
     let request = req.body;
 
@@ -31,7 +31,7 @@ router.post("/", (req, res) => {
 });
 
 // Calls a function update a request 
-router.put("/:id", (req, res) => {
+router.put("/:id", verifyToken, (req, res) => {
     let request = req.body;
     let id = req.params.id;
     request.id = id;
