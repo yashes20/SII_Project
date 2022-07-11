@@ -24,11 +24,11 @@ const queryAllTasks = "SELECT taskId, taskName, taskDescription,taskDateCreation
 
 const queryAllRequests = "SELECT requestId, requestIdVoluntary, requestIdTask, requestStatus FROM requests";
 
-const queryAllRequestsByTaskId ="SELECT req.requestId, tasks.taskId, tasks.taskName,  users.userId, users.userFullName, req.requestStatus " +
+const queryAllRequestsByTaskId ="SELECT req.requestId, tasks.taskId, tasks.taskName,  users.userId, users.userFullName, users.userEmail, users.userPhone, cast(req.requestStatus as UNSIGNED) requestStatus " +
 "from requests req " +
 "INNER JOIN tasks ON tasks.taskId = req.requestIdTask " +
 "INNER JOIN users ON users.userId = req.requestIdVoluntary "+ 
-"where tasks.taskId = ? and tasks.userAssignment is null";
+"where tasks.taskId = ? AND tasks.userAssignment is null";
 
 const queryTaskStatus = "SELECT taskId, taskName, taskDescription,taskDateCreation, taskStatusId," +
     "taskDateStatus, taskCategoryId, taskIsEnabled, userCreation," +

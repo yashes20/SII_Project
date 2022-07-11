@@ -73,14 +73,14 @@ it('get all requests', async () => {
          });
  });
 
- it('get tasks by task id', async () => {
+ it('get requests by task id', async () => {
 
      await request(app).get('/requests/tasks/' + "1")
          .set('Accept', /json/)
          .set('Authorization', 'Bearer ' + token) // Works.
          .expect(200)
          .then((response) => {
-            console.log(response.body);
+             //console.log(response.body);
              // Check data
              expect(response.body.message).toEqual("success");
              //expect(response.body.request[0].taskId).toEqual("1");
