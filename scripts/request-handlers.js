@@ -22,7 +22,7 @@ const queryAllTasks = "SELECT taskId, taskName, taskDescription,taskDateCreation
     "left JOIN users as USERS2 ON tasks.userAssignment = USERS2.userId " +
     "where tasks.taskIsEnabled = 1";
 
-const queryAllRequests = "SELECT requestId, requestIdVoluntary, requestIdTask, requestStatus FROM requests";
+const queryAllRequests = "SELECT requestId, requestIdVoluntary, requestIdTask,  cast(requestStatus as UNSIGNED) requestStatus FROM requests";
 
 const queryAllRequestsByTaskId ="SELECT req.requestId, tasks.taskId, tasks.taskName,  users.userId, users.userFullName, users.userEmail, users.userPhone, cast(req.requestStatus as UNSIGNED) requestStatus " +
 "from requests req " +
