@@ -10,18 +10,21 @@ const multer = require('multer');
 
 const upload = multer();
 
+// Authorization
+var verifyToken = require('./verifyToken');
+
 const bcrypt = require('bcryptjs');
 
 const { userValidation } = require('../Utils/validation');
 const { validationResult } = require('express-validator');
 
 // Calls a function to get all users
-router.get("/", requestHandlers.selectUsers);
+router.get("/", verifyToken, requestHandlers.selectUsers);
 
-router.get("/:id", requestHandlers.selectUser);
+router.get("/:id", verifyToken, requestHandlers.selectUser);
 
 // Calls a function update or insert user
-router.put("/:id", userValidation, (req, res) => {
+router.put("/:id", verifyToken, userValidation, (req, res) => {
 
     const errors = validationResult(req);
 
@@ -64,7 +67,7 @@ router.put("/:id", userValidation, (req, res) => {
 });
 
 // Calls delete user
-router.delete("/:id", (req, res) => {
+router.delete("/:id", verifyToken, (req, res) => {
     requestHandlers.deleteUser(req.params.id, (err, rows, results) => {
         if (err) {
             console.log(err);

@@ -5,7 +5,7 @@ const express = require("express");
 const app = express(); //an instance of an express app, a 'fake' express app
 const bodyParser = require("body-parser");
 var path = require('path');
-var token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjU3NTc2Njk1LCJleHAiOjE2NTc1ODAyOTV9.7wexCU_Cllj9BCKQ5KTY_tyTEKlwE2sotuTjY5KEOaY';
+var token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjU3NjE1NDMyLCJleHAiOjE2NTc2MTkwMzJ9.hWSlPK4Ql3w8DW_4Ow20LFerBRIm-S5-TNgKnvwB7sA';
 
 //const taskRouter = require('./www/Routes/taskRoutes.js');
 app.use(bodyParser.json());
