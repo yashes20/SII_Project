@@ -21,7 +21,8 @@
     "sequelize": "^6.21.2"
   },
   "scripts": {
-    "test": "NODE_ENV=test jest --testTimeout=10000"
+    "test": "NODE_ENV=test jest --testTimeout=10000",
+    "test-debug": "node-debug --nodejs --harmony ./node_modules/jest-cli/bin/jest.js --runInBand"
   },
   "keywords": [],
   "author": "",
@@ -30,8 +31,8 @@
     "cross-env": "^7.0.3",
     "jest": "^28.1.1",
     "jest-cli": "^28.1.1",
+    "jest-environment-node-debug": "^2.0.0",
     "sequelize-cli": "^6.4.1",
     "supertest": "^6.2.3"
   }
 }
-
