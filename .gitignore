@@ -2006,3 +2006,11 @@ coverage/lcov-report/scripts/index.html
 coverage/lcov-report/index.html
 coverage/coverage-final.json
 coverage/clover.xml
+coverage/clover.xml
+coverage/clover.xml
+coverage/lcov-report/index.html
+coverage/lcov-report/scripts/dbConnection.js.html
+coverage/lcov-report/scripts/index.html
+coverage/lcov-report/scripts/request-handlers.js.html
+coverage/lcov-report/www/Routes/index.html
+coverage/lcov-report/www/Routes/requestRoutes.js.html

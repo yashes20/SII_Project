@@ -18,7 +18,7 @@
             ],
 			// "program": "${workspaceRoot}/app.js",
 			"cwd": "${workspaceRoot}",
-			"console": "internalConsole",
+			"console": "integratedTerminal",
 			"env": {
 				"NODE_ENV": "test"
 			}
@@ -33,7 +33,7 @@
             ],
 			"program": "${workspaceRoot}/app.js",
 			"cwd": "${workspaceRoot}",
-			"console": "integratedTerminal",
+			"console": "internalConsole",
 			"env": {
 				"NODE_ENV": "development"
 			}
