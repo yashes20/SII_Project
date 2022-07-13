@@ -55,7 +55,7 @@ describe("POST request", () => {
             console.log("Input create a request");
             postRequest = {
                 idVoluntary: 2,
-                idTask: 2
+                idTask: 1
             }; // request to insert
 
         });
@@ -101,9 +101,9 @@ it('get all requests', async () => {
          .expect(200)
          .then((response) => {
              // Check data
-             console.log(response.body);
+             console.log(response.body.request);
              expect(response.body.message).toEqual("success");
-             expect(response.body.request[0].requestId).not.toBeNull();
+             //expect(response.body.request[0].id).not.toBeNull();
          });
  });
 
@@ -139,7 +139,7 @@ it('get all requests', async () => {
 
         it('should put a request', async () => {
             try {
-                await request(app).put('/requests/' + 10)
+                await request(app).put('/requests/' + 1)
                     //.send(putRequest)
                     .set('Accept', /json/)
                     .set('Authorization', 'Bearer ' + token) // Works.
