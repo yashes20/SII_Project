@@ -61,6 +61,8 @@ const queryTaskId = "SELECT taskId, taskName, taskDescription,taskDateCreation, 
     "left JOIN users as USERS2 ON tasks.userAssignment = USERS2.userId " +
     "where tasks.taskId = ? and tasks.taskIsEnabled = 1 ";
 
+const queryRatingUser = "select round(sum(rating) / count(1)) rating from ratings where ratingIdUser = ?"
+
 const sqldeleteTask = "UPDATE TASKS SET taskIsEnabled = 0 WHERE taskId = ?";
 
 const sqlTaskLatLong = "SELECT *, (6371 * acos(cos(radians(?)) * cos(radians(taskLatitude)) * cos(radians(?) - radians(taskLongitude)) + sin(radians(?)) * sin(radians(taskLatitude)))) AS distance FROM tasks HAVING distance <=  5 AND tasks.taskStatusId = 1";
@@ -112,6 +114,8 @@ function getJsonMessage(err, rows, res, typeColumn) {
         res.json({ "message": "success", "status": rows });
     } else if (typeColumn === "request") {
         res.json({ "message": "success", "request": rows });
+    } else if (typeColumn === "rating") {
+        res.json({ "message": "success", "rating": rows });
     }
 }
 
@@ -871,6 +875,48 @@ async function updateRequestsAssignment(id, result) {
     });
 }
 
+function selectRatingByUser(req, res) {
+    createConnectionToDbP(req, res, queryRatingUser, "rating");
+}
+
+async function createRating(req, result) {
+    // Declaration of variables
+    const connection = await connect();
+    let idUser = req.idUser;
+    let idAssUser = req.idAssUser;
+    let rating = req.rating;
+
+    // insert
+    let sql = "INSERT INTO ratings (ratingIdUser, ratingIdAssUser, rating) VALUES (?,?,?)";
+    connection.connect(function (err) {
+        if (err) {
+            if (result != null) {
+                result(err, null, null);
+            }
+            else {
+                throw err;
+            }
+        }
+        else {
+            // Insertion of the data in the following params
+            connection.query(sql, [idUser, idAssUser, rating], function (err, rows, results) {
+                if (err) {
+                    if (result != null) {
+                        result(err, null, null);
+                        console.log("erro aqui");
+                    }
+                    else {
+                        console.log("erro aqui2");
+                        throw err;
+                    }
+                } else {
+                    console.log("sucesso aqui3");
+                    result(err, rows, results);
+                }
+            });
+        }
+    });
+}
 
 
 module.exports =
@@ -899,5 +945,7 @@ module.exports =
     selectAllRequestsByTask,
     updateStatusTask,
     updateUserPoints,
-    updateUserStatus
+    updateUserStatus,
+    createRating,
+    selectRatingByUser
 }

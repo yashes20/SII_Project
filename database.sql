@@ -273,6 +273,17 @@ CREATE TABLE `requests`(
     FOREIGN KEY requestIdTask(requestIdTask) REFERENCES tasks(taskId)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf16;
 
+-- Create table for ratings
+DROP TABLE IF EXISTS `ratings`;
+CREATE TABLE `ratings`(
+    `ratingId` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    `ratingIdUser` int(11) NOT NULL,
+    `ratingIdAssUser` int(11) NOT NULL,
+    `rating` int(11) NOT NULL,
+    FOREIGN KEY ratingIdUser(ratingIdUser) REFERENCES users(userId),
+    FOREIGN KEY ratingIdAssUser(ratingIdAssUser) REFERENCES users(userId)
+) ENGINE=InnoDB DEFAULT CHARSET=utf16;
+
 
 DROP PROCEDURE IF EXISTS updateUserPoints;
 DELIMITER $$

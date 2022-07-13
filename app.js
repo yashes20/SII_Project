@@ -54,6 +54,7 @@ const loginRouter = require('./www/Routes/authentication.js');
 const userRouter = require('./www/Routes/userRoutes.js');
 const taskRouter = require('./www/Routes/taskRoutes.js');
 const requestRouter = require('./www/Routes/requestRoutes.js');
+const ratingRouter = require('./www/Routes/ratingRoutes.js');
 
 app.use('/api', loginRouter);
 
@@ -62,6 +63,8 @@ app.use('/users', userRouter);
 app.use('/tasks', taskRouter);
 
 app.use('/requests', requestRouter);
+
+app.use('/ratings', ratingRouter);
 
 // Handling Errors
 app.use((err, req, res, next) => {
