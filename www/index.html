@@ -244,7 +244,7 @@
                         <button type="submit" class="btn btn-success" id="save" data-bs-dismiss="modal">Save</button>
                         <button type="reset" step="any" class="btn btn-secondary" id="cleanTask">Clean</button>
                       </form>
-                      <form id="associationTask" action="javascript:infoTasks.processingTask('assign');">
+                      <form id="associationTask" action="javascript:infoTasks.processingTask('assignment');">
                         <div class="form-group">
                           <div class="form-group">
                             <label for="idTaskAssoc" class="col-form-label">ID:</label>
@@ -262,17 +262,16 @@
                             <label for="userAssignmentAssoc" class="col-form-label">Users:</label>
                             <select id="userAssignmentAssoc" class="form-select" aria-describedby="userAssignmentAssoc"></select>
                           </div>
-                          <label class="col-form-label">Are you sure you wanna assign this task?</label>
-                          <br>
-                          <button type="submit" class="btn btn-light" id="assocTask" data-bs-dismiss="modal"></button>>Save</button>
+                          <label class="col-form-label">Are you sure you wanna to assign this task?</label>
+                          <button type="submit" class="btn btn-success" id="assocTask" data-bs-dismiss="modal">Assignment</button>
                         </div>
                       </form>
           
                       <form id="deleteTask" action="javascript:infoTasks.processingTask('delete');">
                         <div class="form-group">
-                          <label class="col-form-label">Are you sure you wanna delete this task?</label>
+                          <label class="col-form-label">Are you sure you wanna to delete this task?</label>
                           <br>
-                          <button type="submit" class="btn btn-light" id="DeleteTask" data-bs-dismiss="modal">Delete</button>
+                          <button type="submit" class="btn btn-danger" id="DeleteTask" data-bs-dismiss="modal">Delete</button>
                         </div>
                       </form>
                     </div>              

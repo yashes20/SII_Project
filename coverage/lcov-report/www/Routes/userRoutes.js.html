@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">80% </span>
+                <span class="strong">85.52% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>64/80</span>
+                <span class='fraction'>65/76</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">80% </span>
+                <span class="strong">85.52% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>64/80</span>
+                <span class='fraction'>65/76</span>
             </div>
         
             
@@ -138,11 +138,10 @@
 <a name='L73'></a><a href='#L73'>73</a>
 <a name='L74'></a><a href='#L74'>74</a>
 <a name='L75'></a><a href='#L75'>75</a>
-<a name='L76'></a><a href='#L76'>76</a>
-<a name='L77'></a><a href='#L77'>77</a>
-<a name='L78'></a><a href='#L78'>78</a>
-<a name='L79'></a><a href='#L79'>79</a>
-<a name='L80'></a><a href='#L80'>80</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L76'></a><a href='#L76'>76</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -177,10 +176,6 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -212,9 +207,6 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -233,32 +225,32 @@ const multer = require('multer');
 &nbsp;
 const upload = multer();
 &nbsp;
+// Authorization
+var verifyToken = require('./verifyToken');
+&nbsp;
 const bcrypt = require('bcryptjs');
 &nbsp;
 const { userValidation } = require('../Utils/validation');
 const { validationResult } = require('express-validator');
 &nbsp;
 // Calls a function to get all users
-router.get("/", requestHandlers.selectUsers);
+router.get("/", verifyToken, requestHandlers.selectUsers);
 &nbsp;
-router.get("/:id", requestHandlers.selectUser);
+router.get("/:id", verifyToken, requestHandlers.selectUser);
 &nbsp;
 // Calls a function update or insert user
-router.put("/:id", userValidation, (req, res) =&gt; {
+router.put("/:id", verifyToken, userValidation, (req, res) =&gt; {
 &nbsp;
     const errors = validationResult(req);
 &nbsp;
     if (!errors.isEmpty()) <span class="branch-0 cbranch-no" title="branch not covered" >{   //Mostra os erros ao utilizador</span>
-<span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >        var error_msg = ''</span>
 <span class="cstat-no" title="statement not covered" >        errors.array().forEach(function (error) {</span>
 <span class="cstat-no" title="statement not covered" >            error_msg += "Field " + error.param + ", " + error.msg</span>
 <span class="cstat-no" title="statement not covered" >        })</span>
-<span class="cstat-no" title="statement not covered" >        //req.flash('error', error_msg);</span>
 <span class="cstat-no" title="statement not covered" >        return res.status(400).send({</span>
 <span class="cstat-no" title="statement not covered" >            msg: error_msg</span>
 <span class="cstat-no" title="statement not covered" >        });</span>
-<span class="cstat-no" title="statement not covered" ></span>
     } else {
         let user = req.body;
         let password = user.password;
@@ -269,7 +261,6 @@ router.put("/:id", userValidation, (req, res) =&gt; {
             user.password = bcrypt.hashSync(password, 10);
 &nbsp;
         }
-&nbsp;
         if (user != undefined) {
             requestHandlers.updateUser(user, (err, rows, results) =&gt; {
                 if (err) <span class="branch-0 cbranch-no" title="branch not covered" >{</span>
@@ -287,16 +278,13 @@ router.put("/:id", userValidation, (req, res) =&gt; {
 });
 &nbsp;
 // Calls delete user
-router.delete("/:id", (req, res) =&gt; {
+router.delete("/:id", verifyToken, (req, res) =&gt; {
     requestHandlers.deleteUser(req.params.id, (err, rows, results) =&gt; {
         if (err) <span class="branch-0 cbranch-no" title="branch not covered" >{</span>
-<span class="cstat-no" title="statement not covered" >            console.log(err);</span>
-<span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >            res.status(500).json({ "message": "error" });</span>
         } else {
             res.status(200).json({ "message": "success", "user": rows, "results": results });
         }
-&nbsp;
     });
 });
 &nbsp;
@@ -307,7 +295,7 @@ module.exports = router;</pre></td></tr></table></pre>
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at Sat Jul 09 2022 23:30:02 GMT+0100 (Western European Summer Time)
+                at Wed Jul 13 2022 11:38:35 GMT+0100 (Western European Summer Time)
             </div>
         <script src="../../prettify.js"></script>
         <script>

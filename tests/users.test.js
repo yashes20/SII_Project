@@ -5,7 +5,7 @@ const authRouter = require('../www/Routes/authentication.js');
 const express = require("express");
 const app = express(); //an instance of an express app, a 'fake' express app
 const bodyParser = require("body-parser");
-var path = require('path');
+var token = '';
 
 //const taskRouter = require('./www/Routes/taskRoutes.js');
 app.use(bodyParser.json());
@@ -14,10 +14,43 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use('/users', userRouter);
 app.use('/api', authRouter);
 
+describe("POST Login", () => {
+
+    login = {
+        name: "user test",
+        email: "yashes20@yahoo.com.br",
+        password: "12345678"
+    }; // login
+
+    it('should login', async () => {
+    try {
+            await await request(app).post('/api/login')
+            
+                .send(login)
+                .set('Accept', /json/)
+                .expect(200).expect('Content-type', /json/)
+                
+                .then((response) => {
+                    console.log(response.body.token);
+                    // Check data
+                    token = response.body.token;
+                    expect(response.body.message).toEqual("success");
+                    expect(response.body.token).not.toBeNull();
+
+                    
+            });
+    } catch (err) {
+        // write test for failure here
+        console.log(`Error ${err}`)
+    }
+  })
+});
 
 it('get users', async () => {
 
     await request(app).get('/users')
+        .set('Accept', /json/)
+        .set('Authorization', 'Bearer ' + token) // Works.
         .expect(200)
         .then((response) => {
             // Check data
@@ -29,6 +62,8 @@ it('get users', async () => {
 it('get user by id', async () => {
 
     await request(app).get('/users/' + "1")
+        .set('Accept', /json/)
+        .set('Authorization', 'Bearer ' + token) // Works.
         .expect(200)
         .then((response) => {
             // Check data
@@ -46,7 +81,7 @@ describe("POST request", () => {
             postUser = {
                     "fullName": "teste",
                     "password": "123456",
-                    "email": "teste29@gmail.com",
+                    "email": "teste30@gmail.com",
                     "gender": "N"
             };
             // user to insert
@@ -109,6 +144,7 @@ describe("POST request", () => {
                 await request(app).put('/users/' + 3)
                     .send(putUser)
                     .set('Accept', /json/)
+                    .set('Authorization', 'Bearer ' + token) // Works.
                     .expect(200).expect('Content-type', /json/)
                     
                     .then((response) => {
@@ -140,6 +176,7 @@ describe("DELETE request", () => {
             try {
                 await request(app).delete('/users/' + 2)
                     .set('Accept', /json/)
+                    .set('Authorization', 'Bearer ' + token) // Works.
                     .expect(200).expect('Content-type', /json/)
                     
                     .then((response) => {

@@ -10,32 +10,32 @@ const multer = require('multer');
 
 const upload = multer();
 
+// Authorization
+var verifyToken = require('./verifyToken');
+
 const bcrypt = require('bcryptjs');
 
 const { userValidation } = require('../Utils/validation');
 const { validationResult } = require('express-validator');
 
 // Calls a function to get all users
-router.get("/", requestHandlers.selectUsers);
+router.get("/", verifyToken, requestHandlers.selectUsers);
 
-router.get("/:id", requestHandlers.selectUser);
+router.get("/:id", verifyToken, requestHandlers.selectUser);
 
 // Calls a function update or insert user
-router.put("/:id", userValidation, (req, res) => {
+router.put("/:id", verifyToken, userValidation, (req, res) => {
 
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {   //Mostra os erros ao utilizador
-
         var error_msg = ''
         errors.array().forEach(function (error) {
             error_msg += "Field " + error.param + ", " + error.msg
         })
-        //req.flash('error', error_msg);
         return res.status(400).send({
             msg: error_msg
         });
-
     } else {
         let user = req.body;
         let password = user.password;
@@ -46,7 +46,6 @@ router.put("/:id", userValidation, (req, res) => {
             user.password = bcrypt.hashSync(password, 10);
 
         }
-
         if (user != undefined) {
             requestHandlers.updateUser(user, (err, rows, results) => {
                 if (err) {
@@ -64,16 +63,13 @@ router.put("/:id", userValidation, (req, res) => {
 });
 
 // Calls delete user
-router.delete("/:id", (req, res) => {
+router.delete("/:id", verifyToken, (req, res) => {
     requestHandlers.deleteUser(req.params.id, (err, rows, results) => {
         if (err) {
-            console.log(err);
-
             res.status(500).json({ "message": "error" });
         } else {
             res.status(200).json({ "message": "success", "user": rows, "results": results });
         }
-
     });
 });
 

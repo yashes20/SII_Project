@@ -171,6 +171,26 @@ function selectedUser(selecteds){
          document.getElementById('taskLongitude').value = selected[13].textContent;
      }
  }
+ 
+ /**
+ * Function to get all the information of the selected task
+ * 
+ * @param {*} selecteds 
+ */
+  function selectedTaskAssigment(selecteds){
+   
+    for(var i = 0; i < selecteds.length; i++){
+       var selected = selecteds[i];
+        selected = selected.getElementsByTagName("td");
+
+        document.getElementById('idTaskAssoc').value = selected[0].textContent;
+        document.getElementById("idTaskAssoc").setAttribute("readonly", "readonly");
+        document.getElementById('taskNameAssoc').value = selected[1].textContent;
+        document.getElementById('descriptionTaskAssoc').value = selected[2].textContent;
+        var userAss = document.getElementById("userAssignmentAssoc");
+        userAss.value = selected[9].textContent;
+    }
+ }
 
  /**
  * Function to get all the information of the selected task
@@ -229,6 +249,12 @@ function selected(tableObj, tableName, type){
     else if(tableName === "tasks"){
         selectedTask(selecteds);
 
+        button.setAttribute('data-bs-toggle', 'modal');
+        button.setAttribute('data-bs-target', '#myModalTask');
+    }
+    else if(tableName === "assignment"){
+        selectedTaskAssigment(selecteds);
+    
         button.setAttribute('data-bs-toggle', 'modal');
         button.setAttribute('data-bs-target', '#myModalTask');
     }

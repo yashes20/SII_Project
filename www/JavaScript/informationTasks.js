@@ -209,9 +209,11 @@ class InformationTasks {
          */
         function loadTask(type) {
             document.getElementById('formTask').reset();
+            document.getElementById('associationTask').reset();
             document.getElementById('categoryTask').options.length = 0;
             document.getElementById('userTask').options.length = 0;
             document.getElementById('userAssignment').options.length = 0;
+            document.getElementById('userAssignmentAssoc').options.length = 0;
             document.getElementById('statusTask').options.length = 0;
 
             self.status.forEach((e) => {
@@ -231,20 +233,30 @@ class InformationTasks {
                 document.getElementById('userAssignment').options.add(new Option(e.userFullName, e.userId));
             });
 
+            //document.getElementById('userAssignmentAssoc').options.add(new Option(""));
+            self.users.forEach((e) => {
+                document.getElementById('userAssignmentAssoc').options.add(new Option(e.userFullName, e.userId));
+            });
+
             if (type === "delete") {
                 if (selected(document.getElementById("taskTable"), "tasks", "delete"))
                     document.getElementById('formTask').style.display = 'none';
+                    document.getElementById('associationTask').style.display = 'none';
+                    document.getElementById('deleteTask').style.display = 'block';
             }
             else if (type === "update") {
                 if (selected(document.getElementById("taskTable"), "tasks", "update"))
                     document.getElementById('associationTask').style.display = 'none';
-                document.getElementById('formTask').style.display = 'block';
+                    document.getElementById('formTask').style.display = 'block';
+                    document.getElementById('deleteTask').style.display = 'none';
             }
             else if (type === "assignment") {
-                if (selected(document.getElementById("taskTable"), "tasks", "assignment"))
+                if (selected(document.getElementById("taskTable"), "assignment", "assignment"))
                     document.getElementById('formTask').style.display = 'none';
-                document.getElementById('associationTask').style.display = 'block';
+                    document.getElementById('associationTask').style.display = 'block';
+                    document.getElementById('deleteTask').style.display = 'none';
             }
+            
         }
 
         var divButtons = document.createElement('div');
@@ -305,6 +317,7 @@ class InformationTasks {
         var xhr = new XMLHttpRequest();
         xhr.responseType = "json";
         xhr.open("GET", "/users", true);
+        xhr.setRequestHeader('Authorization', 'Bearer ' + sessionStorageObter("token"));
         xhr.onreadystatechange = function () {
             if (this.readyState === 4 && this.status === 200) {
                 let info = xhr.response.user;
@@ -329,6 +342,7 @@ class InformationTasks {
         var xhr = new XMLHttpRequest();
         xhr.responseType = "json";
         xhr.open("GET", "/tasks", true);
+        xhr.setRequestHeader('Authorization', 'Bearer ' + sessionStorageObter("token"));
         xhr.onreadystatechange = function () {
             if (this.readyState === 4 && this.status === 200) {
                 let info = xhr.response.task;
@@ -356,6 +370,7 @@ class InformationTasks {
         var xhr = new XMLHttpRequest();
         xhr.responseType = "json";
         xhr.open('GET', '/tasks/users/' + id, true);
+        xhr.setRequestHeader('Authorization', 'Bearer ' + sessionStorageObter("token"));
         xhr.onreadystatechange = function () {
             if (this.readyState === 4 && this.status === 200) {
                 let info = xhr.response.task;
@@ -382,6 +397,7 @@ class InformationTasks {
         var xhr = new XMLHttpRequest();
         xhr.responseType = "json";
         xhr.open('GET', '/tasks/status/' + id, true);
+        xhr.setRequestHeader('Authorization', 'Bearer ' + sessionStorageObter("token"));
         xhr.onreadystatechange = function () {
             if (this.readyState === 4 && this.status === 200) {
                 let info = xhr.response.task;
@@ -407,6 +423,7 @@ class InformationTasks {
         var xhr = new XMLHttpRequest();
         xhr.responseType = "json";
         xhr.open('GET', '/tasks/' + id, true);
+        xhr.setRequestHeader('Authorization', 'Bearer ' + sessionStorageObter("token"));
         xhr.onreadystatechange = function () {
             if (this.readyState === 4 && this.status === 200) {
                 let info = xhr.response.task;
@@ -482,6 +499,18 @@ class InformationTasks {
 
             formTask = new putTask(id, name, description, idStatus, idcategory, idUserCreation, iduserAssignment, dateAssignment, address, latitude, longitude);
 
+        }else if (acao == "assignment") {
+            const idTask = parseInt(document.getElementById('idTaskAssoc').value);
+            const userAssigmentList = document.getElementById('userAssignmentAssoc');
+            const idUserAssigment = userAssigmentList.options[userAssigmentList.selectedIndex].value;
+
+            args.push(idUserAssigment);
+
+            formTask = {
+                id : idTask,
+                userAssignment: idUserAssigment
+            };
+
         }
 
         if (acao === 'create') {
@@ -492,9 +521,13 @@ class InformationTasks {
             if (validadeForm(args)) {
                 this.putTask(formTask, true);
             }
-
         } else if (acao === 'delete') {
+            formTask = {
+                id : id
+            };
             this.deleteTask(formTask);
+        } else if (acao === 'assignment') {
+            this.assigmentTask(formTask);
         }
     }
 
@@ -514,7 +547,7 @@ class InformationTasks {
         xhr.onreadystatechange = function () {
             if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
                 let info = xhr.response.task;
-                self.showTasks("selectAll");
+                self.showTasks("select");
             }
         }
         xhr.setRequestHeader('Content-Type', 'application/json');
@@ -532,11 +565,32 @@ class InformationTasks {
         const xhr = new XMLHttpRequest();
         xhr.responseType = "json";
         xhr.open('PUT', '/tasks/' + formTask.id);
-
+        xhr.setRequestHeader('Authorization', 'Bearer ' + sessionStorageObter("token"));
         xhr.onreadystatechange = function () {
             if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
                 let info = xhr.response.task;
-                self.showTasks("selectAll");
+                self.showTasks("select");
+            }
+        }
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.send(JSON.stringify(formTask));
+    }
+
+    /**
+     * Function to assigment a user for a task
+     * 
+     * @param {*} formTask - tasks's form with all the information
+     */
+     assigmentTask(formTask) {
+        const self = this;
+        const xhr = new XMLHttpRequest();
+        xhr.responseType = "json";
+        xhr.open('PUT', '/tasks/assignment/' + formTask.id);
+        xhr.setRequestHeader('Authorization', 'Bearer ' + sessionStorageObter("token"));
+        xhr.onreadystatechange = function () {
+            if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+                let info = xhr.response.task;
+                self.showTasks("select");
             }
         }
         xhr.setRequestHeader('Content-Type', 'application/json');
@@ -548,17 +602,18 @@ class InformationTasks {
      * 
      * @param {*} formTask - tasks's form with all the information
      */
-    /* deleteClient(formClient){
+    deleteTask(formTask){
         const self = this;
         const xhr = new XMLHttpRequest();
-        xhr.open('DELETE', '/clients/' + formClient.id);
+        xhr.open('DELETE', '/tasks/' + formTask.id);
+        xhr.setRequestHeader('Authorization', 'Bearer ' + sessionStorageObter("token"));
         xhr.onreadystatechange = function () {
             if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
-                self.clients.splice(self.clients.findIndex(i => i.clientId === formClient.id), 1);
-                self.showClients("delete");
+                self.tasks.splice(self.tasks.findIndex(i => i.taskId === formTask.id), 1);
+                self.showTasks("select");
             }
         };
         xhr.setRequestHeader('Content-Type', 'application/json');
-        xhr.send(JSON.stringify(formClient));
-    } */
+        xhr.send(JSON.stringify(formTask));
+    } 
 }

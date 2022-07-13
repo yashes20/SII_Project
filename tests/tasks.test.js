@@ -1,18 +1,50 @@
 //tasks.test.js
 const request = require('supertest');
 const taskRouter = require('../www/Routes/taskRoutes.js');
+const taskAuthentication = require('../www/Routes/authentication.js');
 const express = require("express");
 const app = express(); //an instance of an express app, a 'fake' express app
 const bodyParser = require("body-parser");
-var path = require('path');
-var token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjU3NTc2Njk1LCJleHAiOjE2NTc1ODAyOTV9.7wexCU_Cllj9BCKQ5KTY_tyTEKlwE2sotuTjY5KEOaY';
+var token = '';
 
 //const taskRouter = require('./www/Routes/taskRoutes.js');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use('/tasks', taskRouter);
+app.use('/api', taskAuthentication);
 
+describe("POST Login", () => {
+
+    login = {
+        name: "user test",
+        email: "yashes20@yahoo.com.br",
+        password: "12345678"
+    }; // login
+
+    it('should login', async () => {
+    try {
+            await await request(app).post('/api/login')
+            
+                .send(login)
+                .set('Accept', /json/)
+                .expect(200).expect('Content-type', /json/)
+                
+                .then((response) => {
+                    console.log(response.body.token);
+                    // Check data
+                    token = response.body.token;
+                    expect(response.body.message).toEqual("success");
+                    expect(response.body.token).not.toBeNull();
+
+                    
+            });
+    } catch (err) {
+        // write test for failure here
+        console.log(`Error ${err}`)
+    }
+  })
+});
 
 it('get tasks', async () => {
 
@@ -66,6 +98,23 @@ it('get tasks by id', async () => {
             //console.log(response);
             expect(response.body.message).toEqual("success");
             expect(response.body.task[0].taskId).toEqual(1);
+        });
+});
+
+
+it('get tasks by coordenates', async () => {
+
+    await request(app).get('/tasks/' + -30.027700 + '/' + -51.163270)
+        //.expect(200)
+        //.set('Accept', /json/)
+        .set('Accept', /json/)
+        .set('Authorization', 'Bearer ' + token) // Works.
+        //.expect(200).expect('Content-type', /json/)
+        .then((response) => {
+            // Check data
+            //console.log(response.body);
+            expect(response.body.message).toEqual("success");
+            expect(response.body.task[0].taskId).toEqual(2);
         });
 });
 
