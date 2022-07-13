@@ -32,11 +32,10 @@ router.post("/", verifyToken, (req, res) => {
 
 // Calls a function update a request 
 router.put("/:id", verifyToken, (req, res) => {
-    let request = req.body;
+    
     let id = req.params.id;
-    request.id = id;
 
-    requestHandlers.updateRequest(request, (err, rows, results) => {
+    requestHandlers.updateRequestsAssignment(id, (err, rows, results) => {
         if (err) {
             console.log(err);
 

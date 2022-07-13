@@ -606,10 +606,10 @@ async function createRequest(request, result) {
     const connection = await connect();
     let idVoluntary = request.idVoluntary;
     let idTask = request.idTask;
-    let status = request.idStatus;
+    //let status = request.idStatus;
 
     // insert
-    let sql = "INSERT INTO requests (requestIdVoluntary, requestIdTask, requestStatus) VALUES (?,?,?)";
+    let sql = "INSERT INTO requests (requestIdVoluntary, requestIdTask, requestStatus) VALUES (?,?,1)";
     connection.connect(function (err) {
         if (err) {
             if (result != null) {
@@ -621,7 +621,7 @@ async function createRequest(request, result) {
         }
         else {
             // Insertion of the data in the following params
-            connection.query(sql, [idVoluntary, idTask, status], function (err, rows, results) {
+            connection.query(sql, [idVoluntary, idTask], function (err, rows, results) {
                 if (err) {
                     if (result != null) {
                         result(err, null, null);
@@ -838,6 +838,39 @@ async function updateUserStatus(id, result) {
     });
 }
 
+async function updateRequestsAssignment(id, result) {
+    let sql = "call updateRequestAssigment(?);";
+    console.log(id);
+    connection.connect(function (err) {
+        if (err) {
+            if (result != null) {
+                result(err, null, null);
+            }
+            else {
+                throw err;
+            }
+        }
+        else {
+            // Insertion of the data in the following params
+            connection.query(sql, [id], function (err, rows, results) {
+                if (err) {
+                    if (result != null) {
+                        result(err, null, null);
+                        console.log("erro aqui");
+                    }
+                    else {
+                        console.log("erro aqui2");
+                        throw err;
+                    }
+                } else {
+                    console.log("sucesso aqui3");
+                    result(err, rows, results);
+                }
+            });
+        }
+    });
+}
+
 
 
 module.exports =
@@ -862,6 +895,7 @@ module.exports =
     selectAllRequests,
     createRequest,
     updateRequest,
+    updateRequestsAssignment,
     selectAllRequestsByTask,
     updateStatusTask,
     updateUserPoints,
