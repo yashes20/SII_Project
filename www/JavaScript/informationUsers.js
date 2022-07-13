@@ -326,7 +326,7 @@ class InformationUsers {
         xhr.onreadystatechange = function () {
             if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
                 self.users.splice(self.users.findIndex(i => i.userId === formUser.id), 1);
-                self.showClients("select");
+                self.showUsers("select");
             }
         };
         xhr.setRequestHeader('Content-Type', 'application/json');

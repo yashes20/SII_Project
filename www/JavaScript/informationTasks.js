@@ -241,16 +241,20 @@ class InformationTasks {
             if (type === "delete") {
                 if (selected(document.getElementById("taskTable"), "tasks", "delete"))
                     document.getElementById('formTask').style.display = 'none';
+                    document.getElementById('associationTask').style.display = 'none';
+                    document.getElementById('deleteTask').style.display = 'block';
             }
             else if (type === "update") {
                 if (selected(document.getElementById("taskTable"), "tasks", "update"))
                     document.getElementById('associationTask').style.display = 'none';
                     document.getElementById('formTask').style.display = 'block';
+                    document.getElementById('deleteTask').style.display = 'none';
             }
             else if (type === "assignment") {
                 if (selected(document.getElementById("taskTable"), "assignment", "assignment"))
                     document.getElementById('formTask').style.display = 'none';
                     document.getElementById('associationTask').style.display = 'block';
+                    document.getElementById('deleteTask').style.display = 'none';
             }
             
         }
@@ -518,6 +522,9 @@ class InformationTasks {
                 this.putTask(formTask, true);
             }
         } else if (acao === 'delete') {
+            formTask = {
+                id : id
+            };
             this.deleteTask(formTask);
         } else if (acao === 'assignment') {
             this.assigmentTask(formTask);
@@ -540,7 +547,7 @@ class InformationTasks {
         xhr.onreadystatechange = function () {
             if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
                 let info = xhr.response.task;
-                self.showTasks("selectAll");
+                self.showTasks("select");
             }
         }
         xhr.setRequestHeader('Content-Type', 'application/json');
@@ -562,7 +569,7 @@ class InformationTasks {
         xhr.onreadystatechange = function () {
             if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
                 let info = xhr.response.task;
-                self.showTasks("selectAll");
+                self.showTasks("select");
             }
         }
         xhr.setRequestHeader('Content-Type', 'application/json');
@@ -603,7 +610,7 @@ class InformationTasks {
         xhr.onreadystatechange = function () {
             if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
                 self.tasks.splice(self.tasks.findIndex(i => i.taskId === formTask.id), 1);
-                self.showClients("delete");
+                self.showTasks("select");
             }
         };
         xhr.setRequestHeader('Content-Type', 'application/json');
