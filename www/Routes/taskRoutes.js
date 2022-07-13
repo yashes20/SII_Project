@@ -37,7 +37,6 @@ router.post("/", verifyToken, newTaskValidation, (req, res) => {
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {   //Mostra os erros ao utilizador
-
         var error_msg = ''
         errors.array().forEach(function (error) {
             error_msg += "Field " + error.param + ", " + error.msg
@@ -46,18 +45,13 @@ router.post("/", verifyToken, newTaskValidation, (req, res) => {
         return res.status(400).send({
             msg: error_msg
         });
-
     } else {
-
         requestHandlers.createTask(task, (err, rows, results) => {
             if (err) {
-                console.log(err);
-
                 res.status(500).json({ "message": "error" });
             } else {
                 res.status(200).json({ "message": "success", "task": rows, "results": results });
             }
-
         })
     }
 });
@@ -67,26 +61,20 @@ router.put("/:id", verifyToken, updateTaskValidation, (req, res) => {
     let task = req.body;
     let id = req.params.id;
     task.id = id;
-    //task.dateAssignment = dateA;
 
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {   //Mostra os erros ao utilizador
-
         var error_msg = ''
         errors.array().forEach(function (error) {
             error_msg += "Field " + error.param + ", " + error.msg
         })
-        //req.flash('error', error_msg);
         return res.status(400).send({
             msg: error_msg
         });
-
     } else {
         requestHandlers.updateTask(task, (err, rows, results) => {
             if (err) {
-                console.log(err);
-
                 res.status(500).json({ "message": "error" });
             } else {
                 res.status(200).json({ "message": "success", "task": rows, "results": results });
@@ -105,13 +93,10 @@ router.put("/assignment/:id", verifyToken, (req, res) => {
     
     requestHandlers.assignmentTask(task, (err, rows, results) => {
         if (err) {
-            console.log(err);
-
             res.status(500).json({ "message": "error" });
         } else {
             res.status(200).json({ "message": "success", "task": rows, "results": results });
         }
-
     })
     
 });
@@ -120,13 +105,10 @@ router.put("/assignment/:id", verifyToken, (req, res) => {
 router.delete("/:id", verifyToken, (req, res) => {
     requestHandlers.deleteTask(req.params.id, (err, rows, results) => {
         if (err) {
-            console.log(err);
-
             res.status(500).json({ "message": "error" });
         } else {
             res.status(200).json({ "message": "success", "task": rows, "results": results });
         }
-
     });
 });
 

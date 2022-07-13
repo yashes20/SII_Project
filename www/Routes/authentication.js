@@ -13,7 +13,6 @@ router.post('/register', registerValidation, (req, res, next) => {
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {   //Mostra os erros ao utilizador
-
         var error_msg = ''
         errors.array().forEach(function (error) {
             error_msg += "Field " + error.param + ", " + error.msg
@@ -22,9 +21,7 @@ router.post('/register', registerValidation, (req, res, next) => {
         return res.status(400).send({
             msg: error_msg
         });
-
     } else {
-
         db.query(
             `SELECT * FROM users WHERE LOWER(userEmail) = LOWER(${db.escape(
                 req.body.email
@@ -68,12 +65,12 @@ router.post('/register', registerValidation, (req, res, next) => {
         );
     }
 });
+
 router.post('/login', loginValidation, (req, res, next) => {
 
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {   //Mostra os erros ao utilizador
-
         var error_msg = ''
         errors.array().forEach(function (error) {
             error_msg += "Field " + error.param + ", " + error.msg
@@ -82,7 +79,6 @@ router.post('/login', loginValidation, (req, res, next) => {
         return res.status(400).send({
             msg: error_msg
         });
-
     } else {
         db.query(
             `SELECT * FROM users WHERE userEmail = ${db.escape(req.body.email)};`,

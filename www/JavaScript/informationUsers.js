@@ -191,6 +191,7 @@ class InformationUsers {
         var xhr = new XMLHttpRequest();
         xhr.responseType = "json";
         xhr.open("GET", "/users", true);
+        xhr.setRequestHeader('Authorization', 'Bearer ' + sessionStorageObter("token"));
         xhr.onreadystatechange = function () {
             if (this.readyState === 4 && this.status === 200) {
                 let info = xhr.response.user;
@@ -218,6 +219,7 @@ class InformationUsers {
         var xhr = new XMLHttpRequest();
         xhr.responseType = "json";
         xhr.open('GET', '/userById/' + id, true);
+        xhr.setRequestHeader('Authorization', 'Bearer ' + sessionStorageObter("token"));
         xhr.onreadystatechange = function () {
             if (this.readyState === 4 && this.status === 200) {
                 let info = xhr.response.user;
@@ -301,7 +303,7 @@ class InformationUsers {
         const xhr = new XMLHttpRequest();
         xhr.responseType = "json";
         xhr.open('PUT', '/users/' + formUser.id);
-
+        xhr.setRequestHeader('Authorization', 'Bearer ' + sessionStorageObter("token"));
         xhr.onreadystatechange = function () {
             if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
                 self.showUsers("select");
@@ -320,6 +322,7 @@ class InformationUsers {
         const self = this;
         const xhr = new XMLHttpRequest();
         xhr.open('PUT', '/users/' + formUser.id);
+        xhr.setRequestHeader('Authorization', 'Bearer ' + sessionStorageObter("token"));
         xhr.onreadystatechange = function () {
             if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
                 self.users.splice(self.users.findIndex(i => i.userId === formUser.id), 1);
