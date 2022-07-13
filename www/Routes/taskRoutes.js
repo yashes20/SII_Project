@@ -15,15 +15,15 @@ const { validationResult } = require('express-validator');
 router.get("/:id", verifyToken, requestHandlers.selectTasksById);
 
 // Calls a function to get all tasks
-router.get("/",  verifyToken, requestHandlers.selectAllTasks);
+router.get("/", verifyToken, requestHandlers.selectAllTasks);
 
-router.post("/find",  verifyToken, requestHandlers.selectTasksFind);
+router.post("/find", verifyToken, requestHandlers.selectTasksFind);
 
 // Calls a function to get all tasks by status
-router.get("/status/:id",  verifyToken, requestHandlers.selectTasksByStatus);
+router.get("/status/:id", verifyToken, requestHandlers.selectTasksByStatus);
 
 // Calls a function to get all tasks by user id creation
-router.get("/users/:id",  verifyToken, requestHandlers.selectTasksByUserId);
+router.get("/users/:id", verifyToken, requestHandlers.selectTasksByUserId);
 
 // Calls a function to get all tasks by coordenates
 router.get("/tasks/:latitude/:longitude", verifyToken, requestHandlers.selectTasksByCoord);
@@ -102,7 +102,7 @@ router.put("/assignment/:id", verifyToken, (req, res) => {
     let task = req.body;
     let id = req.params.id;
     task.idTask = id;
-    
+
     requestHandlers.assignmentTask(task, (err, rows, results) => {
         if (err) {
             console.log(err);
@@ -113,7 +113,32 @@ router.put("/assignment/:id", verifyToken, (req, res) => {
         }
 
     })
-    
+
+});
+
+router.put("/:id/status", (req, res) => {
+    let idStatus = req.body.idStatus;
+    let idUser = req.body.idUser;
+
+    requestHandlers.updateStatusTask(req.params.id, idStatus, (err) => {
+        if (err) {
+            console.log(err);
+            res.status(500).json({ "message": "error" });
+        } else {
+            if (idUser && idStatus == 4) {
+                requestHandlers.updateUserStatus(idUser, (err) => {
+                    if (err) {
+                        console.log(err);
+                        res.status(500).json({ "message": "error" });
+                    } else {
+                        res.status(200).json({ "message": "success" });
+                    }
+                });
+            } else {
+                res.status(200).json({ "message": "success" });
+            }
+        }
+    });
 });
 
 // Calls delete task
@@ -129,5 +154,8 @@ router.delete("/:id", verifyToken, (req, res) => {
 
     });
 });
+
+
+
 
 module.exports = router;

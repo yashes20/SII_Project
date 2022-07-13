@@ -24,11 +24,11 @@ const queryAllTasks = "SELECT taskId, taskName, taskDescription,taskDateCreation
 
 const queryAllRequests = "SELECT requestId, requestIdVoluntary, requestIdTask, requestStatus FROM requests";
 
-const queryAllRequestsByTaskId ="SELECT req.requestId, tasks.taskId, tasks.taskName,  users.userId, users.userFullName, users.userEmail, users.userPhone, cast(req.requestStatus as UNSIGNED) requestStatus " +
-"from requests req " +
-"INNER JOIN tasks ON tasks.taskId = req.requestIdTask " +
-"INNER JOIN users ON users.userId = req.requestIdVoluntary "+ 
-"where tasks.taskId = ? AND tasks.userAssignment is null";
+const queryAllRequestsByTaskId = "SELECT req.requestId, tasks.taskId, tasks.taskName,  users.userId, users.userFullName, users.userEmail, users.userPhone, cast(req.requestStatus as UNSIGNED) requestStatus " +
+    "from requests req " +
+    "INNER JOIN tasks ON tasks.taskId = req.requestIdTask " +
+    "INNER JOIN users ON users.userId = req.requestIdVoluntary " +
+    "where tasks.taskId = ? AND tasks.userAssignment is null";
 
 const queryTaskStatus = "SELECT taskId, taskName, taskDescription,taskDateCreation, taskStatusId," +
     "taskDateStatus, taskCategoryId, taskIsEnabled, userCreation," +
@@ -65,7 +65,7 @@ const sqldeleteTask = "UPDATE TASKS SET taskIsEnabled = 0 WHERE taskId = ?";
 
 const sqlTaskLatLong = "SELECT *, (6371 *" +
     "acos("
-    "cos(radians(?)) * " +
+"cos(radians(?)) * " +
     "cos(radians(taskLatitude)) * " +
     "cos(radians(?) - radians(taskLongitude)) +" +
     "sin(radians(?)) * " +
@@ -653,7 +653,7 @@ async function createRequest(request, result) {
  * @param {*} request - variable with all the data related to the request
  * @param {*} result - result from the execution of the query
  */
- async function updateRequest(putRequest, result) {
+async function updateRequest(putRequest, result) {
     // Declaration of variables
     const connection = await connect();
     let id = putRequest.id;
@@ -688,7 +688,7 @@ async function createRequest(request, result) {
                 }
             });
 
-         
+
         }
     });
 }
@@ -698,7 +698,7 @@ async function createRequest(request, result) {
  * @param {*} task - variable with all the data related to the task
  * @param {*} result - result from the execution of the query
  */
- async function assignmentTask(assTask, result) {
+async function assignmentTask(assTask, result) {
     // Declaration of variables
     const connection = await connect();
     let id = assTask.idTask;
@@ -737,6 +737,117 @@ async function createRequest(request, result) {
     });
 }
 
+async function updateStatusTask(idTask, idStatus, result) {
+    // Declaration of variables
+    const connection = await connect();
+    // UPDATE
+
+    let sql = "";
+    if (idStatus == 4 || idStatus == 5) {
+        sql = "UPDATE tasks SET taskStatusId = ?, taskIsEnabled = 0 WHERE taskId = ? "
+    } else {
+        sql = "UPDATE tasks SET taskStatusId = ? WHERE taskId = ? "
+    }
+    connection.connect(function (err) {
+        if (err) {
+            if (result != null) {
+                result(err, null, null);
+            }
+            else {
+                throw err;
+            }
+        }
+        else {
+            // Insertion of the data in the following params
+            connection.query(sql, [idStatus, idTask], function (err, rows, results) {
+                if (err) {
+                    if (result != null) {
+                        result(err, null, null);
+                        console.log("erro aqui");
+                    }
+                    else {
+                        console.log("erro aqui2");
+                        throw err;
+                    }
+                } else {
+                    console.log("sucesso aqui3");
+                    result(err, rows, results);
+                }
+            });
+        }
+    });
+}
+
+
+async function updateUserPoints(idUser) {
+    // Declaration of variables
+    const connection = await connect();
+    // UPDATE
+    let sql = "UPDATE user SET taskStatusId = ? WHERE taskId = ? ";
+    connection.connect(function (err) {
+        if (err) {
+            if (result != null) {
+                result(err, null, null);
+            }
+            else {
+                throw err;
+            }
+        }
+        else {
+            // Insertion of the data in the following params
+            connection.query(sql, [idStatus, idTask], function (err, rows, results) {
+                if (err) {
+                    if (result != null) {
+                        result(err, null, null);
+                        console.log("erro aqui");
+                    }
+                    else {
+                        console.log("erro aqui2");
+                        throw err;
+                    }
+                } else {
+                    console.log("sucesso aqui3");
+                    result(err, rows, results);
+                }
+            });
+        }
+    });
+}
+
+async function updateUserStatus(id, result) {
+    let sql = "call updateUserPoints(?);";
+    connection.connect(function (err) {
+        if (err) {
+            if (result != null) {
+                result(err, null, null);
+            }
+            else {
+                throw err;
+            }
+        }
+        else {
+            // Insertion of the data in the following params
+            connection.query(sql, [id], function (err, rows, results) {
+                if (err) {
+                    if (result != null) {
+                        result(err, null, null);
+                        console.log("erro aqui");
+                    }
+                    else {
+                        console.log("erro aqui2");
+                        throw err;
+                    }
+                } else {
+                    console.log("sucesso aqui3");
+                    result(err, rows, results);
+                }
+            });
+        }
+    });
+}
+
+
+
 module.exports =
 {
     selectqueryStatus,
@@ -759,5 +870,8 @@ module.exports =
     selectAllRequests,
     createRequest,
     updateRequest,
-    selectAllRequestsByTask
+    selectAllRequestsByTask,
+    updateStatusTask,
+    updateUserPoints,
+    updateUserStatus
 }

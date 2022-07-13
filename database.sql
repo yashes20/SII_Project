@@ -44,7 +44,8 @@ CREATE TABLE users (
   userState varchar(1) NOT NULL,
   userType varchar(20) NOT NULL,
   userLatitude FLOAT( 10, 6 ), 
-  userLongitude FLOAT( 10, 6 ) 
+  userLongitude FLOAT( 10, 6 ),
+  points int(11) DEFAULT 0  
 ) ENGINE=InnoDB DEFAULT CHARSET=utf16;
 
 SET GLOBAL log_bin_trust_function_creators = 1;
@@ -95,7 +96,7 @@ INSERT INTO `sii_project`.`status` (`statusName`,`statusType`) VALUES ('New','S'
 INSERT INTO `sii_project`.`status` (`statusName`,`statusType`) VALUES ('Assignment','S');
 INSERT INTO `sii_project`.`status` (`statusName`,`statusType`) VALUES ('In Progress','U');
 INSERT INTO `sii_project`.`status` (`statusName`,`statusType`) VALUES ('Concluded','U');
-
+INSERT INTO `sii_project`.`status` (`statusName`,`statusType`) VALUES ('Give up','GU');
 
 -- Create table for tasks
 DROP TABLE IF EXISTS `tasks`;
@@ -140,6 +141,20 @@ CREATE TABLE `requests`(
     FOREIGN KEY requestIdTask(requestIdTask) REFERENCES tasks(taskId)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf16;
 
+DROP PROCEDURE IF EXISTS updateUserPoints;
+DELIMITER $$
+
+Create procedure updateUserPoints (in id int) 
+begin
+Declare userPoints INT;
+select points into userPoints from sii_project.users where userId = id LIMIT 1;
+SET userPoints = userPoints + 10;
+select id;
+Update sii_project.users set points = userPoints where userId = id;
+
+END$$
+DELIMITER ;
+
 -- Create database
 DROP DATABASE IF EXISTS `sii_project_test`;
 CREATE DATABASE `sii_project_test`;
@@ -164,7 +179,8 @@ CREATE TABLE users (
   userState varchar(1) NOT NULL,
   userType varchar(20) NOT NULL,
   userLatitude FLOAT( 10, 6 ), 
-  userLongitude FLOAT( 10, 6 ) 
+  userLongitude FLOAT( 10, 6 ), 
+  points int(11) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf16;
 
 SET GLOBAL log_bin_trust_function_creators = 1;
@@ -211,6 +227,7 @@ INSERT INTO `sii_project_test`.`status` (`statusName`,`statusType`) VALUES ('New
 INSERT INTO `sii_project_test`.`status` (`statusName`,`statusType`) VALUES ('Assignment','S');
 INSERT INTO `sii_project_test`.`status` (`statusName`,`statusType`) VALUES ('In Progress','U');
 INSERT INTO `sii_project_test`.`status` (`statusName`,`statusType`) VALUES ('Concluded','U');
+INSERT INTO `sii_project_test`.`status` (`statusName`,`statusType`) VALUES ('Give up','GU');
 
 
 -- Create table for tasks
@@ -255,3 +272,18 @@ CREATE TABLE `requests`(
     FOREIGN KEY requestIdVoluntary(requestIdVoluntary) REFERENCES users(userId),
     FOREIGN KEY requestIdTask(requestIdTask) REFERENCES tasks(taskId)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf16;
+
+
+DROP PROCEDURE IF EXISTS updateUserPoints;
+DELIMITER $$
+
+Create procedure updateUserPoints (in id int) 
+begin
+Declare userPoints INT;
+select points into userPoints from sii_project.users where userId = id LIMIT 1;
+SET userPoints = userPoints + 10;
+select id;
+Update sii_project.users set points = userPoints where userId = id;
+
+END$$
+DELIMITER ;
