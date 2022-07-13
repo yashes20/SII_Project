@@ -5,8 +5,7 @@ const authRouter = require('../www/Routes/authentication.js');
 const express = require("express");
 const app = express(); //an instance of an express app, a 'fake' express app
 const bodyParser = require("body-parser");
-var path = require('path');
-var token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjU3NjM2NTI0LCJleHAiOjE2NTc2NDAxMjR9.F7ye_gUSI45EdZQVr_SPq0hKXgmsC2EtxuYJQlzPwa0';
+var token = '';
 
 //const taskRouter = require('./www/Routes/taskRoutes.js');
 app.use(bodyParser.json());
@@ -15,6 +14,37 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use('/users', userRouter);
 app.use('/api', authRouter);
 
+describe("POST Login", () => {
+
+    login = {
+        name: "user test",
+        email: "yashes20@yahoo.com.br",
+        password: "12345678"
+    }; // login
+
+    it('should login', async () => {
+    try {
+            await await request(app).post('/api/login')
+            
+                .send(login)
+                .set('Accept', /json/)
+                .expect(200).expect('Content-type', /json/)
+                
+                .then((response) => {
+                    console.log(response.body.token);
+                    // Check data
+                    token = response.body.token;
+                    expect(response.body.message).toEqual("success");
+                    expect(response.body.token).not.toBeNull();
+
+                    
+            });
+    } catch (err) {
+        // write test for failure here
+        console.log(`Error ${err}`)
+    }
+  })
+});
 
 it('get users', async () => {
 
