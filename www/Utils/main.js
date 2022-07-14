@@ -21,24 +21,39 @@
  */
 
 window.onload = function (event) {
+
+    document.getElementById("divLogo").style.display = "none";
+
     var infoUsers = new InformationUsers("divInformation");
     var infoTasks = new InformationTasks("divInformation");
-    //var infoProducts = new InformationProducts("divInformation");
-    //infoClients.getClients();
-    infoTasks.getCategories();
-    infoTasks.getUsers();
-    infoTasks.getStatus();
     var infoLogin = new InformationLogin("login");
-    //login.logOff();
     window.infoLogin = infoLogin;
     window.infoUsers = infoUsers;
     window.infoTasks = infoTasks;
+
+    /** check user login */
+    if (sessionStorageObter("email_login") === null) {
+        return;
+    }
+    else {
+
+        
+        //var infoProducts = new InformationProducts("divInformation");
+        //infoClients.getClients();
+        infoTasks.getCategories();
+        infoTasks.getUsers();
+        infoTasks.getStatus();
+        
+        //login.logOff();
+        
+
+    }
     // isLoggedIn();
 
     // var login = new Login("login");
     // //login.logOff();
     // window.login = login;
-    
+
 };
 
 /**
@@ -47,7 +62,7 @@ window.onload = function (event) {
  */
 function validadeForm(args) {
     let result = true;
-    args.forEach(function(item,index,array) {
+    args.forEach(function (item, index, array) {
         if (item.trim() === "" || item == null)
             result = false;
     });
@@ -55,7 +70,7 @@ function validadeForm(args) {
         alert("fill all required fields!");
         return false;
     }
-    else {return true;}
+    else { return true; }
 }
 
 /**
@@ -102,13 +117,13 @@ function tableLine(object, headerFormat) {
  * @param {*} linha 
  * @param {*} multiplos 
  */
-function selLinha(linha, multiplos){
-    if(!multiplos){
+function selLinha(linha, multiplos) {
+    if (!multiplos) {
         var linhas = linha.parentElement.getElementsByTagName("tr");
-          for(var i = 0; i < linhas.length; i++){
-             var linha_ = linhas[i];
-             linha_.classList.remove("selecionado");    
-          }
+        for (var i = 0; i < linhas.length; i++) {
+            var linha_ = linhas[i];
+            linha_.classList.remove("selecionado");
+        }
     }
     linha.classList.toggle("selecionado");
 }
@@ -118,8 +133,8 @@ function selLinha(linha, multiplos){
  * 
  * @param {*} selecteds 
  */
-function selectedUser(selecteds){
-    for(var i = 0; i < selecteds.length; i++){
+function selectedUser(selecteds) {
+    for (var i = 0; i < selecteds.length; i++) {
         var selected = selecteds[i];
         selected = selected.getElementsByTagName("td");
 
@@ -129,7 +144,7 @@ function selectedUser(selecteds){
         document.getElementById('address').value = selected[3].textContent;
         document.getElementById('zipcode').value = selected[4].textContent;
         document.getElementById('email').value = selected[5].textContent;
-        document.getElementById('gender').value= selected[6].textContent;    
+        document.getElementById('gender').value = selected[6].textContent;
         document.getElementById('phone').value = selected[7].textContent;
     }
 }
@@ -139,48 +154,48 @@ function selectedUser(selecteds){
  * 
  * @param {*} selecteds 
  */
- function selectedTask(selecteds){
-   
-     for(var i = 0; i < selecteds.length; i++){
+function selectedTask(selecteds) {
+
+    for (var i = 0; i < selecteds.length; i++) {
         var selected = selecteds[i];
-         selected = selected.getElementsByTagName("td");
+        selected = selected.getElementsByTagName("td");
 
-         document.getElementById('idTask').value = selected[0].textContent;
-         document.getElementById("idTask").setAttribute("readonly", "readonly");
-         document.getElementById('taskName').value = selected[1].textContent;
-         document.getElementById('descriptionTask').value = selected[2].textContent;
+        document.getElementById('idTask').value = selected[0].textContent;
+        document.getElementById("idTask").setAttribute("readonly", "readonly");
+        document.getElementById('taskName').value = selected[1].textContent;
+        document.getElementById('descriptionTask').value = selected[2].textContent;
 
-         var status = document.getElementById("statusTask");
-         status.value = selected[4].textContent;
-         //document.getElementById('statusTask').options[category.selectedIndex].value = selected[4].textContent;
+        var status = document.getElementById("statusTask");
+        status.value = selected[4].textContent;
+        //document.getElementById('statusTask').options[category.selectedIndex].value = selected[4].textContent;
 
-         var category = document.getElementById("categoryTask");
-         //document.getElementById('categoryTask').options[category.selectedIndex].value = selected[7].textContent;
-         category.value = selected[6].textContent;
+        var category = document.getElementById("categoryTask");
+        //document.getElementById('categoryTask').options[category.selectedIndex].value = selected[7].textContent;
+        category.value = selected[6].textContent;
 
-         var user = document.getElementById("userTask");
-         user.value = selected[8].textContent;
-         //document.getElementById('userTask').options[user.selectedIndex].textContent = selected[11].textContent;
+        var user = document.getElementById("userTask");
+        user.value = selected[8].textContent;
+        //document.getElementById('userTask').options[user.selectedIndex].textContent = selected[11].textContent;
 
-         var userAss = document.getElementById("userAssignment");
-         userAss.value = selected[9].textContent;
-         
-         document.getElementById('dateAssignment').value =selected[10].textContent;
-         document.getElementById('addressTask').value = selected[11].textContent;
-         document.getElementById('taskLatitude').value = selected[12].textContent;
-         document.getElementById('taskLongitude').value = selected[13].textContent;
-     }
- }
- 
- /**
- * Function to get all the information of the selected task
- * 
- * @param {*} selecteds 
- */
-  function selectedTaskAssigment(selecteds){
-   
-    for(var i = 0; i < selecteds.length; i++){
-       var selected = selecteds[i];
+        var userAss = document.getElementById("userAssignment");
+        userAss.value = selected[9].textContent;
+
+        document.getElementById('dateAssignment').value = selected[10].textContent;
+        document.getElementById('addressTask').value = selected[11].textContent;
+        document.getElementById('taskLatitude').value = selected[12].textContent;
+        document.getElementById('taskLongitude').value = selected[13].textContent;
+    }
+}
+
+/**
+* Function to get all the information of the selected task
+* 
+* @param {*} selecteds 
+*/
+function selectedTaskAssigment(selecteds) {
+
+    for (var i = 0; i < selecteds.length; i++) {
+        var selected = selecteds[i];
         selected = selected.getElementsByTagName("td");
 
         document.getElementById('idTaskAssoc').value = selected[0].textContent;
@@ -190,19 +205,19 @@ function selectedUser(selecteds){
         var userAss = document.getElementById("userAssignmentAssoc");
         userAss.value = selected[9].textContent;
     }
- }
+}
 
- /**
- * Function to get all the information of the selected task
- * 
- * @param {*} selecteds 
- */
-  function selecteTaskOldValues(selecteds) {
+/**
+* Function to get all the information of the selected task
+* 
+* @param {*} selecteds 
+*/
+function selecteTaskOldValues(selecteds) {
     var oldTask = new putTask();
-    for(var i = 0; i < selecteds.length; i++){
-       var selected = selecteds[i];
+    for (var i = 0; i < selecteds.length; i++) {
+        var selected = selecteds[i];
         selected = selected.getElementsByTagName("td");
-        
+
         oldTask.id = selected[0].textContent;
         oldTask.status = selected[4].textContent;
         oldTask.userAssignment = selected[9].textContent;
@@ -218,47 +233,47 @@ function selectedUser(selecteds){
  * @param {*} type - if the button clicked is for delete or update
  * @returns 
  */
-function selected(tableObj, tableName, type){
+function selected(tableObj, tableName, type) {
     //let table = document.getElementById("clientTable");
     let table = tableObj;
-	let selecteds = table.getElementsByClassName("selecionado");
-    
+    let selecteds = table.getElementsByClassName("selecionado");
+
     let button = "";
 
-    if(type === "delete"){
+    if (type === "delete") {
         button = document.getElementById('deleteData');
     }
-    else if(type === "update"){
+    else if (type === "update") {
         button = document.getElementById('updateData');
     }
-    else if(type === "assignment"){
+    else if (type === "assignment") {
         button = document.getElementById('assignmentData');
     }
     //Check that it is selected
-    if(selecteds.length < 1){
-  	    alert("Selecione pelo menos uma linha");
+    if (selecteds.length < 1) {
+        alert("Selecione pelo menos uma linha");
         return false;
     }
 
-    if(tableName === "users"){
+    if (tableName === "users") {
         selectedUser(selecteds);
-        
+
         button.setAttribute('data-bs-toggle', 'modal');
         button.setAttribute('data-bs-target', '#myModalUser');
     }
-    else if(tableName === "tasks"){
+    else if (tableName === "tasks") {
         selectedTask(selecteds);
 
         button.setAttribute('data-bs-toggle', 'modal');
         button.setAttribute('data-bs-target', '#myModalTask');
     }
-    else if(tableName === "assignment"){
+    else if (tableName === "assignment") {
         selectedTaskAssigment(selecteds);
-    
+
         button.setAttribute('data-bs-toggle', 'modal');
         button.setAttribute('data-bs-target', '#myModalTask');
     }
-    
+
     return true;
 }
 
@@ -268,20 +283,20 @@ function selected(tableObj, tableName, type){
  * @param {function} eventHandler - button event.
  * @param {String} value - button text
  */
- function createButton(fatherNodeName, eventHandler, value) {
+function createButton(fatherNodeName, eventHandler, value) {
     let fatherNode = document.getElementById(fatherNodeName);
     const button = document.createElement('input');
-    if(value.includes('New')){
+    if (value.includes('New')) {
         button.classList.add("btn", "btn-success");
         button.id = 'insertNew';
-    } else if (value.includes('Update')){
+    } else if (value.includes('Update')) {
         button.classList.add("btn", "btn-primary");
         button.id = 'updateData';
-    } else if (value.includes('Delete')){
+    } else if (value.includes('Delete')) {
         button.classList.add("btn", "btn-danger");
         button.id = 'deleteData';
     }
-    else if (value.includes('Assignment')){
+    else if (value.includes('Assignment')) {
         button.classList.add("btn", "btn-primary");
         button.id = 'assignmentData';
     }
@@ -294,13 +309,13 @@ function selected(tableObj, tableName, type){
 /**
  * Function to check if the user is logged in
  */
-function isLoggedIn(){
+function isLoggedIn() {
     if (sessionStorageObter("username_login") === null) {
         document.getElementById("menuHome").style.display = "none";
         document.getElementById("menuUser").style.display = "none";
         document.getElementById("menuLogin").style.display = "none";
         //document.getElementById("sectionLogin").style.display = "block";
-    } else{
+    } else {
         document.getElementById("menuHome").style.display = "block";
         document.getElementById("menuTask").style.display = "block";
         document.getElementById("menuUser").style.display = "block";
@@ -322,9 +337,9 @@ function isLoggedIn(){
  * Function to save in the session storage
  * @param {*} arg 
  */
- function sessionStorageGravar(arg, text) { 
-    sessionStorage.setItem(arg, text); 
-} 
+function sessionStorageGravar(arg, text) {
+    sessionStorage.setItem(arg, text);
+}
 
 /**
  * Function to select from the session storage
@@ -332,16 +347,16 @@ function isLoggedIn(){
  * @param {*} arg 
  * @returns 
  */
-function sessionStorageObter(arg) { 
-    return sessionStorage.getItem(arg); 
-} 
+function sessionStorageObter(arg) {
+    return sessionStorage.getItem(arg);
+}
 
 /**
  * Function to clean from the sesssion storage
  * 
  * @param {*} arg 
  */
-function sessionStorageLimpar(arg) { 
-    sessionStorage.removeItem(arg); 
+function sessionStorageLimpar(arg) {
+    sessionStorage.removeItem(arg);
     //document.getElementById("Data").value = ""; 
 }

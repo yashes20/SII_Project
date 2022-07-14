@@ -36,7 +36,7 @@ class InformationTasks {
     }
     showHome() {
         /** Update the title */
-        document.getElementById("headerTitle").textContent = "Home";
+        document.getElementById("headerTitle").textContent = "Voluntary Services";
 
         /** Clear the content */
         document.getElementById("divInformation").style.display = "none";
@@ -46,10 +46,13 @@ class InformationTasks {
         if (sessionStorageObter("email_login") === null) {
             document.getElementById("sectionLogin").style.display = "block";
             document.getElementById("formLogin").style.display = "block";
+            document.getElementById("divLogo").style.display = "none";
+            return;
         }
         else {
             document.getElementById("sectionLogin").style.display = "none";
             document.getElementById("formLogin").style.display = "none";
+            document.getElementById("divLogo").style.display = "block";
         }
 
     }
@@ -61,6 +64,16 @@ class InformationTasks {
      */
     showTasks(acao) {
         let self = this;
+
+        /** check user login */
+        if (sessionStorageObter("email_login") === null) {
+            document.getElementById("divInformation").style.display = "none";
+            return;
+        }
+        else {
+            document.getElementById("divInformation").style.display = "block";
+        }
+
         if (acao === "select") {
             infoTasks.getTasks();
         } else if (acao === "status") {
@@ -72,15 +85,9 @@ class InformationTasks {
         }
         /** Update the title */
         document.getElementById("headerTitle").textContent = "Tasks";
+        document.getElementById("divLogo").style.display = "none";
 
-        /** check user login */
-        if (sessionStorageObter("email_login") === null) {
-            document.getElementById("divInformation").style.display = "none";
-            return;
-        }
-        else {
-            document.getElementById("divInformation").style.display = "block";
-        }
+        
         // document.getElementById("demo").style.display = "none";
 
 

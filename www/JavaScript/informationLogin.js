@@ -25,13 +25,13 @@ class InformationLogin {
         this.id = id;
         this.email = email;
         this.password = password;
-        
+
     }
 
     /**
      * Function that inserts or updates the resource person with a request to the NODE.JS server through the POST or PUT verb, using asynchronous requests and JSON
      */
-     processingLogin () {
+    processingLogin() {
 
         const email = document.getElementById('email_login').value;
         const password = document.getElementById('password_login').value;
@@ -40,14 +40,14 @@ class InformationLogin {
         args.push(email);
         args.push(password);
 
-        if (validadeForm(args)){
+        if (validadeForm(args)) {
             let login = {
-                "email" : email,
-                "password" : password
+                "email": email,
+                "password": password
             }
             this.postLogin(login);
         }
-        
+
     }
 
     /**
@@ -56,7 +56,7 @@ class InformationLogin {
     postLogin(formLogin) {
         let self = this;
         var xhr = new XMLHttpRequest();
-        xhr.responseType="json";
+        xhr.responseType = "json";
         xhr.open('POST', '/api/login/');
         xhr.onreadystatechange = function () {
             if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
@@ -65,18 +65,18 @@ class InformationLogin {
                     let token = xhr.response.token;
                     let user = xhr.response.user;
 
-                    sessionStorageGravar("email_login",formLogin.email);
+                    sessionStorageGravar("email_login", formLogin.email);
                     sessionStorageGravar("token", token);
                     sessionStorageGravar("userType", user.userType);
-                    
+
                     alert("Login ok!");
                     self.showHomeLogin();
 
                     return true;
-                }alert("Login Not ok!");
+                } alert("Login Not ok!");
                 sessionStorageLimpar("email_login");
                 sessionStorageLimpar("token");
-                return false;            
+                return false;
             }
         };
         xhr.setRequestHeader('Content-Type', 'application/json');
@@ -92,11 +92,14 @@ class InformationLogin {
         sessionStorageLimpar("token");
         sessionStorageLimpar("userType");
 
-        document.getElementById("menuLogin").style.display = "none";
-        document.getElementById("divInformation").style.display="none";    
+        
+        document.getElementById("divInformation").style.display = "none";
         document.getElementById("formUser").style.display = "none";
         document.getElementById("formTask").style.display = "none";
-        location.reload();
+        document.getElementById("divLogo").style.display = "none";
+        document.getElementById("sectionLogin").style.display = "block";
+        document.getElementById("formLogin").style.display = "block";
+        //location.reload();
     }
 
     /**
@@ -104,21 +107,25 @@ class InformationLogin {
      */
     showHomeLogin() {
         /* isLoggedIn(); */
-        document.getElementById("headerTitle").textContent="Home";
-        document.getElementById("divInformation").style.display="none";    
+        document.getElementById("headerTitle").textContent = "Home";
+        document.getElementById("divInformation").style.display = "none";
         document.getElementById("formUser").style.display = "none";
         document.getElementById("formTask").style.display = "none";
         document.getElementById("sectionLogin").style.display = "none";
+        document.getElementById("divLogo").style.display = "none";
 
         if (sessionStorageObter("email_login") === null) {
-                document.getElementById("formLogin").style.display = "block";
-                document.getElementById("menuLogin").style.display = "none";
+            document.getElementById("sectionLogin").style.display = "block";
+            document.getElementById("formLogin").style.display = "block";
+            document.getElementById("divLogo").style.display = "none";
+
+
         }
         else {
-                document.getElementById("formLogin").style.display = "none";
-                document.getElementById("menuLogin").style.display = "block";
-                document.getElementById("sectionLogin").style.display = "none";
-                document.getElementById("menuLogin").textContent = "Log Off";
+            document.getElementById("formLogin").style.display = "none";
+            document.getElementById("sectionLogin").style.display = "none";
+            document.getElementById("menuLogin").textContent = "Log Off";
+
         }
     }
 

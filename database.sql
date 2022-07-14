@@ -62,7 +62,15 @@ INSERT INTO `users`
 
 INSERT INTO `users` 
 ( `userFullName`, `userPassword`, `userAddress`, `userZipCode`,  `userEmail`, `userGender`, `userPhone`, `userBirthDate`,`userState`,`userType`) VALUES
-('Nicole',  '$2a$10$MYRm/aUnz503FSklnhwnYOwPIk4EY0U52V08PKZr9ipS6.LhlmEDm', 'rua','8888','nvieira@yahoo.com.br','F','89898','1999-06-22','A','Admin');
+('Nicole Vieira',  '$2a$10$MYRm/aUnz503FSklnhwnYOwPIk4EY0U52V08PKZr9ipS6.LhlmEDm', 'rua','8888','nvieira@yahoo.com.br','F','89898','1999-06-22','A','Admin');
+
+INSERT INTO `users` 
+( `userFullName`, `userPassword`, `userAddress`, `userZipCode`,  `userEmail`, `userGender`, `userPhone`, `userBirthDate`,`userState`,`userType`) VALUES
+('Nicole Fernandes',  '$2a$10$MYRm/aUnz503FSklnhwnYOwPIk4EY0U52V08PKZr9ipS6.LhlmEDm', 'rua','8888','nfernandes@gmail.com','F','89898','1995-09-22','A','Admin');
+
+INSERT INTO `users` 
+( `userFullName`, `userPassword`, `userAddress`, `userZipCode`,  `userEmail`, `userGender`, `userPhone`, `userBirthDate`,`userState`,`userType`) VALUES
+('Michael Jackson',  '$2a$10$MYRm/aUnz503FSklnhwnYOwPIk4EY0U52V08PKZr9ipS6.LhlmEDm', 'rua','88889','mjack@gmail.com','F','89898','1999-06-22','A','Admin');
 
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
@@ -218,7 +226,15 @@ INSERT INTO `users`
 
 INSERT INTO `users` 
 ( `userFullName`, `userPassword`, `userAddress`, `userZipCode`,  `userEmail`, `userGender`, `userPhone`, `userBirthDate`,`userState`,`userType`) VALUES
-('Nicole',  '$2a$10$MYRm/aUnz503FSklnhwnYOwPIk4EY0U52V08PKZr9ipS6.LhlmEDm', 'rua','8888','nvieira@yahoo.com.br','F','89898','1999-06-22','A','Admin');
+('Nicole Vieira',  '$2a$10$MYRm/aUnz503FSklnhwnYOwPIk4EY0U52V08PKZr9ipS6.LhlmEDm', 'rua','8888','nvieira@yahoo.com.br','F','89898','1999-06-22','A','Admin');
+
+INSERT INTO `users` 
+( `userFullName`, `userPassword`, `userAddress`, `userZipCode`,  `userEmail`, `userGender`, `userPhone`, `userBirthDate`,`userState`,`userType`) VALUES
+('Nicole Fernandes',  '$2a$10$MYRm/aUnz503FSklnhwnYOwPIk4EY0U52V08PKZr9ipS6.LhlmEDm', 'rua','8888','nfernandes@gmail.com','F','89898','1995-09-22','A','Admin');
+
+INSERT INTO `users` 
+( `userFullName`, `userPassword`, `userAddress`, `userZipCode`,  `userEmail`, `userGender`, `userPhone`, `userBirthDate`,`userState`,`userType`) VALUES
+('Michael Jackson',  '$2a$10$MYRm/aUnz503FSklnhwnYOwPIk4EY0U52V08PKZr9ipS6.LhlmEDm', 'rua','88889','mjack@gmail.com','F','89898','1999-06-22','A','Admin');
 
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
