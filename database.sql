@@ -141,17 +141,42 @@ CREATE TABLE `requests`(
     FOREIGN KEY requestIdTask(requestIdTask) REFERENCES tasks(taskId)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf16;
 
+-- Create table for ratings
+DROP TABLE IF EXISTS `ratings`;
+CREATE TABLE `ratings`(
+    `ratingId` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    `ratingIdUser` int(11) NOT NULL,
+    `ratingIdAssUser` int(11) NOT NULL,
+    `rating` int(11) NOT NULL,
+    FOREIGN KEY ratingIdUser(ratingIdUser) REFERENCES users(userId),
+    FOREIGN KEY ratingIdAssUser(ratingIdAssUser) REFERENCES users(userId)
+) ENGINE=InnoDB DEFAULT CHARSET=utf16;
+
 DROP PROCEDURE IF EXISTS updateUserPoints;
 DELIMITER $$
 
 Create procedure updateUserPoints (in id int) 
 begin
 Declare userPoints INT;
-select points into userPoints from sii_project.users where userId = id LIMIT 1;
+select points into userPoints from users where userId = id LIMIT 1;
 SET userPoints = userPoints + 10;
 select id;
-Update sii_project.users set points = userPoints where userId = id;
+Update users set points = userPoints where userId = id;
 
+END$$
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS updateRequestAssigment;
+DELIMITER $$
+Create procedure updateRequestAssigment (in id int) 
+begin
+	Declare idTask INT;
+	Declare userAssignment INT;
+    select requestIdTask, requestIdVoluntary into idTask, userAssignment from requests where requestId = id LIMIT 1;
+    Update tasks set userAssignment = userAssignment where taskId = idTask;
+    select id, idTask;
+    UPDATE requests SET requestStatus = 1 WHERE requestId = id;
+    UPDATE requests SET requestStatus = 0 WHERE requestId != id and requestIdTask = idTask;
 END$$
 DELIMITER ;
 
@@ -291,10 +316,10 @@ DELIMITER $$
 Create procedure updateUserPoints (in id int) 
 begin
 Declare userPoints INT;
-select points into userPoints from sii_project.users where userId = id LIMIT 1;
+select points into userPoints from users where userId = id LIMIT 1;
 SET userPoints = userPoints + 10;
 select id;
-Update sii_project.users set points = userPoints where userId = id;
+Update users set points = userPoints where userId = id;
 
 END$$
 DELIMITER ;
