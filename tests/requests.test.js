@@ -115,10 +115,10 @@ it('get all requests', async () => {
          .set('Authorization', 'Bearer ' + token) // Works.
          .expect(200)
          .then((response) => {
-             //console.log(response.body);
+             console.log(response.body.request);
              // Check data
              expect(response.body.message).toEqual("success");
-             //expect(response.body.request[0].taskId).toEqual("1");
+             //expect(response.body.request[0].id).not.toBeNull();
          });
  });
 

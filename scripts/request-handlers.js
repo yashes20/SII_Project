@@ -24,7 +24,10 @@ const queryAllTasks = "SELECT taskId, taskName, taskDescription,taskDateCreation
 
 const queryAllRequests = "SELECT requestId, requestIdVoluntary, requestIdTask,  cast(requestStatus as UNSIGNED) requestStatus FROM requests";
 
-const queryAllRequestsByTaskId = "SELECT req.requestId, tasks.taskId, tasks.taskName,  users.userId, users.userFullName, users.userEmail, users.userPhone, cast(req.requestStatus as UNSIGNED) requestStatus " +
+const queryAllRequestsByTaskId = "SELECT req.requestId, tasks.taskId, tasks.taskName,  users.userId, users.userFullName, users.userEmail, users.userPhone, cast(req.requestStatus as UNSIGNED) requestStatus, " +
+    "(SELECT  IFNULL(round(sum(rating) / count(1)),0) "+
+    " FROM ratings "+
+    " WHERE ratings.ratingIdUser = users.userId ) rating " +
     "from requests req " +
     "INNER JOIN tasks ON tasks.taskId = req.requestIdTask " +
     "INNER JOIN users ON users.userId = req.requestIdVoluntary " +
