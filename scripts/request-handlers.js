@@ -61,7 +61,7 @@ const queryTaskId = "SELECT taskId, taskName, taskDescription,taskDateCreation, 
     "left JOIN users as USERS2 ON tasks.userAssignment = USERS2.userId " +
     "where tasks.taskId = ? and tasks.taskIsEnabled = 1 ";
 
-const queryRatingUser = "select round(sum(rating) / count(1)) rating from ratings where ratingIdUser = ?"
+const queryRatingUser = "select IFNULL(round(sum(rating) / count(1)),0) rating from ratings where ratingIdUser = ?"
 
 const sqldeleteTask = "UPDATE TASKS SET taskIsEnabled = 0 WHERE taskId = ?";
 
