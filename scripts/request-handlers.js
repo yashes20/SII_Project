@@ -490,14 +490,14 @@ async function createTask(postTask, result) {
                 if (err) {
                     if (result != null) {
                         result(err, null, null);
-                        console.log("erro aqui");
+                        console.log("err createTask connection.query");
                     }
                     else {
-                        console.log("erro aqui2");
+                        console.log("err createTask connection.query");
                         throw err;
                     }
                 } else {
-                    console.log("sucesso aqui3");
+                    console.log("sucess createTask connection.query");
                     result(err, rows, results);
                 }
             });
@@ -543,14 +543,14 @@ async function updateTask(putTask, result) {
                 if (err) {
                     if (result != null) {
                         result(err, null, null);
-                        console.log("erro aqui");
+                        console.log("err updateTask connection.query");
                     }
                     else {
-                        console.log("erro aqui2");
+                        console.log("err updateTask connection.query");
                         throw err;
                     }
                 } else {
-                    console.log("sucesso aqui3");
+                    console.log("sucess updateTask connection.query");
                     result(err, rows, results);
                 }
             });
@@ -629,14 +629,14 @@ async function createRequest(request, result) {
                 if (err) {
                     if (result != null) {
                         result(err, null, null);
-                        console.log("erro aqui");
+                        console.log("err createRequest connection.query");
                     }
                     else {
-                        console.log("erro aqui2");
+                        console.log("err createRequest connection.query");
                         throw err;
                     }
                 } else {
-                    console.log("sucesso aqui3");
+                    console.log("sucess createRequest connection.query");
                     result(err, rows, results);
                 }
             });
@@ -672,14 +672,14 @@ async function updateRequest(putRequest, result) {
                 if (err) {
                     if (result != null) {
                         result(err, null, null);
-                        console.log("erro request update");
+                        console.log("err updateRequest connection.query");
                     }
                     else {
-                        console.log("erro request update 2");
+                        console.log("err updateRequest connection.query");
                         throw err;
                     }
                 } else {
-                    console.log("sucesso request update 3");
+                    console.log("sucess updateRequest connection.query");
                     result(err, rows, results);
                 }
             });
@@ -718,14 +718,14 @@ async function assignmentTask(assTask, result) {
                 if (err) {
                     if (result != null) {
                         result(err, null, null);
-                        console.log("erro aqui");
+                        console.log("err assignmentTask connection.query");
                     }
                     else {
-                        console.log("erro aqui2");
+                        console.log("err assignmentTask connection.query");
                         throw err;
                     }
                 } else {
-                    console.log("sucesso aqui3");
+                    console.log("sucess assignmentTask connection.query");
                     result(err, rows, results);
                 }
             });
@@ -759,14 +759,14 @@ async function updateStatusTask(idTask, idStatus, result) {
                 if (err) {
                     if (result != null) {
                         result(err, null, null);
-                        console.log("erro aqui");
+                        console.log("err updateStatusTask connection.query");
                     }
                     else {
-                        console.log("erro aqui2");
+                        console.log("err updateStatusTask connection.query");
                         throw err;
                     }
                 } else {
-                    console.log("sucesso aqui3");
+                    console.log("sucess updateStatusTask connection.query");
                     result(err, rows, results);
                 }
             });
@@ -795,14 +795,14 @@ async function updateUserPoints(idUser) {
                 if (err) {
                     if (result != null) {
                         result(err, null, null);
-                        console.log("erro aqui");
+                        console.log("err updateUserPoints connection.query");
                     }
                     else {
-                        console.log("erro aqui2");
+                        console.log("err updateUserPoints connection.query");
                         throw err;
                     }
                 } else {
-                    console.log("sucesso aqui3");
+                    console.log("sucess updateUserPoints connection.query");
                     result(err, rows, results);
                 }
             });
@@ -827,14 +827,14 @@ async function updateUserStatus(id, result) {
                 if (err) {
                     if (result != null) {
                         result(err, null, null);
-                        console.log("erro aqui");
+                        console.log("err updateUserStatus connection.query");
                     }
                     else {
-                        console.log("erro aqui2");
+                        console.log("err updateUserStatus connection.query");
                         throw err;
                     }
                 } else {
-                    console.log("sucesso aqui3");
+                    console.log("sucess updateUserStatus connection.query");
                     result(err, rows, results);
                 }
             });
@@ -860,14 +860,14 @@ async function updateRequestsAssignment(id, result) {
                 if (err) {
                     if (result != null) {
                         result(err, null, null);
-                        console.log("erro aqui");
+                        console.log("err updateRequestAssigment connection.query");
                     }
                     else {
-                        console.log("erro aqui2");
+                        console.log("err updateRequestAssigment connection.query");
                         throw err;
                     }
                 } else {
-                    console.log("sucesso aqui3");
+                    console.log("sucess updateRequestAssigment connection.query");
                     result(err, rows, results);
                 }
             });
@@ -903,14 +903,14 @@ async function createRating(req, result) {
                 if (err) {
                     if (result != null) {
                         result(err, null, null);
-                        console.log("erro aqui");
+                        console.log("err createRating connection.query");
                     }
                     else {
-                        console.log("erro aqui2");
+                        console.log("err createRating connection.query");
                         throw err;
                     }
                 } else {
-                    console.log("sucesso aqui3");
+                    console.log("sucess createRating connection.query");
                     result(err, rows, results);
                 }
             });
