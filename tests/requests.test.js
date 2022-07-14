@@ -32,7 +32,7 @@ describe("POST Login", () => {
                 .expect(200).expect('Content-type', /json/)
                 
                 .then((response) => {
-                    console.log(response.body.token);
+                    //console.log(response.body.token);
                     // Check data
                     token = response.body.token;
                     expect(response.body.message).toEqual("success");
@@ -55,7 +55,8 @@ describe("POST request", () => {
             console.log("Input create a request");
             postRequest = {
                 idVoluntary: 2,
-                idTask: 1
+                idTask: 1,
+                idStatus: 0
             }; // request to insert
 
         });
@@ -73,7 +74,7 @@ describe("POST request", () => {
                     .expect(200).expect('Content-type', /json/)
                     
                     .then((response) => {
-                        //console.log(response);
+                        console.log(response.body.request);
                         // Check data
                         expect(response.body.message).toEqual("success");
                         expect(response.body.request.insertId).not.toBeNull();
@@ -101,9 +102,9 @@ it('get all requests', async () => {
          .expect(200)
          .then((response) => {
              // Check data
-             console.log(response.body.request);
+             //console.log(response.body.request);
              expect(response.body.message).toEqual("success");
-             //expect(response.body.request[0].id).not.toBeNull();
+             expect(response.body.request[0].id).not.toBeNull();
          });
  });
 
@@ -146,7 +147,7 @@ it('get all requests', async () => {
                     .expect(200).expect('Content-type', /json/)
                     
                     .then((response) => {
-                        console.log(response.request);
+                        //console.log(response.request);
                         // Check data
                         expect(response.body.message).toEqual("success");
                         //expect(response.body.request.affectedRows).toEqual(1);
