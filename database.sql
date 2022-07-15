@@ -45,7 +45,8 @@ CREATE TABLE users (
   userType varchar(20) NOT NULL,
   userLatitude FLOAT( 10, 6 ), 
   userLongitude FLOAT( 10, 6 ),
-  points int(11) DEFAULT 0  
+  points int(11) DEFAULT 0,
+  rating int(11) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf16;
 
 SET GLOBAL log_bin_trust_function_creators = 1;
@@ -160,6 +161,14 @@ CREATE TABLE `ratings`(
     FOREIGN KEY ratingIdAssUser(ratingIdAssUser) REFERENCES users(userId)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf16;
 
+DROP TRIGGER IF EXISTS updateUserRating;
+CREATE TRIGGER updateUserRating AFTER INSERT
+ON ratings
+FOR EACH ROW
+UPDATE USERS SET RATING = (SELECT  IFNULL(round(sum(rating) / count(1)),0) FROM ratings WHERE ratings.ratingIdUser = NEW.ratingIdUser)
+WHERE userId = NEW.ratingIdUser;
+DELIMITER ;
+
 DROP PROCEDURE IF EXISTS updateUserPoints;
 DELIMITER $$
 
@@ -213,7 +222,8 @@ CREATE TABLE users (
   userType varchar(20) NOT NULL,
   userLatitude FLOAT( 10, 6 ), 
   userLongitude FLOAT( 10, 6 ), 
-  points int(11) DEFAULT 0
+  points int(11) DEFAULT 0,
+  rating int(11) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf16;
 
 SET GLOBAL log_bin_trust_function_creators = 1;
@@ -325,7 +335,13 @@ CREATE TABLE `ratings`(
     FOREIGN KEY ratingIdAssUser(ratingIdAssUser) REFERENCES users(userId)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf16;
 
-
+DROP TRIGGER IF EXISTS updateUserRating;
+CREATE TRIGGER updateUserRating AFTER INSERT
+ON ratings
+FOR EACH ROW
+UPDATE USERS SET RATING = (SELECT  IFNULL(round(sum(rating) / count(1)),0) FROM ratings WHERE ratings.ratingIdUser = NEW.ratingIdUser)
+WHERE userId = NEW.ratingIdUser;
+DELIMITER ;
 DROP PROCEDURE IF EXISTS updateUserPoints;
 DELIMITER $$
 
