@@ -181,7 +181,7 @@ begin
 	Declare idTask INT;
 	Declare userAssignment INT;
     select requestIdTask, requestIdVoluntary into idTask, userAssignment from requests where requestId = id LIMIT 1;
-    Update tasks set userAssignment = userAssignment where taskId = idTask;
+    Update tasks set userAssignment = userAssignment,  taskStatusId = 2 where taskId = idTask;
     select id, idTask;
     UPDATE requests SET requestStatus = 1 WHERE requestId = id;
     UPDATE requests SET requestStatus = 0 WHERE requestId != id and requestIdTask = idTask;
@@ -347,7 +347,7 @@ begin
 	Declare idTask INT;
 	Declare userAssignment INT;
     select requestIdTask, requestIdVoluntary into idTask, userAssignment from requests where requestId = id LIMIT 1;
-    Update tasks set userAssignment = userAssignment where taskId = idTask;
+    Update tasks set userAssignment = userAssignment, taskStatusId = 2 where taskId = idTask;
     select id, idTask;
     UPDATE requests SET requestStatus = 1 WHERE requestId = id;
     UPDATE requests SET requestStatus = 0 WHERE requestId != id and requestIdTask = idTask;
