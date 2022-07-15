@@ -742,11 +742,11 @@ async function updateStatusTask(idTask, idStatus, result) {
     // UPDATE
 
     let sql = "";
-    if (idStatus == 4 || idStatus == 5) {
-        sql = "UPDATE tasks SET taskStatusId = ?, taskIsEnabled = 0 WHERE taskId = ? "
-    } else {
+    //if (idStatus == 4 || idStatus == 5) {
+    sql = "UPDATE tasks SET taskStatusId = ? WHERE taskId = ? ";
+    /* } else {
         sql = "UPDATE tasks SET taskStatusId = ? WHERE taskId = ? "
-    }
+    } */
     connection.connect(function (err) {
         if (err) {
             if (result != null) {
