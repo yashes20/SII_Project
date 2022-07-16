@@ -205,6 +205,7 @@ begin
 	INSERT INTO ratings (ratingIdUser, ratingIdAssUser, rating) VALUES (idUser,idAssUser,rating);
     UPDATE TASKS set taskIsRated = 1 WHERE taskId = idTask;
 END$$
+DELIMITER ;
 
 -- Create database
 DROP DATABASE IF EXISTS `sii_project_test`;
