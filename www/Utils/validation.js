@@ -36,7 +36,7 @@ exports.newTaskValidation = [
     /* check('category')
     .if('category', 'category is required').not().isEmpty(), */
     
-    check('category', 'chose category').not().isEmpty().isInt({ min:1, max: 20 }),
+    check('category', 'choose a category').not().isEmpty().isInt({ min:1, max: 20 }),
     check('userCreation', 'userCreation is required').not().isEmpty(),
     check('dateAssignment', 'DateAssignment is required').not().isEmpty(),
     check('latitude')
