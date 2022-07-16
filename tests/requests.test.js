@@ -74,7 +74,7 @@ describe("POST request", () => {
                     .expect(200).expect('Content-type', /json/)
                     
                     .then((response) => {
-                        console.log(response.body.request);
+                        //console.log(response.body.request);
                         // Check data
                         expect(response.body.message).toEqual("success");
                         expect(response.body.request.insertId).not.toBeNull();

@@ -17,7 +17,6 @@ app.use('/api', taskAuthentication);
 describe("POST Login", () => {
 
     login = {
-        name: "user test",
         email: "yashes20@yahoo.com.br",
         password: "12345678"
     }; // login
