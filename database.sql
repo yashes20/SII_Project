@@ -124,6 +124,7 @@ CREATE TABLE `tasks` (
   `taskAddress` varchar(255) NOT NULL,
   `taskLatitude` FLOAT( 10, 6 ), 
   `taskLongitude` FLOAT( 10, 6 ),
+  `taskIsRated` tinyint NULL DEFAULT 0,
   FOREIGN KEY taskCategoriesId(taskCategoryId) REFERENCES categories(categoryId),
   FOREIGN KEY taskStatusId(taskStatusId) REFERENCES status(statusId),
   FOREIGN KEY taskUserId(userCreation) REFERENCES users(userId)
@@ -197,6 +198,14 @@ begin
 END$$
 DELIMITER ;
 
+DROP PROCEDURE IF EXISTS insertRatingUpdateTask;
+DELIMITER $$
+Create procedure insertRatingUpdateTask (in idUser int, in idAssUser int, in rating int, in idTask int) 
+begin
+	INSERT INTO ratings (ratingIdUser, ratingIdAssUser, rating) VALUES (idUser,idAssUser,rating);
+    UPDATE TASKS set taskIsRated = 1 WHERE taskId = idTask;
+END$$
+
 -- Create database
 DROP DATABASE IF EXISTS `sii_project_test`;
 CREATE DATABASE `sii_project_test`;
@@ -251,6 +260,7 @@ INSERT INTO `users`
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 
+
 -- Create table for tasks Categories
 USE `sii_project_test`;
 DROP TABLE IF EXISTS `categories`;
@@ -262,7 +272,6 @@ CREATE TABLE `categories` (
 -- Insert categories 
 INSERT INTO `sii_project_test`.`categories` (`categoryName`) VALUES ('Entregas');
 INSERT INTO `sii_project_test`.`categories` (`categoryName`) VALUES ('Pet');
-
 
 -- Create table for task status
 USE `sii_project_test`;
@@ -279,7 +288,6 @@ INSERT INTO `sii_project_test`.`status` (`statusName`,`statusType`) VALUES ('Ass
 INSERT INTO `sii_project_test`.`status` (`statusName`,`statusType`) VALUES ('In Progress','U');
 INSERT INTO `sii_project_test`.`status` (`statusName`,`statusType`) VALUES ('Concluded','U');
 INSERT INTO `sii_project_test`.`status` (`statusName`,`statusType`) VALUES ('Give up','GU');
-
 
 -- Create table for tasks
 DROP TABLE IF EXISTS `tasks`;
@@ -298,6 +306,7 @@ CREATE TABLE `tasks` (
   `taskAddress` varchar(255) NOT NULL,
   `taskLatitude` FLOAT( 10, 6 ), 
   `taskLongitude` FLOAT( 10, 6 ),
+  `taskIsRated` tinyint NULL DEFAULT 0,
   FOREIGN KEY taskCategoriesId(taskCategoryId) REFERENCES categories(categoryId),
   FOREIGN KEY taskStatusId(taskStatusId) REFERENCES status(statusId),
   FOREIGN KEY taskUserId(userCreation) REFERENCES users(userId)
@@ -352,7 +361,6 @@ select points into userPoints from users where userId = id LIMIT 1;
 SET userPoints = userPoints + 10;
 select id;
 Update users set points = userPoints where userId = id;
-
 END$$
 DELIMITER ;
 
@@ -367,5 +375,14 @@ begin
     select id, idTask;
     UPDATE requests SET requestStatus = 1 WHERE requestId = id;
     UPDATE requests SET requestStatus = 0 WHERE requestId != id and requestIdTask = idTask;
+END$$
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS insertRatingUpdateTask;
+DELIMITER $$
+Create procedure insertRatingUpdateTask (in idUser int, in idAssUser int, in rating int, in idTask int) 
+begin
+	INSERT INTO ratings (ratingIdUser, ratingIdAssUser, rating) VALUES (idUser,idAssUser,rating);
+    UPDATE TASKS set taskIsRated = 1 WHERE taskId = idTask;
 END$$
 DELIMITER ;

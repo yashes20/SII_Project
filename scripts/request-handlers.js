@@ -56,7 +56,7 @@ const queryTaskUserId = "SELECT taskId, taskName, taskDescription,taskDateCreati
 
 const queryTaskId = "SELECT taskId, taskName, taskDescription,taskDateCreation, taskStatusId," +
     "taskDateStatus, taskCategoryId, taskIsEnabled, userCreation," +
-    "userAssignment, DATE_FORMAT(taskDateAssignment,'%Y-%m-%d %H:%i') as taskDateAssignment, taskAddress, taskLatitude,taskLongitude " +
+    "userAssignment, DATE_FORMAT(taskDateAssignment,'%Y-%m-%d %H:%i') as taskDateAssignment, taskAddress, taskLatitude,taskLongitude , taskIsRated " +
     "from tasks " +
     "INNER JOIN status ON tasks.taskStatusId = status.statusId " +
     "INNER JOIN categories ON tasks.taskCategoryId = categories.categoryId " +
@@ -888,9 +888,13 @@ async function createRating(req, result) {
     let idUser = req.idUser;
     let idAssUser = req.idAssUser;
     let rating = req.rating;
+    let idTask = req.idTask;
+
+    
 
     // insert
-    let sql = "INSERT INTO ratings (ratingIdUser, ratingIdAssUser, rating) VALUES (?,?,?)";
+    //let sql = "INSERT INTO ratings (ratingIdUser, ratingIdAssUser, rating) VALUES (?,?,?)";
+    let sql = "call insertRatingUpdateTask(?,?,?,?);";
     connection.connect(function (err) {
         if (err) {
             if (result != null) {
@@ -902,7 +906,7 @@ async function createRating(req, result) {
         }
         else {
             // Insertion of the data in the following params
-            connection.query(sql, [idUser, idAssUser, rating], function (err, rows, results) {
+            connection.query(sql, [idUser, idAssUser, rating, idTask], function (err, rows, results) {
                 if (err) {
                     if (result != null) {
                         result(err, null, null);
