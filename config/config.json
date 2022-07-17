@@ -1,9 +1,9 @@
 {
   "development": {
-    "user": "admin",
-    "password": "pai2022",
-    "database": "sii_project",
-    "host": "localhost",
+    "user": "sql11507109",
+    "password": "M3wEbxVCKy",
+    "database": "sql11507109",
+    "host": "sql11.freemysqlhosting.net",
     "insecureAuth" : true
   },
   "test": {
