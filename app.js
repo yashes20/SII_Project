@@ -81,6 +81,10 @@ app.get("/status", requestHandlers.selectqueryStatus);
 // Calls a function to get all task categories
 app.get("/categories", requestHandlers.selectCategories);
 
-app.listen(8082, function () {
+/* app.listen(8082, function () {
   console.log("Server running at http://localhost:8082");
+}); */
+
+app.listen(process.env["PORT"], function () {
+  console.log('Server running at ' + port + '!');
 });

@@ -2014,3 +2014,6 @@ coverage/lcov-report/scripts/index.html
 coverage/lcov-report/scripts/request-handlers.js.html
 coverage/lcov-report/www/Routes/index.html
 coverage/lcov-report/www/Routes/requestRoutes.js.html
+coverage/clover.xml
+coverage/lcov-report/index.html
+coverage/lcov-report/www/Routes/authentication.js.html
