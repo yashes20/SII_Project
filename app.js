@@ -27,6 +27,8 @@ var flash = require('flash-express'),
 
 app.use(flash());
 
+const port = process.env["PORT"];
+
 //const app = express();
 
 app.use(express.json());
@@ -85,6 +87,6 @@ app.get("/categories", requestHandlers.selectCategories);
   console.log("Server running at http://localhost:8082");
 }); */
 
-app.listen(process.env["PORT"], function () {
+app.listen(port, function () {
   console.log('Server running at ' + port + '!');
 });
