@@ -41,7 +41,7 @@ router.put("/:id", verifyToken, userValidation, (req, res) => {
         let password = user.password;
         user.id = req.params.id;
 
-        if (password != undefined) {
+        if (password != undefined && password != '') {
             let t;
             user.password = bcrypt.hashSync(password, 10);
 

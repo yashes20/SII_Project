@@ -64,7 +64,7 @@ const queryTaskId = "SELECT taskId, taskName, taskDescription,taskDateCreation, 
 
 const queryRatingUser = "select IFNULL(round(sum(rating) / count(1)),0) rating from ratings where ratingIdUser = ?"
 
-const sqldeleteTask = "UPDATE TASKS SET taskIsEnabled = 0 WHERE taskId = ?";
+const sqldeleteTask = "UPDATE tasks SET taskIsEnabled = 0 WHERE taskId = ?";
 
 const sqlTaskLatLong = "SELECT *, (6371 * acos(cos(radians(?)) * cos(radians(taskLatitude)) * cos(radians(?) - radians(taskLongitude)) + sin(radians(?)) * sin(radians(taskLatitude)))) AS distance FROM tasks HAVING distance <=  5 AND tasks.taskStatusId = 1";
 
@@ -78,10 +78,10 @@ const sqlTaskLatLong = "SELECT *, (6371 * acos(cos(radians(?)) * cos(radians(tas
     )) AS distance
 FROM tasks HAVING distance <= 5"
  */
-const sqlUpdateUser = "UPDATE USERS SET ";
-const sqlInsertUser = "INSERT INTO USERS (userFullName , userPassword, userGender, userEmail, userState, userType) VALUES (?,?,?,?,'A','User')";
+const sqlUpdateUser = "UPDATE users SET ";
+const sqlInsertUser = "INSERT INTO users (userFullName , userPassword, userGender, userEmail, userState, userType) VALUES (?,?,?,?,'A','User')";
 const sqlWhereUpdateUser = " WHERE userId = ?";
-const sqldeleteUser = "UPDATE USERS SET userState = 'I' WHERE userId = ?";
+const sqldeleteUser = "UPDATE users SET userState = 'I' WHERE userId = ?";
 
 async function connect() {
     if (global.connection && global.connection.state !== 'disconnected')
@@ -780,7 +780,7 @@ async function updateUserPoints(idUser) {
     // Declaration of variables
     const connection = await connect();
     // UPDATE
-    let sql = "UPDATE user SET taskStatusId = ? WHERE taskId = ? ";
+    let sql = "UPDATE users SET taskStatusId = ? WHERE taskId = ? ";
     connection.connect(function (err) {
         if (err) {
             if (result != null) {

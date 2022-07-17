@@ -126,13 +126,13 @@ CREATE TABLE `ratings`(
     FOREIGN KEY ratingIdAssUser(ratingIdAssUser) REFERENCES users(userId)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf16;
 
-DROP TRIGGER IF EXISTS updateUserRating;
+/* DROP TRIGGER IF EXISTS updateUserRating;
 CREATE TRIGGER updateUserRating AFTER INSERT
 ON ratings
 FOR EACH ROW
-UPDATE USERS SET RATING = (SELECT  IFNULL(round(sum(rating) / count(1)),0) FROM ratings WHERE ratings.ratingIdUser = NEW.ratingIdUser)
+UPDATE users SET rating = (SELECT  IFNULL(round(sum(rating) / count(1)),0) FROM ratings WHERE ratings.ratingIdUser = NEW.ratingIdUser)
 WHERE userId = NEW.ratingIdUser;
-DELIMITER ;
+DELIMITER ; */
 
 DROP PROCEDURE IF EXISTS updateUserPoints;
 DELIMITER $$
@@ -167,6 +167,8 @@ DELIMITER $$
 Create procedure insertRatingUpdateTask (in idUser int, in idAssUser int, in rating int, in idTask int) 
 begin
 	INSERT INTO ratings (ratingIdUser, ratingIdAssUser, rating) VALUES (idUser,idAssUser,rating);
-    UPDATE TASKS set taskIsRated = 1 WHERE taskId = idTask;
+    UPDATE tasks set taskIsRated = 1 WHERE taskId = idTask;
+    UPDATE users SET rating = (SELECT  IFNULL(round(sum(rating) / count(1)),0) FROM ratings WHERE ratings.ratingIdUser = idUser)
+    WHERE userId = idUser;
 END$$
 DELIMITER ;
