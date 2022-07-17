@@ -34,5 +34,8 @@
     "jest-environment-node-debug": "^2.0.0",
     "sequelize-cli": "^6.4.1",
     "supertest": "^6.2.3"
+  },
+  "engines": {
+    "node": "16.x"
   }
 }
