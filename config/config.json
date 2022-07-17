@@ -1,9 +1,9 @@
 {
   "development": {
-    "user": "sql11507109",
-    "password": "M3wEbxVCKy",
-    "database": "sql11507109",
-    "host": "sql11.freemysqlhosting.net",
+    "user": "admin",
+    "password": "pai2022",
+    "database": "sii_project",
+    "host": "localhost",
     "insecureAuth" : true
   },
   "test": {
@@ -14,10 +14,9 @@
     "insecureAuth" : true
   },
   "production": {
-    "user": "admin",
-    "password": "pai2022",
-    "database": "sii_project",
-    "host": "localhost",
-    "insecureAuth" : true
+    "user": "sql11507109",
+    "password": "M3wEbxVCKy",
+    "database": "sql11507109",
+    "host": "sql11.freemysqlhosting.net"
   }
 }
