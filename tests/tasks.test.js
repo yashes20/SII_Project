@@ -294,4 +294,51 @@ describe("DELETE request", () => {
     catch (err) {
         console.log("ERROR : ", err)
     }
-});  
+});   
+
+describe("POST tasks find", () => {
+
+    try {
+        let taskFind;
+        beforeEach(function () {
+            console.log("tasks find");
+            taskFind = {
+                taskStatusId: [4],
+                userAssignment: 2,
+                userCreation: 2
+            }; // tasks to find
+
+        });
+        afterEach(function () {
+            console.log("tasks to find");
+        });
+
+        it('should find tasks', async () => {
+            try {
+                await request(app).post('/tasks/find')
+                
+                    .send(taskFind)
+                    .set('Accept', /json/)
+                    .set('Authorization', 'Bearer ' + token) // Works.
+                    .expect(200).expect('Content-type', /json/)
+                    
+                    .then((response) => {
+                        console.log(response.body);
+                        // Check data
+                        expect(response.body.message).toEqual("success");
+                        expect(response.body.task[0].taskId).not.toBeNull();
+
+                        
+                    });
+            } catch (err) {
+                // write test for failure here
+                console.log(`Error ${err}`)
+            }
+
+        })
+
+    }
+    catch (err) {
+        console.log("ERROR : ", err)
+    }
+}); 

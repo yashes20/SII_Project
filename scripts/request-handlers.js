@@ -406,6 +406,9 @@ function selectTasksFind(req, res) {
     if (taskStatusId) {
         query += " and tasks.taskStatusId IN(" + taskStatusId.join(",") + ")";
     }
+    if (userAssignment && userCreation) {
+        query += " and (tasks.userAssignment = " + userAssignment + " OR tasks.userCreation = " + userCreation +")";
+    }
     if (userAssignment) {
         query += " and tasks.userAssignment = " + userAssignment;
     }
