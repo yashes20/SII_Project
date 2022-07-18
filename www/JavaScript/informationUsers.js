@@ -323,7 +323,7 @@ class InformationUsers {
     deleteUser(formUser) {
         const self = this;
         const xhr = new XMLHttpRequest();
-        xhr.open('PUT', '/users/' + formUser.id);
+        xhr.open('DELETE', '/users/' + formUser.id);
         xhr.setRequestHeader('Authorization', 'Bearer ' + sessionStorageObter("token"));
         xhr.onreadystatechange = function () {
             if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {

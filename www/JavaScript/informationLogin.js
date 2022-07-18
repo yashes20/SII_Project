@@ -73,7 +73,14 @@ class InformationLogin {
                     self.showHomeLogin();
 
                     return true;
-                } alert("Login Not ok!");
+                } /* alert("Login Not ok!");
+                sessionStorageLimpar("email_login");
+                sessionStorageLimpar("token");
+                return false; */
+            }
+
+            if (this.readyState === XMLHttpRequest.DONE && (this.status === 400 || this.status === 401)){
+                alert("Login Not ok!");
                 sessionStorageLimpar("email_login");
                 sessionStorageLimpar("token");
                 return false;
