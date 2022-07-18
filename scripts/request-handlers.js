@@ -24,7 +24,7 @@ const queryAllTasks = "SELECT taskId, taskName, taskDescription,taskDateCreation
 
 const queryAllRequests = "SELECT requestId, requestIdVoluntary, requestIdTask,  cast(requestStatus as UNSIGNED) requestStatus FROM requests";
 
-const queryAllRequestsByTaskId = "SELECT req.requestId, tasks.taskId, tasks.taskName,  "+
+const queryAllRequestsByTaskId = "SELECT req.requestId, tasks.taskId, tasks.taskName,  " +
     "users.userId, users.userFullName, users.userEmail, users.userPhone, cast(req.requestStatus as UNSIGNED) requestStatus, users.rating " +
     "from requests req " +
     "INNER JOIN tasks ON tasks.taskId = req.requestIdTask " +
@@ -407,13 +407,14 @@ function selectTasksFind(req, res) {
         query += " and tasks.taskStatusId IN(" + taskStatusId.join(",") + ")";
     }
     if (userAssignment && userCreation) {
-        query += " and (tasks.userAssignment = " + userAssignment + " OR tasks.userCreation = " + userCreation +")";
-    }
-    if (userAssignment) {
-        query += " and tasks.userAssignment = " + userAssignment;
-    }
-    if (userCreation) {
-        query += " and tasks.userCreation = " + userCreation;
+        query += " and (tasks.userAssignment = " + userAssignment + " OR tasks.userCreation = " + userCreation + ")";
+    } else {
+        if (userAssignment) {
+            query += " and tasks.userAssignment = " + userAssignment;
+        }
+        if (userCreation) {
+            query += " and tasks.userCreation = " + userCreation;
+        }
     }
     createConnectionToDb(req, res, query, "task");
 }
@@ -891,7 +892,7 @@ async function createRating(req, result) {
     let rating = req.rating;
     let idTask = req.idTask;
 
-    
+
 
     // insert
     //let sql = "INSERT INTO ratings (ratingIdUser, ratingIdAssUser, rating) VALUES (?,?,?)";

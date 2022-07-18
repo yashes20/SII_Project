@@ -303,7 +303,7 @@ describe("POST tasks find", () => {
         beforeEach(function () {
             console.log("tasks find");
             taskFind = {
-                taskStatusId: [4],
+                taskStatusId: [2],
                 userAssignment: 2,
                 userCreation: 2
             }; // tasks to find
