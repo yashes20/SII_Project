@@ -284,9 +284,9 @@ class InformationUsers {
         xhr.open('POST', '/api/register/');
 
         xhr.onreadystatechange = function () {
-            if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+            if (this.readyState === XMLHttpRequest.DONE && this.status === 201) {
                 let resp = xhr.response;
-                let id = xhr.response.user.insertId;
+                let msg = xhr.response.msg;
                 //self.getClientById(id);
                 self.showUsers("select");
             }
